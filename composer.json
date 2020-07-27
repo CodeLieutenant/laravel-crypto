@@ -1,0 +1,40 @@
+{
+  "name": "brossquad/laravel-hashing",
+  "description": "Common Hashing algorithms used in php(laravel) applications",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Dusan Malusev",
+      "email": "dusan.998@outlook.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=7.3",
+    "ext-sodium": "*"
+  },
+  "require-dev": {
+    "orchestra/testbench": "^5.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "BrosSquad\\LaravelHashing\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "BrosSquad\\LaravelHashing\\Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "BrosSquad\\LaravelHashing\\HashingServiceProvider"
+      ],
+      "aliases": {
+        "Hashing": "BrosSquad\\LaravelHashing\\Facades\\Hashing"
+      }
+    }
+  }
+}
