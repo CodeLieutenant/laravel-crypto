@@ -13,3 +13,4 @@ functions have really confusing API (like libsodium), so I wanted a clean "Larav
 This library provides **Hashing** and **Signature** algorithms with easy to use API.
 
 
+

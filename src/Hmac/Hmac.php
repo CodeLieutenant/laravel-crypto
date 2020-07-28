@@ -17,6 +17,11 @@ abstract class Hmac implements HmacContract
     /** @var string */
     protected $keyBinary;
 
+    /**
+     * Hmac constructor.
+     *
+     * @param  \Illuminate\Contracts\Config\Repository  $config
+     */
     public function __construct(Config $config) {
         $key = $config->get('app.key');
 
@@ -32,6 +37,12 @@ abstract class Hmac implements HmacContract
         $this->keyBinary = $isBase64Encoded ? Base64::decode($key) : hex2bin($key);
     }
 
+    /**
+     * @param  string  $message
+     * @param  string  $hmac
+     *
+     * @return bool
+     */
     public function verify(string $message, string $hmac): bool
     {
         $generated = $this->sign($message);

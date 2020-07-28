@@ -5,22 +5,29 @@ namespace BrosSquad\LaravelHashing;
 
 
 use SodiumException;
-use BrosSquad\LaravelHashing\Common\Sha256;
-use BrosSquad\LaravelHashing\Common\Sha512;
-use BrosSquad\LaravelHashing\Common\Blake2b;
+use Psr\Container\ContainerInterface;
 use BrosSquad\LaravelHashing\Contracts\Hashing;
+use BrosSquad\LaravelHashing\Common\{
+    Sha256,
+    Sha512,
+    Blake2b
+};
 
 class HashingManager implements Hashing
 {
+    /**
+     * @var \Psr\Container\ContainerInterface
+     */
+    protected $container;
 
-    public function hash(string $data): ?string
+    public function __construct(ContainerInterface $container)
     {
-        return (new Blake2b())->hash($data);
+        $this->container = $container;
     }
 
     public function equals(string $hash1, string $hash2): bool
     {
-        if(function_exists('sodium_memcmp')) {
+        if (function_exists('sodium_memcmp')) {
             try {
                 return sodium_memcmp($hash1, $hash2) === 0;
             } catch (SodiumException $e) {
@@ -31,12 +38,20 @@ class HashingManager implements Hashing
         return hash_equals($hash1, $hash2);
     }
 
-    public function sha256(string $data): string {
-        return (new Sha256())->hash($data);
+    public function hash(string $data): ?string
+    {
+        return $this->container->get(Blake2b::class)->hash($data);
     }
 
-    public function sha512(string $data): string {
-        return (new Sha512())->hash($data);
+
+    public function sha256(string $data): string
+    {
+        return $this->container->get(Sha256::class)->hash($data);
+    }
+
+    public function sha512(string $data): string
+    {
+        return $this->container->get(Sha512::class)->hash($data);
     }
 
 }

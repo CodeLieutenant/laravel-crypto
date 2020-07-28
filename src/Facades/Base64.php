@@ -26,7 +26,8 @@ class Base64 extends Facade
 
     public static function urlDecode(string $base64): string
     {
-        return str_replace(['-', '_'], ['+', '/'], self::decode($base64));
+        $str = str_replace(['-', '_'], ['+', '/'], $base64);
+        return self::decode($str);
     }
 
     public static function constantEncode(string $binary): ?string
@@ -47,7 +48,8 @@ class Base64 extends Facade
         }
     }
 
-    public static function constantUrlEncode(string $binary): ?string {
+    public static function constantUrlEncode(string $binary): ?string
+    {
         try {
             return sodium_bin2base64($binary, SODIUM_BASE64_VARIANT_URLSAFE);
         } catch (SodiumException $e) {
@@ -64,4 +66,28 @@ class Base64 extends Facade
         }
     }
 
+    public static function maxEncodedLengthToBytes(int $length): int
+    {
+        return ((3 * $length) >> 2);
+    }
+
+
+    public static function encodedLengthToBytes(string $base64): ?int
+    {
+        $count = 0;
+        if ($base64[-1] === '=') {
+            $count++;
+        }
+
+        if ($base64[-2] === '=') {
+            $count++;
+        }
+
+        return ((3 * strlen($base64)) >> 2) - $count;
+    }
+
+    public static function encodedLength(int $bufferLength, bool $hasPadding = true)
+    {
+        return $hasPadding ? (intdiv(($bufferLength + 2), 3)) << 2 : intdiv((($bufferLength << 2) | 2), 3);
+    }
 }

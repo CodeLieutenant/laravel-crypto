@@ -33,7 +33,10 @@
         "BrosSquad\\LaravelHashing\\HashingServiceProvider"
       ],
       "aliases": {
-        "Hashing": "BrosSquad\\LaravelHashing\\Facades\\Hashing"
+        "Hashing": "BrosSquad\\LaravelHashing\\Facades\\Hashing",
+        "Base64": "BrosSquad\\LaravelHashing\\Facades\\Base64",
+        "Hmac": "BrosSquad\\LaravelHashing\\Facades\\Hmac",
+        "Random": "BrosSquad\\LaravelHashing\\Facades\\Random"
       }
     }
   }

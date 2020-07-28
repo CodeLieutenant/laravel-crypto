@@ -13,6 +13,11 @@ use BrosSquad\LaravelHashing\Common\Blake2b;
 use BrosSquad\LaravelHashing\Contracts\Hmac;
 use BrosSquad\LaravelHashing\Contracts\Hashing;
 
+/**
+ * Class HashingServiceProvider
+ *
+ * @package BrosSquad\LaravelHashing
+ */
 class HashingServiceProvider extends ServiceProvider
 {
     protected $hashes = [

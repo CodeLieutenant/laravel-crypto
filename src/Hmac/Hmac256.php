@@ -5,8 +5,19 @@ namespace BrosSquad\LaravelHashing\Hmac;
 
 use SodiumException;
 
+/**
+ * Class Hmac256
+ *
+ * @package BrosSquad\LaravelHashing\Hmac
+ */
 class Hmac256 extends Hmac
 {
+
+    /**
+     * @param  string  $data
+     *
+     * @return string|null
+     */
     public function sign(string $data): ?string
     {
         try {
@@ -16,6 +27,12 @@ class Hmac256 extends Hmac
         }
     }
 
+    /**
+     * @param  string  $message
+     * @param  string  $hmac
+     *
+     * @return bool
+     */
     public function verify(string $message, string $hmac): bool
     {
         try {
