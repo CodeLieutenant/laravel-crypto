@@ -1,8 +1,8 @@
 # Laravel General Hashing
 > Wrapper classes for common hashing functions
 
-[![Build Status](https://dev.azure.com/BrosSquad/LaravelCrypto/_apis/build/status/malusev998.LaravelCrypto?branchName=master)](https://dev.azure.com/BrosSquad/LaravelCrypto/_build/latest?definitionId=8&branchName=master)
-
+[![Build Status](https://dev.azure.com/BrosSquad/LaravelHashing/_apis/build/status/malusev998.LaravelHashing?branchName=master)](https://dev.azure.com/BrosSquad/LaravelHashing/_build/latest?definitionId=8&branchName=master)
+>
 [![GitHub issues](https://img.shields.io/github/issues/malusev998/LaravelCrypto?label=Github%20Issues)](https://github.com/malusev998/LaravelCrypto/issues)
 
 [![GitHub stars](https://img.shields.io/github/stars/malusev998/LaravelCrypto?label=Github%20Stars)](https://github.com/malusev998/LaravelCrypto/stargazers)
