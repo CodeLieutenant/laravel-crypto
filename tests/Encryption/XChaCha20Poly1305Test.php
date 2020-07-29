@@ -29,4 +29,10 @@ class XChaCha20Poly1305Test extends TestCase
         self::assertNotSame('foo', $encrypted);
         self::assertSame('foo', $this->encrypter->decrypt($encrypted));
     }
+
+    public function test_key_length(): void {
+        $this->expectException(\RuntimeException::class);
+        $this->expectDeprecationMessage('XChaCha20-Poly1305 key has to be 32 bytes in length');
+        new XChaCha20Poly5Encryptor(str_repeat('a', 16));
+    }
 }

@@ -8,7 +8,6 @@ use Illuminate\Support\Str;
 use BrosSquad\LaravelCrypto\Tests\TestCase;
 use BrosSquad\LaravelCrypto\Facades\Base64;
 use BrosSquad\LaravelCrypto\Encryption\AesGcm256Encryptor;
-use BrosSquad\LaravelCrypto\Encryption\XChaCha20Poly5Encryptor;
 
 class AesGcm256Test extends TestCase
 {
@@ -29,5 +28,12 @@ class AesGcm256Test extends TestCase
         $encrypted = $this->encrypter->encrypt('foo');
         self::assertNotSame('foo', $encrypted);
         self::assertSame('foo', $this->encrypter->decrypt($encrypted));
+    }
+
+    public function test_key_length(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectDeprecationMessage('AES-256-GCM key has to be 32 bytes in length');
+        new AesGcm256Encryptor(str_repeat('a', 16));
     }
 }

@@ -14,6 +14,11 @@ class AesGcm256Encryptor extends SodiumEncryptor
         if (!sodium_crypto_aead_aes256gcm_is_available()) {
             throw new RuntimeException('AES-256-GCM is not available on your processor');
         }
+
+        $length = mb_strlen($key, '8bit');
+        if($length !== SODIUM_CRYPTO_AEAD_AES256GCM_KEYBYTES) {
+            throw new RuntimeException('AES-256-GCM key has to be 32 bytes in length');
+        }
     }
 
     public function encrypt($value, $serialize = true): string
