@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types = 1);
 
 namespace BrosSquad\LaravelHashing\Facades;
 
@@ -22,6 +23,11 @@ class Base64 extends Facade
     public static function urlEncode(string $binary): string
     {
         return str_replace(['+', '/'], ['-', '_'], self::encode($binary));
+    }
+
+    public static function urlEncodeNoPadding(string $binary): string
+    {
+        return str_replace(['+', '/', '='], ['-', '_', ''], self::encode($binary));
     }
 
     public static function urlDecode(string $base64): string
@@ -57,10 +63,27 @@ class Base64 extends Facade
         }
     }
 
+    public static function constantUrlEncodeNoPadding(string $binary): ?string
+    {
+        try {
+            return sodium_bin2base64($binary, SODIUM_BASE64_VARIANT_URLSAFE_NO_PADDING);
+        } catch (SodiumException $e) {
+            return null;
+        }
+    }
+
     public static function constantUrlDecode(string $binary): ?string
     {
         try {
             return sodium_base642bin($binary, SODIUM_BASE64_VARIANT_URLSAFE);
+        } catch (SodiumException $e) {
+            return null;
+        }
+    }
+    public static function constantUrlDecodeNoPadding(string $binary): ?string
+    {
+        try {
+            return sodium_base642bin($binary, SODIUM_BASE64_VARIANT_URLSAFE_NO_PADDING);
         } catch (SodiumException $e) {
             return null;
         }

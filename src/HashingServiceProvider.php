@@ -29,6 +29,7 @@ class HashingServiceProvider extends ServiceProvider
 
     protected $macs = [
         Hmac::class => Hmac256::class,
+        'hmac256'   => Hmac256::class,
         'hmac512'   => Hmac512::class,
     ];
 

@@ -12,8 +12,11 @@ use BrosSquad\LaravelHashing\HmacManager;
  *
  * @package BrosSquad\LaravelHashing\Facades
  * @method static string sign(string $data)
+ * @method static string signRaw(string $data)
  * @method static string hmac256Sign(string $data)
+ * @method static string hmac256SignRaw(string $data)
  * @method static string hmac512Sign(string $data)
+ * @method static string hmac512SignRaw(string $data)
  * @method static boolean verify(string $message, string $hmac)
  * @method static boolean hmac256Verify(string $message, string $hmac)
  * @method static boolean hmac512Verify(string $message, string $hmac)

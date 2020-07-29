@@ -20,4 +20,9 @@ class Hmac512 extends Hmac
     {
         return hash_hmac('sha3-512', $data, $this->key);
     }
+
+    public function signRaw(string $data): ?string
+    {
+        return hash_hmac('sha3-512', $data, $this->key, true);
+    }
 }

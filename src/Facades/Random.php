@@ -21,18 +21,7 @@ class Random extends Facade
     {
         try {
             $bufferLength = Base64::maxEncodedLengthToBytes($length);
-            return rtrim(Base64::urlEncode(random_bytes($bufferLength)), '=');
-        } catch (Exception $e) {
-            return null;
-        }
-    }
-
-    public static function hex(int $length): ?string
-    {
-        $toHex = function_exists('sodium_bin2hex') ? 'sodium_bin2hex' : 'bin2hex';
-
-        try {
-            return $toHex(random_bytes(intdiv($length, 2)));
+            return Base64::urlEncodeNoPadding(random_bytes($bufferLength));
         } catch (Exception $e) {
             return null;
         }

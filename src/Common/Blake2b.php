@@ -5,6 +5,7 @@ namespace BrosSquad\LaravelHashing\Common;
 
 
 use SodiumException;
+use BrosSquad\LaravelHashing\Facades\Base64;
 
 /**
  * Class Blake2b
@@ -21,11 +22,13 @@ class Blake2b extends Hash
      */
     public function hash(string $data): ?string
     {
+        return Base64::constantUrlEncodeNoPadding($this->hashRaw($data));
+    }
+
+    public function hashRaw(string $data): ?string
+    {
         try {
-            return sodium_bin2base64(
-                sodium_crypto_generichash($data, null, 64),
-                SODIUM_BASE64_VARIANT_URLSAFE_NO_PADDING
-            );
+            return sodium_crypto_generichash($data, '', 64);
         } catch (SodiumException $e) {
             return null;
         }

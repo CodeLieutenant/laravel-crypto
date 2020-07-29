@@ -4,6 +4,8 @@
 namespace BrosSquad\LaravelHashing\Hmac;
 
 
+use SodiumException;
+use RuntimeException;
 use Illuminate\Support\Str;
 use BrosSquad\LaravelHashing\Facades\Base64;
 use Illuminate\Contracts\Config\Repository as Config;
@@ -22,14 +24,15 @@ abstract class Hmac implements HmacContract
      *
      * @param  \Illuminate\Contracts\Config\Repository  $config
      */
-    public function __construct(Config $config) {
+    public function __construct(Config $config)
+    {
         $key = $config->get('app.key');
 
-        if($key === null) {
-            throw new \RuntimeException('Application key is not set');
+        if ($key === null) {
+            throw new RuntimeException('Application key is not set');
         }
 
-        if(($isBase64Encoded = Str::startsWith($key, 'base64:'))) {
+        if (($isBase64Encoded = Str::startsWith($key, 'base64:'))) {
             $key = Str::substr($key, 7);
         }
 
@@ -48,5 +51,14 @@ abstract class Hmac implements HmacContract
         $generated = $this->sign($message);
 
         return hash_equals($generated, $hmac);
+    }
+
+    public function __destruct()
+    {
+        try {
+            sodium_memzero($this->key);
+            sodium_memzero($this->keyBinary);
+        } catch (SodiumException $e) {
+        }
     }
 }

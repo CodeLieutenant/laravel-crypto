@@ -19,6 +19,13 @@ interface Hashing
     public function hash(string $data): ?string;
 
     /**
+     * @param  string  $data
+     *
+     * @return string|null
+     */
+    public function hashRaw(string $data): ?string;
+
+    /**
      * @param  string  $hash1
      * @param  string  $hash2
      *

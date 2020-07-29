@@ -43,15 +43,29 @@ class HashingManager implements Hashing
         return $this->container->get(Blake2b::class)->hash($data);
     }
 
+    public function hashRaw(string $data): ?string
+    {
+        return $this->container->get(Blake2b::class)->hashRaw($data);
+    }
 
     public function sha256(string $data): string
     {
         return $this->container->get(Sha256::class)->hash($data);
     }
 
+    public function sha256Raw(string $data): string
+    {
+        return $this->container->get(Sha256::class)->hashRaw($data);
+    }
+
     public function sha512(string $data): string
     {
         return $this->container->get(Sha512::class)->hash($data);
+    }
+
+    public function sha512Raw(string $data): string
+    {
+        return $this->container->get(Sha512::class)->hashRaw($data);
     }
 
 }

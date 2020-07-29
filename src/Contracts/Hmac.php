@@ -18,6 +18,13 @@ interface Hmac
     public function sign(string $data): ?string;
 
     /**
+     * @param  string  $data
+     *
+     * @return string|null
+     */
+    public function signRaw(string $data): ?string;
+
+    /**
      * @param  string  $message
      * @param  string  $hmac
      *

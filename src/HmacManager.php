@@ -34,6 +34,12 @@ class HmacManager implements Hmac
         return $this->hmac->sign($data);
     }
 
+    public function signRaw(string $data): ?string
+    {
+        return $this->hmac->signRaw($data);
+    }
+
+
     public function verify(string $message, string $hmac): bool
     {
         return $this->hmac->verify($message, $hmac);
@@ -44,9 +50,19 @@ class HmacManager implements Hmac
         return $this->container->get(Hmac256::class)->sign($data);
     }
 
+    public function hmac256SignRaw(string $data): string
+    {
+        return $this->container->get(Hmac256::class)->signRaw($data);
+    }
+
     public function hmac512Sign(string $data): string
     {
         return $this->container->get(Hmac512::class)->sign($data);
+    }
+
+    public function hmac512SignRaw(string $data): string
+    {
+        return $this->container->get(Hmac512::class)->signRaw($data);
     }
 
     public function hmac256Verify(string $message, string $hmac): bool

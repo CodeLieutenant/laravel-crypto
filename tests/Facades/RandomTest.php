@@ -27,7 +27,7 @@ class RandomTest extends TestCase
         foreach($data as $length => $randomString) {
             self::assertNotNull($randomString);
             self::assertIsString($randomString);
-            self::assertSame(preg_match('#^[a-zA-Z0-9_-]+$#', $randomString), 1);
+            self::assertIsBase64UrlNoPadding($randomString);
             self::assertEquals($length, strlen($randomString));
         }
 

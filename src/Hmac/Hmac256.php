@@ -4,6 +4,7 @@
 namespace BrosSquad\LaravelHashing\Hmac;
 
 use SodiumException;
+use BrosSquad\LaravelHashing\Facades\Base64;
 
 /**
  * Class Hmac256
@@ -19,6 +20,21 @@ class Hmac256 extends Hmac
      * @return string|null
      */
     public function sign(string $data): ?string
+    {
+        try {
+            return Base64::constantUrlEncode(sodium_crypto_auth($data, $this->keyBinary));
+        } catch (SodiumException $e) {
+            return null;
+        }
+    }
+
+
+    /**
+     * @param  string  $data
+     *
+     * @return string|null
+     */
+    public function signRaw(string $data): ?string
     {
         try {
             return sodium_crypto_auth($data, $this->keyBinary);

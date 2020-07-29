@@ -11,6 +11,8 @@ namespace BrosSquad\LaravelHashing\Common;
  */
 class Sha512 extends Hash
 {
+    protected $algo = 'sha3-512';
+
     /**
      * @param  string  $data
      *
@@ -18,6 +20,11 @@ class Sha512 extends Hash
      */
     public function hash(string $data): string
     {
-        return hash('sha3-512', $data);
+        return hash($this->algo, $data);
+    }
+
+    public function hashRaw(string $data): ?string
+    {
+        return hash($this->algo, $data, true);
     }
 }
