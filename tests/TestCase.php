@@ -3,6 +3,7 @@
 
 namespace BrosSquad\LaravelCrypto\Tests;
 
+use Illuminate\Support\Facades\Config;
 use BrosSquad\LaravelCrypto\HashingServiceProvider;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use BrosSquad\LaravelCrypto\Facades\{
@@ -14,6 +15,14 @@ use BrosSquad\LaravelCrypto\Facades\{
 
 class TestCase extends OrchestraTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Config::set('app.providers', array_filter(Config::get('app.providers'), static function ($el) {
+            return $el !== 'Illuminate\Encryption\EncryptionServiceProvider';
+        }));
+    }
+
     protected function getPackageProviders($app): array
     {
         return [HashingServiceProvider::class];

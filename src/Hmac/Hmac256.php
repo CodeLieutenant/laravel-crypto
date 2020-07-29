@@ -22,7 +22,7 @@ class Hmac256 extends Hmac
     public function sign(string $data): ?string
     {
         try {
-            return Base64::constantUrlEncode(sodium_crypto_auth($data, $this->keyBinary));
+            return Base64::constantUrlEncode(sodium_crypto_auth($data, $this->key));
         } catch (SodiumException $e) {
             return null;
         }
@@ -37,7 +37,7 @@ class Hmac256 extends Hmac
     public function signRaw(string $data): ?string
     {
         try {
-            return sodium_crypto_auth($data, $this->keyBinary);
+            return sodium_crypto_auth($data, $this->key);
         } catch (SodiumException $e) {
             return null;
         }
@@ -52,7 +52,7 @@ class Hmac256 extends Hmac
     public function verify(string $message, string $hmac): bool
     {
         try {
-            return sodium_crypto_auth_verify($hmac, $message, $this->keyBinary);
+            return sodium_crypto_auth_verify($hmac, $message, $this->key);
         } catch (SodiumException $e) {
             return false;
         }

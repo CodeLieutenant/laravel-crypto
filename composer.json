@@ -12,7 +12,8 @@
   "minimum-stability": "stable",
   "require": {
     "php": ">=7.3",
-    "ext-sodium": "*"
+    "ext-sodium": "*",
+    "ext-json": "*"
   },
   "require-dev": {
     "orchestra/testbench": "^5.3"
