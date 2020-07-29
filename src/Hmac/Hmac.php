@@ -1,15 +1,15 @@
 <?php
 
 
-namespace BrosSquad\LaravelHashing\Hmac;
+namespace BrosSquad\LaravelCrypto\Hmac;
 
 
 use SodiumException;
 use RuntimeException;
 use Illuminate\Support\Str;
-use BrosSquad\LaravelHashing\Facades\Base64;
+use BrosSquad\LaravelCrypto\Facades\Base64;
 use Illuminate\Contracts\Config\Repository as Config;
-use BrosSquad\LaravelHashing\Contracts\Hmac as HmacContract;
+use BrosSquad\LaravelCrypto\Contracts\Hmac as HmacContract;
 
 abstract class Hmac implements HmacContract
 {

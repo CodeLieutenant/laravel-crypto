@@ -1,13 +1,13 @@
 <?php
 
 
-namespace BrosSquad\LaravelHashing;
+namespace BrosSquad\LaravelCrypto;
 
 
 use SodiumException;
 use Psr\Container\ContainerInterface;
-use BrosSquad\LaravelHashing\Contracts\Hashing;
-use BrosSquad\LaravelHashing\Common\{
+use BrosSquad\LaravelCrypto\Contracts\Hashing;
+use BrosSquad\LaravelCrypto\Common\{
     Sha256,
     Sha512,
     Blake2b

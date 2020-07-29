@@ -2,16 +2,16 @@
 
 declare(strict_types = 1);
 
-namespace BrosSquad\LaravelHashing\Common;
+namespace BrosSquad\LaravelCrypto\Common;
 
 
 use SodiumException;
-use BrosSquad\LaravelHashing\Contracts\Hashing;
+use BrosSquad\LaravelCrypto\Contracts\Hashing;
 
 /**
  * Class Hash
  *
- * @package BrosSquad\LaravelHashing\Common
+ * @package BrosSquad\LaravelCrypto\Common
  */
 abstract class Hash implements Hashing
 {

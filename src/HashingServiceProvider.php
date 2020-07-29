@@ -1,22 +1,22 @@
 <?php
 
 
-namespace BrosSquad\LaravelHashing;
+namespace BrosSquad\LaravelCrypto;
 
 
 use Illuminate\Support\ServiceProvider;
-use BrosSquad\LaravelHashing\Hmac\Hmac256;
-use BrosSquad\LaravelHashing\Hmac\Hmac512;
-use BrosSquad\LaravelHashing\Common\Sha256;
-use BrosSquad\LaravelHashing\Common\Sha512;
-use BrosSquad\LaravelHashing\Common\Blake2b;
-use BrosSquad\LaravelHashing\Contracts\Hmac;
-use BrosSquad\LaravelHashing\Contracts\Hashing;
+use BrosSquad\LaravelCrypto\Hmac\Hmac256;
+use BrosSquad\LaravelCrypto\Hmac\Hmac512;
+use BrosSquad\LaravelCrypto\Common\Sha256;
+use BrosSquad\LaravelCrypto\Common\Sha512;
+use BrosSquad\LaravelCrypto\Common\Blake2b;
+use BrosSquad\LaravelCrypto\Contracts\Hmac;
+use BrosSquad\LaravelCrypto\Contracts\Hashing;
 
 /**
  * Class HashingServiceProvider
  *
- * @package BrosSquad\LaravelHashing
+ * @package BrosSquad\LaravelCrypto
  */
 class HashingServiceProvider extends ServiceProvider
 {

@@ -2,12 +2,12 @@
 
 declare(strict_types = 1);
 
-namespace BrosSquad\LaravelHashing\Contracts;
+namespace BrosSquad\LaravelCrypto\Contracts;
 
 /**
  * Interface Hashing
  *
- * @package BrosSquad\LaravelHashing\Contracts
+ * @package BrosSquad\LaravelCrypto\Contracts
  */
 interface Hashing
 {

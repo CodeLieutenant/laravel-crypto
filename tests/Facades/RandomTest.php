@@ -1,11 +1,11 @@
 <?php
 
 
-namespace BrosSquad\LaravelHashing\Tests\Facades;
+namespace BrosSquad\LaravelCrypto\Tests\Facades;
 
 
-use BrosSquad\LaravelHashing\Tests\TestCase;
-use BrosSquad\LaravelHashing\Facades\Random;
+use BrosSquad\LaravelCrypto\Tests\TestCase;
+use BrosSquad\LaravelCrypto\Facades\Random;
 
 class RandomTest extends TestCase
 {
@@ -28,7 +28,7 @@ class RandomTest extends TestCase
             self::assertNotNull($randomString);
             self::assertIsString($randomString);
             self::assertIsBase64UrlNoPadding($randomString);
-            self::assertEquals($length, strlen($randomString));
+            self::assertEquals($length, mb_strlen($randomString, '8bit'));
         }
 
     }

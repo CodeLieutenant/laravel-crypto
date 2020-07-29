@@ -1,7 +1,7 @@
 <?php
 
 
-namespace BrosSquad\LaravelHashing\Facades;
+namespace BrosSquad\LaravelCrypto\Facades;
 
 use Exception;
 use Illuminate\Support\Facades\Facade;

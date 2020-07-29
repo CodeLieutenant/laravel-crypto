@@ -1,11 +1,11 @@
 <?php
 
 
-namespace BrosSquad\LaravelHashing\Tests\Facades;
+namespace BrosSquad\LaravelCrypto\Tests\Facades;
 
 
-use BrosSquad\LaravelHashing\Tests\TestCase;
-use BrosSquad\LaravelHashing\Facades\Base64;
+use BrosSquad\LaravelCrypto\Tests\TestCase;
+use BrosSquad\LaravelCrypto\Facades\Base64;
 
 class Base64Test extends TestCase
 {

@@ -2,12 +2,12 @@
 
 declare(strict_types = 1);
 
-namespace BrosSquad\LaravelHashing\Hmac;
+namespace BrosSquad\LaravelCrypto\Hmac;
 
 /**
  * Class Hmac512
  *
- * @package BrosSquad\LaravelHashing\Hmac
+ * @package BrosSquad\LaravelCrypto\Hmac
  */
 class Hmac512 extends Hmac
 {

@@ -1,16 +1,16 @@
 <?php
 
 
-namespace BrosSquad\LaravelHashing\Tests;
+namespace BrosSquad\LaravelCrypto\Tests;
 
 
-use BrosSquad\LaravelHashing\Hmac\Hmac256;
-use BrosSquad\LaravelHashing\Hmac\Hmac512;
-use BrosSquad\LaravelHashing\Common\Sha256;
-use BrosSquad\LaravelHashing\Common\Sha512;
-use BrosSquad\LaravelHashing\Common\Blake2b;
-use BrosSquad\LaravelHashing\Contracts\Hmac;
-use BrosSquad\LaravelHashing\Contracts\Hashing;
+use BrosSquad\LaravelCrypto\Hmac\Hmac256;
+use BrosSquad\LaravelCrypto\Hmac\Hmac512;
+use BrosSquad\LaravelCrypto\Common\Sha256;
+use BrosSquad\LaravelCrypto\Common\Sha512;
+use BrosSquad\LaravelCrypto\Common\Blake2b;
+use BrosSquad\LaravelCrypto\Contracts\Hmac;
+use BrosSquad\LaravelCrypto\Contracts\Hashing;
 
 class DefaultValuesFromContainerTest extends TestCase
 {

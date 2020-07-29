@@ -1,16 +1,16 @@
 <?php
 
 
-namespace BrosSquad\LaravelHashing\Common;
+namespace BrosSquad\LaravelCrypto\Common;
 
 
 use SodiumException;
-use BrosSquad\LaravelHashing\Facades\Base64;
+use BrosSquad\LaravelCrypto\Facades\Base64;
 
 /**
  * Class Blake2b
  *
- * @package BrosSquad\LaravelHashing\Common
+ * @package BrosSquad\LaravelCrypto\Common
  */
 class Blake2b extends Hash
 {

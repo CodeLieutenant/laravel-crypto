@@ -1,15 +1,15 @@
 <?php
 
 
-namespace BrosSquad\LaravelHashing\Hmac;
+namespace BrosSquad\LaravelCrypto\Hmac;
 
 use SodiumException;
-use BrosSquad\LaravelHashing\Facades\Base64;
+use BrosSquad\LaravelCrypto\Facades\Base64;
 
 /**
  * Class Hmac256
  *
- * @package BrosSquad\LaravelHashing\Hmac
+ * @package BrosSquad\LaravelCrypto\Hmac
  */
 class Hmac256 extends Hmac
 {

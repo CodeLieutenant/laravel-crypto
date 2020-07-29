@@ -2,12 +2,12 @@
 
 declare(strict_types = 1);
 
-namespace BrosSquad\LaravelHashing\Common;
+namespace BrosSquad\LaravelCrypto\Common;
 
 /**
  * Class Sha512
  *
- * @package BrosSquad\LaravelHashing\Common
+ * @package BrosSquad\LaravelCrypto\Common
  */
 class Sha512 extends Hash
 {

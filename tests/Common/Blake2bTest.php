@@ -2,10 +2,10 @@
 
 declare(strict_types = 1);
 
-namespace BrosSquad\LaravelHashing\Tests\Common;
+namespace BrosSquad\LaravelCrypto\Tests\Common;
 
-use BrosSquad\LaravelHashing\Tests\TestCase;
-use BrosSquad\LaravelHashing\Common\Blake2b;
+use BrosSquad\LaravelCrypto\Tests\TestCase;
+use BrosSquad\LaravelCrypto\Common\Blake2b;
 
 class Blake2bTest extends TestCase
 {

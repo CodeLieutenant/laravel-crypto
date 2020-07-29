@@ -2,11 +2,11 @@
 
 declare(strict_types = 1);
 
-namespace BrosSquad\LaravelHashing;
+namespace BrosSquad\LaravelCrypto;
 
 use Psr\Container\ContainerInterface;
-use BrosSquad\LaravelHashing\Contracts\Hmac;
-use BrosSquad\LaravelHashing\Hmac\{
+use BrosSquad\LaravelCrypto\Contracts\Hmac;
+use BrosSquad\LaravelCrypto\Hmac\{
     Hmac256,
     Hmac512
 };
@@ -14,7 +14,7 @@ use BrosSquad\LaravelHashing\Hmac\{
 class HmacManager implements Hmac
 {
     /**
-     * @var \BrosSquad\LaravelHashing\Contracts\Hmac
+     * @var \BrosSquad\LaravelCrypto\Contracts\Hmac
      */
     protected $hmac;
 

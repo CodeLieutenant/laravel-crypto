@@ -1,11 +1,11 @@
 <?php
 
 
-namespace BrosSquad\LaravelHashing\Tests;
+namespace BrosSquad\LaravelCrypto\Tests;
 
-use BrosSquad\LaravelHashing\HashingServiceProvider;
+use BrosSquad\LaravelCrypto\HashingServiceProvider;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
-use BrosSquad\LaravelHashing\Facades\{
+use BrosSquad\LaravelCrypto\Facades\{
     Hmac,
     Base64,
     Random,

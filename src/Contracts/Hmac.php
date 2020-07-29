@@ -1,12 +1,12 @@
 <?php
 
 
-namespace BrosSquad\LaravelHashing\Contracts;
+namespace BrosSquad\LaravelCrypto\Contracts;
 
 /**
  * Interface Hmac
  *
- * @package BrosSquad\LaravelHashing\Contracts
+ * @package BrosSquad\LaravelCrypto\Contracts
  */
 interface Hmac
 {

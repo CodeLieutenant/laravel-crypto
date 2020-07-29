@@ -1,16 +1,16 @@
 <?php
 
 
-namespace BrosSquad\LaravelHashing\Facades;
+namespace BrosSquad\LaravelCrypto\Facades;
 
 
 use Illuminate\Support\Facades\Facade;
-use BrosSquad\LaravelHashing\HmacManager;
+use BrosSquad\LaravelCrypto\HmacManager;
 
 /**
  * Class Hmac
  *
- * @package BrosSquad\LaravelHashing\Facades
+ * @package BrosSquad\LaravelCrypto\Facades
  * @method static string sign(string $data)
  * @method static string signRaw(string $data)
  * @method static string hmac256Sign(string $data)

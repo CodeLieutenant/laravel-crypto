@@ -1,6 +1,6 @@
 {
-  "name": "brossquad/laravel-hashing",
-  "description": "Common Hashing algorithms used in php(laravel) applications",
+  "name": "brossquad/laravel-crypto",
+  "description": "Common Crypto algorithms used in php(laravel) applications",
   "type": "library",
   "license": "MIT",
   "authors": [
@@ -19,24 +19,24 @@
   },
   "autoload": {
     "psr-4": {
-      "BrosSquad\\LaravelHashing\\": "src/"
+      "BrosSquad\\LaravelCrypto\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "BrosSquad\\LaravelHashing\\Tests\\": "tests/"
+      "BrosSquad\\LaravelCrypto\\Tests\\": "tests/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "BrosSquad\\LaravelHashing\\HashingServiceProvider"
+        "BrosSquad\\LaravelCrypto\\HashingServiceProvider"
       ],
       "aliases": {
-        "Hashing": "BrosSquad\\LaravelHashing\\Facades\\Hashing",
-        "Base64": "BrosSquad\\LaravelHashing\\Facades\\Base64",
-        "Hmac": "BrosSquad\\LaravelHashing\\Facades\\Hmac",
-        "Random": "BrosSquad\\LaravelHashing\\Facades\\Random"
+        "Hashing": "BrosSquad\\LaravelCrypto\\Facades\\Hashing",
+        "Base64": "BrosSquad\\LaravelCrypto\\Facades\\Base64",
+        "Hmac": "BrosSquad\\LaravelCrypto\\Facades\\Hmac",
+        "Random": "BrosSquad\\LaravelCrypto\\Facades\\Random"
       }
     }
   }

@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace BrosSquad\LaravelHashing\Facades;
+namespace BrosSquad\LaravelCrypto\Facades;
 
 
 use SodiumException;

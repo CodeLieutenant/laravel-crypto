@@ -2,11 +2,11 @@
 
 declare(strict_types = 1);
 
-namespace BrosSquad\LaravelHashing\Tests\Common;
+namespace BrosSquad\LaravelCrypto\Tests\Common;
 
 
-use BrosSquad\LaravelHashing\Common\Sha256;
-use BrosSquad\LaravelHashing\Tests\TestCase;
+use BrosSquad\LaravelCrypto\Common\Sha256;
+use BrosSquad\LaravelCrypto\Tests\TestCase;
 
 class Sha256Test extends TestCase
 {

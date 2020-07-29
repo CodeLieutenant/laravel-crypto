@@ -1,11 +1,11 @@
 <?php
 
 
-namespace BrosSquad\LaravelHashing\Tests\Common;
+namespace BrosSquad\LaravelCrypto\Tests\Common;
 
 
-use BrosSquad\LaravelHashing\Common\Sha512;
-use BrosSquad\LaravelHashing\Tests\TestCase;
+use BrosSquad\LaravelCrypto\Common\Sha512;
+use BrosSquad\LaravelCrypto\Tests\TestCase;
 
 class Sha512Test extends TestCase
 {
