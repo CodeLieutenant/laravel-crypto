@@ -1,11 +1,11 @@
 <?php
 
 
-namespace BrosSquad\LaravelCrypto\Hmac;
+namespace BrosSquad\LaravelCrypto\Signing\Hmac;
 
 
 use SodiumException;
-use BrosSquad\LaravelCrypto\Contracts\Hmac as HmacContract;
+use BrosSquad\LaravelCrypto\Contracts\Signing as HmacContract;
 
 abstract class Hmac implements HmacContract
 {

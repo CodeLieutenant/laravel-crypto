@@ -2,16 +2,17 @@
 
 declare(strict_types = 1);
 
-namespace BrosSquad\LaravelCrypto\Tests\Hmac;
+namespace BrosSquad\LaravelCrypto\Tests\Signing\Hmac;
 
 
+use BrosSquad\LaravelCrypto\Signing\Hmac\Hmac256;
 use Illuminate\Support\Str;
 use BrosSquad\LaravelCrypto\Tests\TestCase;
 use BrosSquad\LaravelCrypto\Facades\Base64;
 
 class Hmac512Test extends TestCase
 {
-    /** @var \BrosSquad\LaravelCrypto\Hmac\Hmac256 */
+    /** @var Hmac256 */
     protected $hmac512;
     protected $key;
 

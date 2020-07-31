@@ -8,7 +8,7 @@ namespace BrosSquad\LaravelCrypto\Contracts;
  *
  * @package BrosSquad\LaravelCrypto\Contracts
  */
-interface Hmac
+interface Signing
 {
     /**
      * @param  string  $data

@@ -1,29 +1,29 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto;
 
 use Psr\Container\ContainerInterface;
-use BrosSquad\LaravelCrypto\Contracts\Hmac;
-use BrosSquad\LaravelCrypto\Hmac\{
+use BrosSquad\LaravelCrypto\Contracts\Signing;
+use BrosSquad\LaravelCrypto\Signing\Hmac\{
     Hmac256,
     Hmac512
 };
 
-class HmacManager implements Hmac
+class HmacManager implements Signing
 {
     /**
-     * @var \BrosSquad\LaravelCrypto\Contracts\Hmac
+     * @var Signing
      */
     protected $hmac;
 
     /**
-     * @var \Psr\Container\ContainerInterface
+     * @var ContainerInterface
      */
     protected $container;
 
-    public function __construct(Hmac $hmac, ContainerInterface $container)
+    public function __construct(Signing $hmac, ContainerInterface $container)
     {
         $this->hmac = $hmac;
         $this->container = $container;

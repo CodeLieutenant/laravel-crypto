@@ -1,7 +1,7 @@
 <?php
 
 
-namespace BrosSquad\LaravelCrypto\Hmac;
+namespace BrosSquad\LaravelCrypto\Signing\Hmac;
 
 use SodiumException;
 use BrosSquad\LaravelCrypto\Facades\Base64;

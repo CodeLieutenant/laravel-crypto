@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace BrosSquad\LaravelCrypto\Hmac;
+namespace BrosSquad\LaravelCrypto\Signing\Hmac;
 
 /**
  * Class Hmac512
