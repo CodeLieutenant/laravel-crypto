@@ -31,4 +31,14 @@ class Sha256Test extends TestCase
         self::assertIsBinary($hashed);
         self::assertEquals($hashedExpected, $hashed);
     }
+
+    public function test_verify(): void {
+        $hashedExpected = hash('sha512/256', 'Hello World');
+        self::assertTrue($this->sha256->verify($hashedExpected, 'Hello World'));
+    }
+
+    public function test_verify_raw(): void {
+        $hashedExpected = hash('sha512/256', 'Hello World');
+        self::assertTrue($this->sha256->verify($hashedExpected, 'Hello World'));
+    }
 }

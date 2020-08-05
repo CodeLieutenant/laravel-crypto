@@ -32,4 +32,17 @@ class Sha512Test extends TestCase
         self::assertIsBinary($hashed);
         self::assertEquals($hashedExpected, $hashed);
     }
+
+
+    public function test_verify(): void
+    {
+        $hashedExpected = hash('sha3-512', 'Hello World');
+        self::assertTrue($this->sha512->verify($hashedExpected, 'Hello World'));
+    }
+
+    public function test_verify_raw(): void
+    {
+        $hashedExpected = hash('sha3-512', 'Hello World');
+        self::assertTrue($this->sha512->verify($hashedExpected, 'Hello World'));
+    }
 }

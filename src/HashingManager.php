@@ -16,7 +16,7 @@ use BrosSquad\LaravelCrypto\Common\{
 class HashingManager implements Hashing
 {
     /**
-     * @var \Psr\Container\ContainerInterface
+     * @var ContainerInterface
      */
     protected $container;
 
@@ -68,4 +68,34 @@ class HashingManager implements Hashing
         return $this->container->get(Sha512::class)->hashRaw($data);
     }
 
+
+    public function verify(string $hash, string $data): bool
+    {
+        return $this->container->get(Blake2b::class)->verify($hash, $data);
+    }
+
+    public function verifyRaw(string $hash, string $data): bool
+    {
+        return $this->container->get(Blake2b::class)->verifyRaw($hash, $data);
+    }
+
+    public function sha256Verify(string $hash, string $data): bool
+    {
+        return $this->container->get(Sha256::class)->verify($hash, $data);
+    }
+
+    public function sha256VerifyRaw(string $hash, string $data): bool
+    {
+        return $this->container->get(Sha256::class)->verifyRaw($hash, $data);
+    }
+
+    public function sha512Verify(string $hash, string $data): bool
+    {
+        return $this->container->get(Sha512::class)->verify($hash, $data);
+    }
+
+    public function sha512VerifyRaw(string $hash, string $data): bool
+    {
+        return $this->container->get(Sha512::class)->verifyRaw($hash, $data);
+    }
 }

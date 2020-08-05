@@ -18,6 +18,12 @@ use BrosSquad\LaravelCrypto\HashingManager;
  * @method static string|null sha256Raw(string $data)
  * @method static string|null sha512(string $data)
  * @method static string|null sha512Raw(string $data)
+ * @method static bool verify(string $hash, string $data)
+ * @method static bool verifyRaw(string $hash, string $data)
+ * @method static bool sha256Verify(string $hash, string $data)
+ * @method static bool sha256VerifyRaw(string $hash, string $data)
+ * @method static bool sha512Verify(string $hash, string $data)
+ * @method static bool sha512VerifyRaw(string $hash, string $data)
  */
 class Hashing extends Facade
 {
