@@ -7,6 +7,32 @@
 [![GitHub license](https://img.shields.io/github/license/malusev998/LaravelCrypto?label=Licence)](https://github.com/malusev998/LaravelCrypto)
 
 
+- [Laravel General Hashing](#laravel-general-hashing)
+  - [Introduction](#introduction)
+  - [Getting started](#getting-started)
+    - [Installing](#installing)
+    - [Publishing config file](#publishing-config-file)
+    - [Generating EdDSA private and public key](#generating-eddsa-private-and-public-key)
+    - [Encoding](#encoding)
+      - [Base64 Encoding](#base64-encoding)
+    - [Generating random data](#generating-random-data)
+    - [Hashing](#hashing)
+      - [Using facade](#using-facade)
+      - [Using dependency injection (prefered)](#using-dependency-injection-prefered)
+  - [Shared Key signatures](#shared-key-signatures)
+    - [Using Facade](#using-facade-1)
+    - [Using Dependency Injection](#using-dependency-injection)
+  - [Public Key signatures](#public-key-signatures)
+    - [Using Facade](#using-facade-2)
+    - [Using Dependency Injection](#using-dependency-injection-1)
+  - [Advanced](#advanced)
+    - [SHA256](#sha256)
+      - [Using Hashing Facade](#using-hashing-facade)
+      - [Using Dependency Injection](#using-dependency-injection-2)
+    - [SHA512](#sha512)
+      - [Using Hashing Facade](#using-hashing-facade-1)
+      - [Using Dependency Injection](#using-dependency-injection-3)
+
 ## Introduction
 
 Many web applications use some kind of cryptography, but most programmers do not know what algorithm to use.
@@ -216,3 +242,184 @@ class Service
 Default hashing API is wrapper on libsodium function. It provides nice API to work with in Laravel projects.
 
 **These functions should not be used for password hashing. NEVER!! For password hashing use laravel default Hash facade or Hasher interface**
+
+## Shared Key signatures
+
+Shared key signatures are done using SHA512/256 HMAC. 
+(Sha512/256 -> SHA512 is optimized for X86_64 architecture which most computers and servers run these day, but SHA512 is to long, so it's trimmed to 256bits (64 bytes) hence the name SHA512/256, offers same security as SHA512 but it's shorter)
+
+Read more on [HMAC](https://en.wikipedia.org/wiki/HMAC)
+
+### Using Facade
+
+```php
+
+namespace App\Service;
+
+use BrosSquad\LaravelCrypto\Facades\Hmac;
+
+class Service 
+{
+    public function createSignature()
+    {
+        $data = 'Hello World';
+
+        $signature = Hmac::sign($data); // Base64 Encoded encoded signature
+
+        $signature = Hmac::signRaw($data); // Raw bytes for signature
+        
+        // Rest of the code
+    }
+
+    public function verifySigunature(string $signature) 
+    {
+        $data = 'Hello World';
+        
+        if(Hmac::verify($data, $signature)) {
+            // Signature is valid
+        } else {
+            // Signature is invalid
+        }
+    }
+}
+
+```
+
+### Using Dependency Injection
+
+```php
+namespace App\Service;
+
+use BrosSquad\LaravelCrypto\Contracts\Signing;
+
+class Service 
+{
+    private Signing $hmac;
+
+    public function __construct(Signing $hmac) 
+    {
+        $this->hmac = $hmac;
+    }
+
+    public function createSignature()
+    {
+        $data = 'Hello World';
+
+        $signature = $this->hmac->sign($data); // Base64 Encoded encoded signature
+
+        $signature = $this->hmac->signRaw($data); // Raw bytes for signature
+        
+        // Rest of the code
+    }
+
+    public function verifySigunature(string $signature) 
+    {
+        $data = 'Hello World';
+        
+        if($this->hmac->verify($data, $signature)) {
+            // Signature is valid
+        } else {
+            // Signature is invalid
+        }
+    }
+}
+
+```
+
+## Public Key signatures
+
+Public key signing uses state of the art in public key cryptography -> EdDSA or Ed25519 Algorithms developed by famous crytographer Daniel Bernstein. It is based on Edwards Curve, and it is much faster then RSA (many even more serure). Public and privete keys are short, this allows the algorithm to be much faster. When ever you can use EdDSA algorithm for public key signatures
+
+**Before you start using EdDSA, generate private and public keys with artisan console command ```$ php artisan crypto:keys ``` **
+
+
+### Using Facade
+
+```php
+
+namespace App\Service;
+
+use BrosSquad\LaravelCrypto\Facades\EdDSA;
+
+class Service 
+{
+    public function createSignature()
+    {
+        $data = 'Hello World';
+
+        $signature = EdDSA::sign($data); // Base64 Encoded encoded signature
+
+        $signature = EdDSA::signRaw($data); // Raw bytes for signature
+        
+        // Rest of the code
+    }
+
+    public function verifySigunature(string $signature) 
+    {
+        $data = 'Hello World';
+        
+        if(EdDSA::verify($data, $signature)) {
+            // Signature is valid
+        } else {
+            // Signature is invalid
+        }
+    }
+}
+
+```
+
+### Using Dependency Injection
+
+
+```php
+namespace App\Service;
+
+use BrosSquad\LaravelCrypto\Contracts\PublicKeySigning;
+
+class Service 
+{
+    private PublicKeySigning $signing;
+
+    public function __construct(PublicKeySigning $signing) 
+    {
+        $this->signing = $signing;
+    }
+
+    public function createSignature()
+    {
+        $data = 'Hello World';
+
+        $signature = $this->signing->sign($data); // Base64 Encoded encoded signature
+
+        $signature = $this->hmac->signRaw($data); // Raw bytes for signature
+        
+        // Rest of the code
+    }
+
+    public function verifySigunature(string $signature) 
+    {
+        $data = 'Hello World';
+        
+        if($this->hmac->verify($data, $signature)) {
+            // Signature is valid
+        } else {
+            // Signature is invalid
+        }
+    }
+}
+
+```
+
+## Advanced
+
+###  SHA256
+
+#### Using Hashing Facade
+
+#### Using Dependency Injection
+
+###  SHA512
+
+#### Using Hashing Facade
+
+#### Using Dependency Injection
