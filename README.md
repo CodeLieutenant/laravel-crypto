@@ -333,7 +333,7 @@ class Service
 
 Public key signing uses state of the art in public key cryptography -> EdDSA or Ed25519 Algorithms developed by famous crytographer Daniel Bernstein. It is based on Edwards Curve, and it is much faster then RSA (many even more serure). Public and privete keys are short, this allows the algorithm to be much faster. When ever you can use EdDSA algorithm for public key signatures
 
-**Before you start using EdDSA, generate private and public keys with artisan console command ```$ php artisan crypto:keys ``` **
+**Before you start using EdDSA, generate private and public keys with artisan console command ```$ php artisan crypto:keys ```**
 
 
 ### Using Facade
