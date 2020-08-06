@@ -33,6 +33,22 @@ class EncryptionTest extends TestCase
         self::assertTrue(SodiumEncryptor::supported(random_bytes(16), SodiumEncryptor::AES128CBC));
     }
 
+
+    public function test_supported_algorithms_with_crypt_facade(): void
+    {
+        Config::set('app.cipher', SodiumEncryptor::XChaCha20Poly1305);
+        $key = Config::get('app.key');
+        self::assertTrue(Crypt::supported($key, SodiumEncryptor::AES256CBC));
+        if (sodium_crypto_aead_aes256gcm_is_available()) {
+            self::assertTrue(Crypt::supported($key, SodiumEncryptor::AES256GCM));
+        }
+        self::assertTrue(Crypt::supported($key, SodiumEncryptor::XChaCha20Poly1305));
+        self::assertFalse(Crypt::supported($key, SodiumEncryptor::AES128CBC));
+        self::assertTrue(Crypt::supported(random_bytes(16), SodiumEncryptor::AES128CBC));
+    }
+
+
+
     public function test_get_key_with_sodium(): void
     {
         $configKey = base64_decode(Str::after(Config::get('app.key'), 'base64:'));
