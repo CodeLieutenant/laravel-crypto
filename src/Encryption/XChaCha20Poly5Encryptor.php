@@ -42,5 +42,4 @@ class XChaCha20Poly5Encryptor extends SodiumEncryptor
     {
         return sodium_crypto_aead_xchacha20poly1305_ietf_keygen();
     }
-
 }

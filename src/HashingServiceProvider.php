@@ -75,7 +75,7 @@ class HashingServiceProvider extends ServiceProvider
                     case 'AES-256-CBC':
                         return new Encrypter($key, $cipher);
                     case 'XChaCha20Poly1305':
-                        return new XChaCha20Poly5Encryptor($cipher);
+                        return new XChaCha20Poly5Encryptor($key);
                     case 'AES-256-GCM':
                         return new AesGcm256Encryptor($key);
                     default:
@@ -107,8 +107,6 @@ class HashingServiceProvider extends ServiceProvider
                 return new Hmac512($this->parseKey($config));
             }
         );
-
-
     }
 
     protected function addHashing(): void

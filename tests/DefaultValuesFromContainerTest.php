@@ -6,6 +6,7 @@ namespace BrosSquad\LaravelCrypto\Tests;
 
 use BrosSquad\LaravelCrypto\Contracts\PublicKeySigning;
 use BrosSquad\LaravelCrypto\Signing\EdDSA\EdDSAManager;
+use Illuminate\Contracts\Encryption\Encrypter;
 use BrosSquad\LaravelCrypto\Signing\Hmac\Hmac256;
 use BrosSquad\LaravelCrypto\Signing\Hmac\Hmac512;
 use BrosSquad\LaravelCrypto\Common\Sha256;
@@ -13,6 +14,9 @@ use BrosSquad\LaravelCrypto\Common\Sha512;
 use BrosSquad\LaravelCrypto\Common\Blake2b;
 use BrosSquad\LaravelCrypto\Contracts\Signing;
 use BrosSquad\LaravelCrypto\Contracts\Hashing;
+use BrosSquad\LaravelCrypto\Encryption\AesGcm256Encryptor;
+use BrosSquad\LaravelCrypto\Encryption\XChaCha20Poly5Encryptor;
+use Illuminate\Encryption\Encrypter as LaravelDefaultEncrypter;
 use Illuminate\Support\Facades\Config;
 
 class DefaultValuesFromContainerTest extends TestCase
@@ -98,5 +102,38 @@ class DefaultValuesFromContainerTest extends TestCase
 
         unlink(Config::get('crypto.public_key'));
         unlink(Config::get('crypto.private_key'));
+    }
+
+    /**
+     * @test
+     */
+    public function should_get_default_xchacha20_algorithm(): void
+    {
+        Config::set('app.cipher', 'XChaCha20Poly1305');
+        $encrypter = $this->app->make(Encrypter::class);
+        self::assertNotNull($encrypter);
+        self::assertInstanceOf(XChaCha20Poly5Encryptor::class, $encrypter);
+    }
+
+    /**
+     * @test
+     */
+    public function should_get_default_aes256gcm_algorithm(): void
+    {
+        Config::set('app.cipher', 'AES-256-GCM');
+        $encrypter = $this->app->make(Encrypter::class);
+        self::assertNotNull($encrypter);
+        self::assertInstanceOf(AesGcm256Encryptor::class, $encrypter);
+    }
+
+    /**
+     * @test
+     */
+    public function should_get_default_aes256cbc_algorithm(): void
+    {
+        Config::set('app.cipher', 'AES-256-CBC');
+        $encrypter = $this->app->make(Encrypter::class);
+        self::assertNotNull($encrypter);
+        self::assertInstanceOf(LaravelDefaultEncrypter::class, $encrypter);
     }
 }
