@@ -27,6 +27,7 @@
     - [Using Facade](#using-facade-2)
     - [Using Dependency Injection](#using-dependency-injection-2)
   - [Advanced](#advanced)
+    - [Encryption](#encryption)
     - [SHA256](#sha256)
       - [Using Hashing Facade](#using-hashing-facade)
       - [Using Dependency Injection](#using-dependency-injection-3)
@@ -414,6 +415,35 @@ class Service
 ```
 
 ## Advanced
+
+### Encryption
+
+LaravelCrypto library provides **2 additional encryption algorithms**. It uses default laravel Encrypter interface and key so it does not require any code change, exept in config file 
+
+**Use this only in new applications.** 
+
+> Use in older applications
+
+**If you have application which uses laravel default encryption and you have stored encrypted data in database, you will need to reencrypt the data with new algorithm!**
+
+```php
+// app.cofig
+return [
+    // ...
+    
+    // XChaCha20Poly1305 Algorithm
+    'cipher' => 'XChaCha20Poly1305',
+    
+    // AES 256 GCM
+    //!! Make sure you have hardware acceleration for
+    //  AES-256-GCM, it wont work if your sever does not support it !!
+    'cipher' => 'AES-256-GCM',
+    
+
+    // .. 
+]
+
+```
 
 ###  SHA256
 

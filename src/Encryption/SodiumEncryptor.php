@@ -56,7 +56,7 @@ abstract class SodiumEncryptor implements Encrypter, KeyGeneration, StringEncryp
         bool $unserialize,
         int $nonceLength,
         callable $encryptionFunction
-    ): string {
+    ) {
         $decoded = Base64::constantUrlDecodeNoPadding($payload);
         $nonce = mb_substr($decoded, 0, $nonceLength, '8bit');
         $cipherText = mb_substr($decoded, $nonceLength, null, '8bit');

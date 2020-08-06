@@ -18,9 +18,6 @@ class TestCase extends OrchestraTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        Config::set('app.providers', array_filter(Config::get('app.providers'), static function ($el) {
-            return $el !== 'Illuminate\Encryption\EncryptionServiceProvider';
-        }));
     }
 
     protected function getPackageProviders($app): array
