@@ -5,6 +5,7 @@ namespace BrosSquad\LaravelCrypto\Tests;
 
 
 use BrosSquad\LaravelCrypto\Contracts\PublicKeySigning;
+use BrosSquad\LaravelCrypto\Encryption\SodiumEncryptor;
 use BrosSquad\LaravelCrypto\Signing\EdDSA\EdDSAManager;
 use Illuminate\Contracts\Encryption\Encrypter;
 use BrosSquad\LaravelCrypto\Signing\Hmac\Hmac256;
@@ -109,7 +110,7 @@ class DefaultValuesFromContainerTest extends TestCase
      */
     public function should_get_default_xchacha20_algorithm(): void
     {
-        Config::set('app.cipher', 'XChaCha20Poly1305');
+        Config::set('app.cipher', SodiumEncryptor::XChaCha20Poly1305);
         $encrypter = $this->app->make(Encrypter::class);
         self::assertNotNull($encrypter);
         self::assertInstanceOf(XChaCha20Poly5Encryptor::class, $encrypter);
@@ -120,7 +121,7 @@ class DefaultValuesFromContainerTest extends TestCase
      */
     public function should_get_default_aes256gcm_algorithm(): void
     {
-        Config::set('app.cipher', 'AES-256-GCM');
+        Config::set('app.cipher', SodiumEncryptor::AES256GCM);
         $encrypter = $this->app->make(Encrypter::class);
         self::assertNotNull($encrypter);
         self::assertInstanceOf(AesGcm256Encryptor::class, $encrypter);

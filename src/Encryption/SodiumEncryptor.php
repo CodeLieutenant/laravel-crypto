@@ -11,14 +11,44 @@ use BrosSquad\LaravelCrypto\Contracts\KeyGeneration;
 use Illuminate\Contracts\Encryption\EncryptException;
 use Illuminate\Contracts\Encryption\DecryptException;
 use BrosSquad\LaravelCrypto\Contracts\StringEncryptor;
+use Illuminate\Encryption\Encrypter as LaravelEncrypter;
+use Illuminate\Support\Str;
 
 abstract class SodiumEncryptor implements Encrypter, KeyGeneration, StringEncryptor
 {
     protected $key;
 
+    public const AES128CBC = 'AES-128-CBC';
+    public const AES256CBC = 'AES-256-CBC';
+    public const AES256GCM = 'AES-256-GCM';
+    public const XChaCha20Poly1305 = 'XChaCha20Poly1305';
+
     public function __construct(string $key)
     {
         $this->key = $key;
+    }
+
+    public function getKey(): string
+    {
+        return $this->key;
+    }
+
+    public static function supported(string $key, string $cipher): bool
+    {
+        if(Str::startsWith($key, 'base64:')) {
+            $key = Str::after($key, 'base64:');
+            $key = base64_decode($key);
+        }
+
+        if ($cipher === self::AES256GCM) {
+            return mb_strlen($key, '8bit') === SODIUM_CRYPTO_AEAD_AES256GCM_KEYBYTES && sodium_crypto_aead_aes256gcm_is_available();
+        }
+
+        if($cipher === self::XChaCha20Poly1305) {
+            return mb_strlen($key, '8bit') === SODIUM_CRYPTO_AEAD_XCHACHA20POLY1305_IETF_KEYBYTES;
+        }
+
+        return LaravelEncrypter::supported($key, $cipher);
     }
 
     public function encryptString(string $value): string

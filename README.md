@@ -427,18 +427,23 @@ LaravelCrypto library provides **2 additional encryption algorithms**. It uses d
 **If you have application which uses laravel default encryption and you have stored encrypted data in database, you will need to reencrypt the data with new algorithm!**
 
 ```php
+
+use BrosSquad\LaravelCrypto\Encryption\SodiumEncryptor;
 // app.cofig
 return [
     // ...
     
     // XChaCha20Poly1305 Algorithm
-    'cipher' => 'XChaCha20Poly1305',
-    
+    'cipher' => 'XChaCha20Poly1305', 
+  
     // AES 256 GCM
     //!! Make sure you have hardware acceleration for
     //  AES-256-GCM, it wont work if your sever does not support it !!
     'cipher' => 'AES-256-GCM',
     
+    // OR - By using constants
+    'cipher' => SodiumEncryptor::AES256GCM, 
+    'cipher' => SodiumEncryptor::XChaCha20Poly1305,
 
     // .. 
 ]

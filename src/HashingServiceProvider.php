@@ -6,6 +6,7 @@ namespace BrosSquad\LaravelCrypto;
 
 use BrosSquad\LaravelCrypto\Console\GenerateCryptoKeys;
 use BrosSquad\LaravelCrypto\Contracts\PublicKeySigning;
+use BrosSquad\LaravelCrypto\Encryption\SodiumEncryptor;
 use BrosSquad\LaravelCrypto\Signing\EdDSA\EdDSAManager;
 use RuntimeException;
 use Illuminate\Support\Str;
@@ -71,12 +72,12 @@ class HashingServiceProvider extends ServiceProvider
                 $key = $this->parseKey($config);
                 $cipher = $config['cipher'];
                 switch ($cipher) {
-                    case 'AES-128-CBC':
-                    case 'AES-256-CBC':
+                    case SodiumEncryptor::AES128CBC:
+                    case SodiumEncryptor::AES256CBC:
                         return new Encrypter($key, $cipher);
-                    case 'XChaCha20Poly1305':
+                    case SodiumEncryptor::XChaCha20Poly1305:
                         return new XChaCha20Poly5Encryptor($key);
-                    case 'AES-256-GCM':
+                    case SodiumEncryptor::AES256GCM:
                         return new AesGcm256Encryptor($key);
                     default:
                         throw new RuntimeException(
