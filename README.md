@@ -13,25 +13,26 @@
     - [Installing](#installing)
     - [Publishing config file](#publishing-config-file)
     - [Generating EdDSA private and public key](#generating-eddsa-private-and-public-key)
+  - [Utilities](#utilities)
     - [Encoding](#encoding)
       - [Base64 Encoding](#base64-encoding)
     - [Generating random data](#generating-random-data)
-    - [Hashing](#hashing)
+  - [General Hashing](#general-hashing)
       - [Using facade](#using-facade)
-      - [Using dependency injection (prefered)](#using-dependency-injection-prefered)
+      - [Using dependency injection](#using-dependency-injection)
   - [Shared Key signatures](#shared-key-signatures)
     - [Using Facade](#using-facade-1)
-    - [Using Dependency Injection](#using-dependency-injection)
+    - [Using Dependency Injection](#using-dependency-injection-1)
   - [Public Key signatures](#public-key-signatures)
     - [Using Facade](#using-facade-2)
-    - [Using Dependency Injection](#using-dependency-injection-1)
+    - [Using Dependency Injection](#using-dependency-injection-2)
   - [Advanced](#advanced)
     - [SHA256](#sha256)
       - [Using Hashing Facade](#using-hashing-facade)
-      - [Using Dependency Injection](#using-dependency-injection-2)
+      - [Using Dependency Injection](#using-dependency-injection-3)
     - [SHA512](#sha512)
       - [Using Hashing Facade](#using-hashing-facade-1)
-      - [Using Dependency Injection](#using-dependency-injection-3)
+      - [Using Dependency Injection](#using-dependency-injection-4)
 
 ## Introduction
 
@@ -65,6 +66,8 @@ Artisan command will generate private and public key inside ```PUBLIC_CRYPTO_PRI
 ```shell script
 $ php artisan crypto:keys
 ```
+
+## Utilities
 
 ### Encoding
 
@@ -139,7 +142,7 @@ $randomBytes = Random::bytes(32); // Generates buffer filled with crypto secure 
 $randomImt = Random::int($min, $max);
 ```
 
-### Hashing
+## General Hashing
 
 Laravel crypto library uses the latest and best hashing algorithms. (Blake2b)
 
@@ -185,7 +188,7 @@ class Service
 }
 ```
 
-#### Using dependency injection (prefered)
+#### Using dependency injection
 
 > When you use dependency injection, it will always use best algorithm possible. It removes room for errors;
 
