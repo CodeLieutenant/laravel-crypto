@@ -28,6 +28,9 @@
     - [Using Dependency Injection](#using-dependency-injection-2)
   - [Advanced](#advanced)
     - [Encryption](#encryption)
+      - [Benchmakrs](#benchmakrs)
+        - [Encryption](#encryption-1)
+        - [Decryption](#decryption)
     - [SHA256](#sha256)
       - [Using Hashing Facade](#using-hashing-facade)
       - [Using Dependency Injection](#using-dependency-injection-3)
@@ -427,28 +430,125 @@ LaravelCrypto library provides **2 additional encryption algorithms**. It uses d
 **If you have application which uses laravel default encryption and you have stored encrypted data in database, you will need to reencrypt the data with new algorithm!**
 
 ```php
-
-use BrosSquad\LaravelCrypto\Encryption\SodiumEncryptor;
 // app.cofig
 return [
     // ...
     
     // XChaCha20Poly1305 Algorithm
-    'cipher' => 'XChaCha20Poly1305', 
-  
+    'cipher' => 'XChaCha20Poly1305',
+    
     // AES 256 GCM
     //!! Make sure you have hardware acceleration for
     //  AES-256-GCM, it wont work if your sever does not support it !!
     'cipher' => 'AES-256-GCM',
-    
-    // OR - By using constants
-    'cipher' => SodiumEncryptor::AES256GCM, 
-    'cipher' => SodiumEncryptor::XChaCha20Poly1305,
 
     // .. 
 ]
 
 ```
+
+#### Benchmakrs
+
+
+##### Encryption
+
+<table>
+<thead>
+    <tr>
+        <th>Subject</th>
+        <th>Description</th>
+        <th>Revs</th>
+        <th>Iterations</th>   
+        <th>Memory Peak</th>   
+        <th>Best Time</th>   
+        <th>Average Time</th>   
+        <th>Worst Time</th>   
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td>benchLaravelEncryption</td>
+        <td>Default Laravel Encrypter (AES-256-CBC)</td>
+        <td>100</td>
+        <td>10</td>   
+        <td>2,259,976b</td>   
+        <td>952.012μs</td>   
+        <td>957.365μs</td>   
+        <td>974.771μs</td>   
+    </tr>
+    <tr>
+        <td>benchXChaCha20Poly1305</td>
+        <td>XChaCha20Poly1305 Encryption</td>
+        <td>100</td>
+        <td>10</td>   
+        <td>2,458,008b</td>   
+        <td>265.780μs</td>   
+        <td>267.313μs</td>   
+        <td>270.197μs</td>   
+    </tr>
+    <tr>
+        <td>benchAes256gcm</td>
+        <td>AES 256 GCM Encryption</td>
+        <td>100</td>
+        <td>10</td>   
+        <td>2,457,984b</td>   
+        <td>252.650μs</td>   
+        <td>254.105μs</td>   
+        <td>256.572μs</td>   
+    </tr>
+</tbody>
+</table>
+
+
+
+##### Decryption
+
+<table>
+<thead>
+    <tr>
+        <th>Subject</th>
+        <th>Description</th>
+        <th>Revs</th>
+        <th>Iterations</th>   
+        <th>Memory Peak</th>   
+        <th>Best Time</th>   
+        <th>Average Time</th>   
+        <th>Worst Time</th>   
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td>benchLaravelDecryption</td>
+        <td>Default Laravel Decrypter (AES-256-CBC)</td>
+        <td>100</td>
+        <td>10</td>   
+        <td>2,508,208b</td>   
+        <td>1,661.467μs</td>   
+        <td>1,666.177μs</td>   
+        <td>1,677.097μs</td>   
+    </tr>
+    <tr>
+        <td>benchXChaCha20Poly1305Decryption</td>
+        <td>XChaCha20Poly1305 Decryption</td>
+        <td>100</td>
+        <td>10</td>   
+        <td>2,529,600b</td>   
+        <td>455.560μs</td>   
+        <td>458.140μs</td>   
+        <td>465.492μs</td>   
+    </tr>
+    <tr>
+        <td>benchAes256gcmDecryption</td>
+        <td>AES 256 GCM Decryption</td>
+        <td>100</td>
+        <td>10</td>   
+        <td>2,529,576b</td>   
+        <td>447.280μs</td>   
+        <td>449.552μs</td>   
+        <td>453.438μs</td>   
+    </tr>
+</tbody>
+</table>
 
 ###  SHA256
 
