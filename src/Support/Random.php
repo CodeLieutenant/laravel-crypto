@@ -1,12 +1,12 @@
 <?php
 
 
-namespace BrosSquad\LaravelCrypto\Facades;
+namespace BrosSquad\LaravelCrypto\Support;
 
 use Exception;
 use Illuminate\Support\Facades\Facade;
 
-class Random extends Facade
+class Random
 {
     public static function bytes(int $length): ?string
     {

@@ -5,7 +5,7 @@ namespace BrosSquad\LaravelCrypto\Signing\EdDSA;
 
 
 use BrosSquad\LaravelCrypto\Contracts\PublicKeySigning;
-use BrosSquad\LaravelCrypto\Facades\Base64;
+use BrosSquad\LaravelCrypto\Support\Base64;
 use RuntimeException;
 use SodiumException;
 

@@ -5,7 +5,7 @@ namespace BrosSquad\LaravelCrypto\Common;
 
 
 use SodiumException;
-use BrosSquad\LaravelCrypto\Facades\Base64;
+use BrosSquad\LaravelCrypto\Support\Base64;
 
 /**
  * Class Blake2b

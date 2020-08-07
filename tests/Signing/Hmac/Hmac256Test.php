@@ -8,7 +8,7 @@ namespace BrosSquad\LaravelCrypto\Tests\Signing\Hmac;
 use BrosSquad\LaravelCrypto\Signing\Hmac\Hmac256;
 use Illuminate\Support\Str;
 use BrosSquad\LaravelCrypto\Tests\TestCase;
-use BrosSquad\LaravelCrypto\Facades\Base64;
+use BrosSquad\LaravelCrypto\Support\Base64;
 
 class Hmac256Test extends TestCase
 {

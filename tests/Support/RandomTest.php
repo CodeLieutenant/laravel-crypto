@@ -1,11 +1,11 @@
 <?php
 
 
-namespace BrosSquad\LaravelCrypto\Tests\Facades;
+namespace BrosSquad\LaravelCrypto\Tests\Support;
 
 
 use BrosSquad\LaravelCrypto\Tests\TestCase;
-use BrosSquad\LaravelCrypto\Facades\Random;
+use BrosSquad\LaravelCrypto\Support\Random;
 
 class RandomTest extends TestCase
 {

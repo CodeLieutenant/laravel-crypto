@@ -5,7 +5,7 @@ namespace BrosSquad\LaravelCrypto\Encryption;
 
 
 use Exception;
-use BrosSquad\LaravelCrypto\Facades\Base64;
+use BrosSquad\LaravelCrypto\Support\Base64;
 use Illuminate\Contracts\Encryption\Encrypter;
 use BrosSquad\LaravelCrypto\Contracts\KeyGeneration;
 use Illuminate\Contracts\Encryption\EncryptException;

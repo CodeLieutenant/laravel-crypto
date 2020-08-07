@@ -1,11 +1,11 @@
 <?php
 
 
-namespace BrosSquad\LaravelCrypto\Tests\Facades;
+namespace BrosSquad\LaravelCrypto\Tests\Support;
 
 
 use BrosSquad\LaravelCrypto\Tests\TestCase;
-use BrosSquad\LaravelCrypto\Facades\Base64;
+use BrosSquad\LaravelCrypto\Support\Base64;
 
 class Base64Test extends TestCase
 {

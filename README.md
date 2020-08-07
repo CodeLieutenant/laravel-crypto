@@ -78,7 +78,7 @@ $ php artisan crypto:keys
 #### Base64 Encoding
 
 ```php
-use BrosSquad\LaravelCrypto\Facades\Base64;
+use BrosSquad\LaravelCrypto\Support\Base64;
 
 $binaryData = random_bytes(32);
 
@@ -134,7 +134,7 @@ $base64Length = Base64::encodedLength($bufferLength, $hasPadding);
 ### Generating random data
 
 ```php
-use BrosSquad\LaravelCrypto\Facades\Random;
+use BrosSquad\LaravelCrypto\Support\Random;
 
 // Generate random string
 $randomString = Random::string(60); // Generates random string base64 url encoded with no padding 

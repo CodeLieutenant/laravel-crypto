@@ -2,13 +2,13 @@
 
 declare(strict_types = 1);
 
-namespace BrosSquad\LaravelCrypto\Facades;
+namespace BrosSquad\LaravelCrypto\Support;
 
 
 use SodiumException;
 use Illuminate\Support\Facades\Facade;
 
-class Base64 extends Facade
+class Base64
 {
     public static function encode(string $binary): string
     {
