@@ -75,7 +75,7 @@ abstract class SodiumEncryptor implements Encrypter, KeyGeneration, StringEncryp
             }
 
             $encrypted = $encryptionFunction($message, $nonce, $nonce, $this->key);
-            return Base64::constantUrlEncodeNoPadding($nonce.$encrypted);
+            return Base64::urlEncodeNoPadding($nonce.$encrypted);
         } catch (Exception $e) {
             throw new EncryptException('Value cannot be encrypted');
         }
@@ -87,7 +87,7 @@ abstract class SodiumEncryptor implements Encrypter, KeyGeneration, StringEncryp
         int $nonceLength,
         callable $encryptionFunction
     ) {
-        $decoded = Base64::constantUrlDecodeNoPadding($payload);
+        $decoded = Base64::urlDecode($payload);
         $nonce = mb_substr($decoded, 0, $nonceLength, '8bit');
         $cipherText = mb_substr($decoded, $nonceLength, null, '8bit');
         try {

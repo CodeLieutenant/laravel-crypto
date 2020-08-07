@@ -16,7 +16,8 @@
     "ext-json": "*"
   },
   "require-dev": {
-    "orchestra/testbench": "^5.3"
+    "orchestra/testbench": "^5.3",
+    "phpbench/phpbench": "@dev"
   },
   "autoload": {
     "psr-4": {
