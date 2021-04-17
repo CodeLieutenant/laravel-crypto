@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace BrosSquad\LaravelCrypto\Support;
 
-
 use SodiumException;
 use Illuminate\Support\Facades\Facade;
 
