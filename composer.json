@@ -10,13 +10,22 @@
     }
   ],
   "minimum-stability": "stable",
+  "scripts": {
+    "test": "./vendor/bin/phpunit"
+  },
   "require": {
     "php": ">=7.4",
     "ext-sodium": "*",
-    "ext-json": "*"
+    "ext-json": "*",
+    "illuminate/support": "^8",
+    "illuminate/contracts": "^8",
+    "illuminate/config": "^8",
+    "illuminate/hashing": "^8",
+    "illuminate/encryption": "^8",
+    "illuminate/collections": "^8"
   },
   "require-dev": {
-    "orchestra/testbench": "^5.3",
+    "orchestra/testbench": "^6",
     "phpbench/phpbench": "@dev"
   },
   "autoload": {
@@ -32,13 +41,11 @@
   "extra": {
     "laravel": {
       "providers": [
-        "BrosSquad\\LaravelCrypto\\HashingServiceProvider"
+        "ServiceProvider"
       ],
       "aliases": {
         "Hashing": "BrosSquad\\LaravelCrypto\\Facades\\Hashing",
-        "Base64": "BrosSquad\\LaravelCrypto\\Facades\\Base64",
-        "Hmac": "BrosSquad\\LaravelCrypto\\Facades\\Hmac",
-        "Random": "BrosSquad\\LaravelCrypto\\Facades\\Random"
+        "Signing": "BrosSquad\\LaravelCrypto\\Facades\\Signing"
       }
     }
   }

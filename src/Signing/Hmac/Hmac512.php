@@ -7,7 +7,7 @@ namespace BrosSquad\LaravelCrypto\Signing\Hmac;
 /**
  * Class Hmac512
  *
- * @package BrosSquad\LaravelCrypto\Hmac
+ * @package BrosSquad\LaravelCrypto\Signing
  */
 class Hmac512 extends Hmac
 {

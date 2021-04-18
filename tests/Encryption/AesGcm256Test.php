@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Tests\Encryption;
 
@@ -11,12 +12,13 @@ use Illuminate\Support\Str;
 use BrosSquad\LaravelCrypto\Tests\TestCase;
 use BrosSquad\LaravelCrypto\Support\Base64;
 use BrosSquad\LaravelCrypto\Encryption\AesGcm256Encryptor;
+use RuntimeException;
 
 class AesGcm256Test extends TestCase
 {
-    protected $encrypter;
+    protected AesGcm256Encryptor $encrypter;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
         $key = config('app.key');
@@ -35,7 +37,7 @@ class AesGcm256Test extends TestCase
 
     public function test_key_length(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectDeprecationMessage('AES-256-GCM key has to be 32 bytes in length');
         new AesGcm256Encryptor(str_repeat('a', 16));
     }

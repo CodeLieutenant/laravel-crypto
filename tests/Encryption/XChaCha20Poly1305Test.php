@@ -1,30 +1,24 @@
 <?php
 
+declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Tests\Encryption;
-
 
 use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Str;
 use BrosSquad\LaravelCrypto\Tests\TestCase;
-use BrosSquad\LaravelCrypto\Support\Base64;
 use BrosSquad\LaravelCrypto\Encryption\XChaCha20Poly5Encryptor;
 use RuntimeException;
 
 class XChaCha20Poly1305Test extends TestCase
 {
-    protected $encrypter;
+    protected XChaCha20Poly5Encryptor $encrypter;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
-        $key = config('app.key');
-        if (Str::startsWith($key, 'base64:')) {
-            $key = Base64::decode(Str::after($key, 'base64:'));
-        }
-        $this->encrypter = new XChaCha20Poly5Encryptor($key);
+        $this->encrypter = new XChaCha20Poly5Encryptor($this->key);
     }
 
     public function testEncryption(): void

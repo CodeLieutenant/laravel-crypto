@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Encryption;
-
 
 use RuntimeException;
 
@@ -14,7 +14,12 @@ class XChaCha20Poly5Encryptor extends SodiumEncryptor
 
         $length = mb_strlen($key, '8bit');
         if ($length !== SODIUM_CRYPTO_AEAD_XCHACHA20POLY1305_IETF_KEYBYTES) {
-            throw new RuntimeException('XChaCha20-Poly1305 key has to be 32 bytes in length');
+            throw new RuntimeException(
+                sprintf(
+                    'XChaCha20-Poly1305 key has to be %d bytes in length',
+                    SODIUM_CRYPTO_AEAD_XCHACHA20POLY1305_IETF_KEYBYTES
+                )
+            );
         }
     }
 

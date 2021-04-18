@@ -1,4 +1,5 @@
 <?php
+
 namespace BrosSquad\LaravelCrypto\Benchmarks\Encryption;
 
 use BrosSquad\LaravelCrypto\Encryption\AesGcm256Encryptor;
@@ -7,25 +8,10 @@ use Illuminate\Encryption\Encrypter;
 
 class EncryptionBench
 {
-    /**
-     * @var Encrypter
-     */
-    private $laravelEncrypter;
-
-    /**
-     * @var XChaCha20Poly5Encryptor
-     */
-    private $xchacha;
-
-    /**
-     * @var AesGcm256Encryptor
-     */
-    private $aes256gcm;
-
-    /**
-     * @var string
-     */
-    private $data;
+    private Encrypter $laravelEncrypter;
+    private XChaCha20Poly5Encryptor $xchacha;
+    private AesGcm256Encryptor $aes256gcm;
+    private string $data;
 
     public function __construct()
     {

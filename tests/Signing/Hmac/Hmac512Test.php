@@ -1,31 +1,20 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Tests\Signing\Hmac;
 
-
-use BrosSquad\LaravelCrypto\Signing\Hmac\Hmac256;
-use Illuminate\Support\Str;
+use BrosSquad\LaravelCrypto\Signing\Hmac\Hmac512;
 use BrosSquad\LaravelCrypto\Tests\TestCase;
-use BrosSquad\LaravelCrypto\Support\Base64;
 
 class Hmac512Test extends TestCase
 {
-    /** @var Hmac256 */
-    protected $hmac512;
-    protected $key;
+    protected Hmac512 $hmac512;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
-        $this->hmac512 = $this->app->get('hmac512');
-        $key = config('app.key');
-        if (Str::startsWith($key, 'base64:')) {
-            $key = Str::substr($key, 7);
-        }
-
-        $this->key = Base64::decode($key);
+        $this->hmac512 = new Hmac512($this->key);
     }
 
     public function test_sign(): void

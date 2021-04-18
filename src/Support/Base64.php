@@ -1,11 +1,10 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Support;
 
 use SodiumException;
-use Illuminate\Support\Facades\Facade;
 
 class Base64
 {
@@ -79,6 +78,7 @@ class Base64
             return null;
         }
     }
+
     public static function constantUrlDecodeNoPadding(string $binary): ?string
     {
         try {
@@ -108,7 +108,7 @@ class Base64
         return ((3 * strlen($base64)) >> 2) - $count;
     }
 
-    public static function encodedLength(int $bufferLength, bool $hasPadding = true)
+    public static function encodedLength(int $bufferLength, bool $hasPadding = true): int
     {
         return $hasPadding ? (intdiv(($bufferLength + 2), 3)) << 2 : intdiv((($bufferLength << 2) | 2), 3);
     }

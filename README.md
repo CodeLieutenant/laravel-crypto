@@ -263,7 +263,7 @@ Read more on [HMAC](https://en.wikipedia.org/wiki/HMAC)
 
 namespace App\Service;
 
-use BrosSquad\LaravelCrypto\Facades\Hmac;
+use BrosSquad\LaravelCrypto\Facades\Signing;
 
 class Service 
 {
@@ -271,9 +271,9 @@ class Service
     {
         $data = 'Hello World';
 
-        $signature = Hmac::sign($data); // Base64 Encoded encoded signature
+        $signature = Signing::sign($data); // Base64 Encoded encoded signature
 
-        $signature = Hmac::signRaw($data); // Raw bytes for signature
+        $signature = Signing::signRaw($data); // Raw bytes for signature
         
         // Rest of the code
     }
@@ -282,7 +282,7 @@ class Service
     {
         $data = 'Hello World';
         
-        if(Hmac::verify($data, $signature)) {
+        if(Signing::verify($data, $signature)) {
             // Signature is valid
         } else {
             // Signature is invalid

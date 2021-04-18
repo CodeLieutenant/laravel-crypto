@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Common;
-
+namespace BrosSquad\LaravelCrypto\Hashing;
 
 use SodiumException;
 use BrosSquad\LaravelCrypto\Support\Base64;
@@ -14,6 +14,7 @@ use BrosSquad\LaravelCrypto\Support\Base64;
  */
 class Blake2b extends Hash
 {
+    protected string $algo = 'blake2b';
 
     /**
      * @param  string  $data

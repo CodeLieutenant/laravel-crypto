@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Common;
+namespace BrosSquad\LaravelCrypto\Hashing;
 
 /**
  * Class Sha256
@@ -11,7 +11,7 @@ namespace BrosSquad\LaravelCrypto\Common;
  */
 class Sha256 extends Hash
 {
-    protected $algo = 'sha512/256';
+    protected string $algo = 'sha512/256';
 
     /**
      * @param  string  $data

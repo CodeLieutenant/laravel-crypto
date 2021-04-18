@@ -1,14 +1,14 @@
 <?php
 
+declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Facades;
 
-
+use BrosSquad\LaravelCrypto\Signing\SigningManager;
 use Illuminate\Support\Facades\Facade;
-use BrosSquad\LaravelCrypto\HmacManager;
 
 /**
- * Class Hmac
+ * Class Signing
  *
  * @package BrosSquad\LaravelCrypto\Facades
  * @method static string sign(string $data)
@@ -20,11 +20,14 @@ use BrosSquad\LaravelCrypto\HmacManager;
  * @method static boolean verify(string $message, string $hmac)
  * @method static boolean hmac256Verify(string $message, string $hmac)
  * @method static boolean hmac512Verify(string $message, string $hmac)
+ * @method static string eddsaSign(string $data)
+ * @method static string eddsaSignRaw(string $data)
+ * @method static bool eddsaVerify(string $message, string $hmac)
  */
-class Hmac extends Facade
+class Signing extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return HmacManager::class;
+        return SigningManager::class;
     }
 }

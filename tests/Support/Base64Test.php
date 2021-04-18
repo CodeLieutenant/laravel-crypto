@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Tests\Support;
-
 
 use BrosSquad\LaravelCrypto\Tests\TestCase;
 use BrosSquad\LaravelCrypto\Support\Base64;

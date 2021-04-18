@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace BrosSquad\LaravelCrypto\Tests\Common;
 
 use BrosSquad\LaravelCrypto\Tests\TestCase;
-use BrosSquad\LaravelCrypto\Common\Blake2b;
+use BrosSquad\LaravelCrypto\Hashing\Blake2b;
 
 class Blake2bTest extends TestCase
 {
-    protected $blake2b;
+    protected Blake2b $blake2b;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
         $this->blake2b = new Blake2b();

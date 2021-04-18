@@ -1,16 +1,17 @@
 <?php
 
+declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Facades;
 
-
+use BrosSquad\LaravelCrypto\Hashing\HashingManager;
 use Illuminate\Support\Facades\Facade;
-use BrosSquad\LaravelCrypto\HashingManager;
 
 /**
  * Class Hashing
  *
  * @package BrosSquad\LaravelCrypto\Facades
+ *
  * @method static string|null hash(string $data)
  * @method static string|null hashRaw(string $data)
  * @method static boolean equals(string $hash1, string $hash2)

@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Signing\Hmac;
 
@@ -9,7 +10,7 @@ use BrosSquad\LaravelCrypto\Support\Base64;
 /**
  * Class Hmac256
  *
- * @package BrosSquad\LaravelCrypto\Hmac
+ * @package BrosSquad\LaravelCrypto\Signing
  */
 class Hmac256 extends Hmac
 {

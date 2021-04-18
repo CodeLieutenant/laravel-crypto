@@ -1,37 +1,24 @@
 <?php
 
+declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Signing\EdDSA;
 
-
 use BrosSquad\LaravelCrypto\Contracts\PublicKeySigning;
+use BrosSquad\LaravelCrypto\PublicKeyCrypto\PublicKeyCrypto;
 use BrosSquad\LaravelCrypto\Support\Base64;
 use RuntimeException;
 use SodiumException;
 
-class EdDSAManager implements PublicKeySigning
+class EdDSA extends PublicKeyCrypto implements PublicKeySigning
 {
-    /**
-     * @var string
-     */
-    private $privateKey;
-    /**
-     * @var string
-     */
-    private $publicKey;
-
-    public function __construct(string $privateKey, string $publicKey)
-    {
-        $this->privateKey = $privateKey;
-        $this->publicKey = $publicKey;
-    }
-
     public function sign(string $data): ?string
     {
         $signed = $this->signRaw($data);
         if ($signed === null) {
             return null;
         }
+
         return Base64::constantUrlEncodeNoPadding($signed);
     }
 
@@ -55,6 +42,11 @@ class EdDSAManager implements PublicKeySigning
                 // otherwise we treat it as binary
                 $decodedSignature = $hmac;
             }
+
+            if ($decodedSignature === null) {
+                return false;
+            }
+
             return sodium_crypto_sign_verify_detached($decodedSignature, $message, $this->publicKey);
         } catch (SodiumException $e) {
             return false;
@@ -62,13 +54,12 @@ class EdDSAManager implements PublicKeySigning
     }
 
     /**
-     * @param string $privateKeyPath
-     * @param string $publicKeyPath
+     * @param  string  $privateKeyPath
+     * @param  string  $publicKeyPath
      * @throws SodiumException
      */
     public static function generateKeys(string $privateKeyPath, string $publicKeyPath): void
     {
-
         $keyPair = sodium_crypto_sign_keypair();
         $privateKey = base64_encode(sodium_crypto_sign_secretkey($keyPair));
         $publicKey = base64_encode(sodium_crypto_sign_publickey($keyPair));
@@ -83,9 +74,19 @@ class EdDSAManager implements PublicKeySigning
         sodium_memzero($publicKey);
     }
 
-    public function __destruct()
+    public static function getPublicAndPrivateEdDSAKey(array $crypto): array
     {
-        sodium_memzero($this->privateKey);
-        sodium_memzero($this->publicKey);
+        if (!$crypto['private_key']) {
+            throw new RuntimeException('EdDSA Private key path is not set');
+        }
+
+        if (!$crypto['public_key']) {
+            throw new RuntimeException('EdDSA Public key path is not set');
+        }
+
+        return [
+            base64_decode(file_get_contents($crypto['private_key'])),
+            base64_decode(file_get_contents($crypto['public_key'])),
+        ];
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Common;
+namespace BrosSquad\LaravelCrypto\Hashing;
 
 
 use SodiumException;
@@ -15,6 +15,7 @@ use BrosSquad\LaravelCrypto\Contracts\Hashing;
  */
 abstract class Hash implements Hashing
 {
+    protected string $algo;
 
     /**
      * @param  string  $hash1
@@ -55,5 +56,10 @@ abstract class Hash implements Hashing
     public function verifyRaw(string $hash, string $data): bool
     {
         return $this->equals($hash, $this->hashRaw($data));
+    }
+
+    public function getAlgorithm(): string
+    {
+        return $this->algo;
     }
 }

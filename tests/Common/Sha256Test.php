@@ -4,15 +4,14 @@ declare(strict_types = 1);
 
 namespace BrosSquad\LaravelCrypto\Tests\Common;
 
-
-use BrosSquad\LaravelCrypto\Common\Sha256;
+use BrosSquad\LaravelCrypto\Hashing\Sha256;
 use BrosSquad\LaravelCrypto\Tests\TestCase;
 
 class Sha256Test extends TestCase
 {
-    protected $sha256;
+    protected Sha256 $sha256;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
         $this->sha256 = new Sha256();

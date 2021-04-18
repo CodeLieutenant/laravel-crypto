@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Encryption;
-
 
 use Exception;
 use BrosSquad\LaravelCrypto\Support\Base64;
@@ -10,13 +10,14 @@ use Illuminate\Contracts\Encryption\Encrypter;
 use BrosSquad\LaravelCrypto\Contracts\KeyGeneration;
 use Illuminate\Contracts\Encryption\EncryptException;
 use Illuminate\Contracts\Encryption\DecryptException;
-use BrosSquad\LaravelCrypto\Contracts\StringEncryptor;
+use Illuminate\Contracts\Encryption\StringEncrypter;
 use Illuminate\Encryption\Encrypter as LaravelEncrypter;
 use Illuminate\Support\Str;
+use SodiumException;
 
-abstract class SodiumEncryptor implements Encrypter, KeyGeneration, StringEncryptor
+abstract class SodiumEncryptor implements Encrypter, KeyGeneration, StringEncrypter
 {
-    protected $key;
+    protected string $key;
 
     public const AES128CBC = 'AES-128-CBC';
     public const AES256CBC = 'AES-256-CBC';
@@ -35,28 +36,31 @@ abstract class SodiumEncryptor implements Encrypter, KeyGeneration, StringEncryp
 
     public static function supported(string $key, string $cipher): bool
     {
-        if(Str::startsWith($key, 'base64:')) {
+        if (Str::startsWith($key, 'base64:')) {
             $key = Str::after($key, 'base64:');
             $key = base64_decode($key);
         }
 
         if ($cipher === self::AES256GCM) {
-            return mb_strlen($key, '8bit') === SODIUM_CRYPTO_AEAD_AES256GCM_KEYBYTES && sodium_crypto_aead_aes256gcm_is_available();
+            return mb_strlen(
+                    $key,
+                    '8bit'
+                ) === SODIUM_CRYPTO_AEAD_AES256GCM_KEYBYTES && sodium_crypto_aead_aes256gcm_is_available();
         }
 
-        if($cipher === self::XChaCha20Poly1305) {
+        if ($cipher === self::XChaCha20Poly1305) {
             return mb_strlen($key, '8bit') === SODIUM_CRYPTO_AEAD_XCHACHA20POLY1305_IETF_KEYBYTES;
         }
 
         return LaravelEncrypter::supported($key, $cipher);
     }
 
-    public function encryptString(string $value): string
+    public function encryptString($value): string
     {
         return $this->encrypt($value, false);
     }
 
-    public function decryptString(string $payload): string
+    public function decryptString($payload): string
     {
         return $this->decrypt($payload, false);
     }
@@ -106,6 +110,9 @@ abstract class SodiumEncryptor implements Encrypter, KeyGeneration, StringEncryp
 
     public function __destruct()
     {
-        sodium_memzero($this->key);
+        try {
+            sodium_memzero($this->key);
+        } catch (SodiumException $e) {
+        }
     }
 }

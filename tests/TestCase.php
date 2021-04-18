@@ -1,37 +1,40 @@
 <?php
 
+declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Tests;
 
-use Illuminate\Support\Facades\Config;
-use BrosSquad\LaravelCrypto\HashingServiceProvider;
+use BrosSquad\LaravelCrypto\Support\Base64;
+use BrosSquad\LaravelCrypto\Support\Random;
+use BrosSquad\LaravelCrypto\ServiceProvider;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use BrosSquad\LaravelCrypto\Facades\{
-    Hmac,
-    Base64,
-    Random,
+    Signing,
     Hashing
 };
 
 class TestCase extends OrchestraTestCase
 {
-    protected function setUp(): void
+    use Key;
+
+    public function setUp(): void
     {
         parent::setUp();
+        $this->setKey();
     }
 
     protected function getPackageProviders($app): array
     {
-        return [HashingServiceProvider::class];
+        return [ServiceProvider::class];
     }
 
     protected function getPackageAliases($app): array
     {
         return [
             "Hashing" => Hashing::class,
-            "Base64"  => Base64::class,
-            "Hmac"    => Hmac::class,
-            "Random"  => Random::class,
+            "Base64" => Base64::class,
+            "Signing" => Signing::class,
+            "Random" => Random::class,
         ];
     }
 

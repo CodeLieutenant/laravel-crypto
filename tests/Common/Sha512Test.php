@@ -1,17 +1,17 @@
 <?php
 
+declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Tests\Common;
 
-
-use BrosSquad\LaravelCrypto\Common\Sha512;
+use BrosSquad\LaravelCrypto\Hashing\Sha512;
 use BrosSquad\LaravelCrypto\Tests\TestCase;
 
 class Sha512Test extends TestCase
 {
-    protected $sha512;
+    protected Sha512 $sha512;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
         $this->sha512 = new Sha512();

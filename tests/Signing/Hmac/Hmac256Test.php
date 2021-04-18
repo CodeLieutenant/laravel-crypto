@@ -1,37 +1,27 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Tests\Signing\Hmac;
 
-
 use BrosSquad\LaravelCrypto\Signing\Hmac\Hmac256;
-use Illuminate\Support\Str;
 use BrosSquad\LaravelCrypto\Tests\TestCase;
-use BrosSquad\LaravelCrypto\Support\Base64;
 
 class Hmac256Test extends TestCase
 {
-    /** @var Hmac256 */
-    protected $hmac256;
-    protected $keyBinary;
+    protected Hmac256 $hmac256;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
-        $this->hmac256 = $this->app->get('hmac256');
-        $key = config('app.key');
-        if (($isBase64Encoded = Str::startsWith($key, 'base64:'))) {
-            $key = Str::substr($key, 7);
-        }
 
-        $this->keyBinary = $isBase64Encoded ? Base64::decode($key) : hex2bin($key);
+        $this->hmac256 = new Hmac256($this->key);
     }
 
     public function test_sign(): void
     {
         $expectedSignature = sodium_bin2base64(
-            sodium_crypto_auth('Hello World', $this->keyBinary),
+            sodium_crypto_auth('Hello World', $this->key),
             SODIUM_BASE64_VARIANT_URLSAFE
         );
         $signature = $this->hmac256->sign('Hello World');
@@ -43,7 +33,7 @@ class Hmac256Test extends TestCase
 
     public function test_sign_raw(): void
     {
-        $expectedSignature = sodium_crypto_auth('Hello World', $this->keyBinary);
+        $expectedSignature = sodium_crypto_auth('Hello World', $this->key);
         $signature = $this->hmac256->signRaw('Hello World');
         self::assertIsBinary($signature);
         self::assertEquals($expectedSignature, $signature);

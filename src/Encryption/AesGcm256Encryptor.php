@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Encryption;
-
 
 use RuntimeException;
 
@@ -16,8 +16,8 @@ class AesGcm256Encryptor extends SodiumEncryptor
         }
 
         $length = mb_strlen($key, '8bit');
-        if($length !== SODIUM_CRYPTO_AEAD_AES256GCM_KEYBYTES) {
-            throw new RuntimeException('AES-256-GCM key has to be 32 bytes in length');
+        if ($length !== SODIUM_CRYPTO_AEAD_AES256GCM_KEYBYTES) {
+            throw new RuntimeException(sprintf('AES-256-GCM key has to be %d bytes in length', SODIUM_CRYPTO_AEAD_AES256GCM_KEYBYTES));
         }
     }
 

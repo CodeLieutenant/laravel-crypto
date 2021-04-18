@@ -1,20 +1,18 @@
 <?php
 
+declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Signing\Hmac;
-
 
 use SodiumException;
 use BrosSquad\LaravelCrypto\Contracts\Signing as HmacContract;
 
 abstract class Hmac implements HmacContract
 {
-
-    /** @var string */
-    protected $key;
+    protected string $key;
 
     /**
-     * Hmac constructor.
+     * Signing constructor.
      *
      * @param  string  $key
      */
@@ -39,7 +37,6 @@ abstract class Hmac implements HmacContract
     public function __destruct()
     {
         try {
-            sodium_memzero($this->key);
             sodium_memzero($this->key);
         } catch (SodiumException $e) {
         }

@@ -4,7 +4,7 @@
 namespace BrosSquad\LaravelCrypto\Contracts;
 
 /**
- * Interface Hmac
+ * Interface Signing
  *
  * @package BrosSquad\LaravelCrypto\Contracts
  */
