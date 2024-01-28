@@ -14,18 +14,19 @@
     "test": "./vendor/bin/phpunit"
   },
   "require": {
-    "php": ">=7.4",
+    "php": ">=8.1",
     "ext-sodium": "*",
     "ext-json": "*",
-    "illuminate/support": "^8",
-    "illuminate/contracts": "^8",
-    "illuminate/config": "^8",
-    "illuminate/hashing": "^8",
-    "illuminate/encryption": "^8",
-    "illuminate/collections": "^8"
+    "ext-mbstring": "*",
+    "illuminate/support": "9.*|10.*",
+    "illuminate/contracts": "9.*|10.*",
+    "illuminate/config": "9.*|10.*",
+    "illuminate/hashing": "9.*|10.*",
+    "illuminate/encryption": "9.*|10.*",
+    "illuminate/collections": "9.*|10.*"
   },
   "require-dev": {
-    "orchestra/testbench": "^6",
+    "orchestra/testbench": "^8",
     "phpbench/phpbench": "@dev"
   },
   "autoload": {

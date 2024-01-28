@@ -14,24 +14,22 @@ use BrosSquad\LaravelCrypto\Support\Base64;
  */
 class Blake2b extends Hash
 {
+    public const HASH_SIZE = 64;
+
     protected string $algo = 'blake2b';
 
     /**
-     * @param  string  $data
+     * @param string $data
      *
      * @return string|null
      */
     public function hash(string $data): ?string
     {
-        return Base64::constantUrlEncodeNoPadding($this->hashRaw($data));
+        return Base64::urlEncodeNoPadding($this->hashRaw($data));
     }
 
-    public function hashRaw(string $data): ?string
+    public function hashRaw(string $data): string
     {
-        try {
-            return sodium_crypto_generichash($data, '', 64);
-        } catch (SodiumException $e) {
-            return null;
-        }
+        return sodium_crypto_generichash($data, '', self::HASH_SIZE);
     }
 }

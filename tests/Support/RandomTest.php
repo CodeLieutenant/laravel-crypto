@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace BrosSquad\LaravelCrypto\Tests\Support;
 
 use BrosSquad\LaravelCrypto\Tests\TestCase;
-use BrosSquad\LaravelCrypto\Support\Random;
+use BrosSquad\LaravelCrypto\Support\Random81;
 
 class RandomTest extends TestCase
 {
@@ -12,15 +12,15 @@ class RandomTest extends TestCase
     public function should_give_base64_encoded_random_string(): void
     {
         $data = [
-            2 =>Random::string(2),
-            10 =>Random::string(10),
-            15 => Random::string(15),
-            20 => Random::string(20),
-            50 => Random::string(50),
-            64 => Random::string(64),
-            80 => Random::string(80),
-            100 => Random::string(100),
-            500 => Random::string(500),
+            2 =>Random81::string(2),
+            10 =>Random81::string(10),
+            15 => Random81::string(15),
+            20 => Random81::string(20),
+            50 => Random81::string(50),
+            64 => Random81::string(64),
+            80 => Random81::string(80),
+            100 => Random81::string(100),
+            500 => Random81::string(500),
         ];
 
         foreach($data as $length => $randomString) {

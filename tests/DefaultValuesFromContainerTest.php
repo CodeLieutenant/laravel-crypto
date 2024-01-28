@@ -80,21 +80,17 @@ class DefaultValuesFromContainerTest extends TestCase
 
     public function test_should_get_default_public_key_signing_algorithm(): void
     {
-        Config::set('crypto.public_key', sys_get_temp_dir().'/laravel_hashing_crypto_public.key');
-        Config::set('crypto.private_key', sys_get_temp_dir().'/laravel_hashing_crypto_private.key');
+        $path = sys_get_temp_dir() . '/laravel_hashing.key';
 
-        EdDSA::generateKeys(
-            Config::get('crypto.public_key_crypto.eddsa.private_key'),
-            Config::get('crypto.public_key_crypto.eddsa.public_key')
-        );
+        EdDSA::generateKeys($path);
+
         $signing = $this->app->get(PublicKeySigning::class);
         self::assertNotNull($signing);
         self::assertInstanceOf(PublicKeySigning::class, $signing);
         self::assertInstanceOf(Signing::class, $signing);
         self::assertInstanceOf(EdDSA::class, $signing);
 
-        unlink(Config::get('crypto.public_key_crypto.eddsa.private_key'));
-        unlink(Config::get('crypto.public_key_crypto.eddsa.public_key'));
+        unlink($path);
     }
 
     public function test_should_get_default_xchacha20_algorithm(): void

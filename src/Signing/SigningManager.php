@@ -14,12 +14,12 @@ class SigningManager extends Manager implements Signing
 {
     use LaravelKeyParser;
 
-    public function sign(string $data): ?string
+    public function sign(string $data): string
     {
         return $this->driver()->sign($data);
     }
 
-    public function signRaw(string $data): ?string
+    public function signRaw(string $data): string
     {
         return $this->driver()->signRaw($data);
     }

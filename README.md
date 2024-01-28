@@ -134,16 +134,16 @@ $base64Length = Base64::encodedLength($bufferLength, $hasPadding);
 ### Generating random data
 
 ```php
-use BrosSquad\LaravelCrypto\Support\Random;
+use BrosSquad\LaravelCrypto\Support\Random81;
 
 // Generate random string
-$randomString = Random::string(60); // Generates random string base64 url encoded with no padding 
+$randomString = Random81::string(60); // Generates random string base64 url encoded with no padding 
 
 // Generate random bytes
-$randomBytes = Random::bytes(32); // Generates buffer filled with crypto secure random bytes
+$randomBytes = Random81::bytes(32); // Generates buffer filled with crypto secure random bytes
 
 // Generate random int
-$randomImt = Random::int($min, $max);
+$randomImt = Random81::int($min, $max);
 ```
 
 ## General Hashing

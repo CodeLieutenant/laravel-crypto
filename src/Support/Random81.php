@@ -6,7 +6,7 @@ namespace BrosSquad\LaravelCrypto\Support;
 
 use Exception;
 
-class Random
+class Random81
 {
     public static function bytes(int $length): ?string
     {

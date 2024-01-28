@@ -1,4 +1,8 @@
-#!/usr/bin/env bash
-LOCAL=$(pwd)
-# shellcheck disable=SC2086
-docker run -ti --user "$(id -u):$(id -g)" --rm -v "${LOCAL}":/var/www/html -w /var/www/html brossquad/php-dev:8.0-1.0.5 $@
+#!/bin/sh
+
+docker run -ti \
+  --user "$(id -u):$(id -g)" \
+  --rm \
+  -v "$(pwd)":/var/www/html \
+  -w /var/www/html \
+  php:8.1 "$@"

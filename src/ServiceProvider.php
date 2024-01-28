@@ -9,8 +9,8 @@ use BrosSquad\LaravelCrypto\Contracts\PublicKeySigning;
 use BrosSquad\LaravelCrypto\Encryption\SodiumEncryptor;
 use BrosSquad\LaravelCrypto\Hashing\HashingManager;
 use BrosSquad\LaravelCrypto\Signing\EdDSA\EdDSA;
+use BrosSquad\LaravelCrypto\Signing\Hmac\Blake2b as HMacBlake2b;
 use BrosSquad\LaravelCrypto\Signing\SigningManager;
-use RuntimeException;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 use BrosSquad\LaravelCrypto\Signing\Hmac\Hmac256;
@@ -22,6 +22,8 @@ use BrosSquad\LaravelCrypto\Contracts\Signing;
 use BrosSquad\LaravelCrypto\Contracts\Hashing;
 use BrosSquad\LaravelCrypto\Encryption\AesGcm256Encryptor;
 use BrosSquad\LaravelCrypto\Encryption\XChaCha20Poly5Encryptor;
+use BrosSquad\LaravelCrypto\Support\Random82;
+use BrosSquad\LaravelCrypto\Support\Random81;
 
 /**
  * Class ServiceProvider
@@ -32,19 +34,13 @@ class ServiceProvider extends LaravelServiceProvider
 {
     use LaravelKeyParser;
 
-    protected array $hashes = [
-        Hashing::class => Blake2b::class,
-        'blake2b' => Blake2b::class,
-        'sha256' => Sha256::class,
-        'sha512' => Sha512::class,
-    ];
 
     public function boot(): void
     {
         if ($this->app->runningInConsole()) {
             $this->publishes(
                 [
-                    __DIR__.'/../config/crypto.php' => config_path('crypto.php'),
+                    __DIR__ . '/../config/crypto.php' => config_path('crypto.php'),
                 ]
             );
         }
@@ -52,6 +48,15 @@ class ServiceProvider extends LaravelServiceProvider
 
     public function register(): void
     {
+        if (!class_exists('BrosSquad\LaravelCrypto\Support\Random')) {
+            $class = match (true) {
+                PHP_VERSION_ID >= 80200 => Random82::class,
+                default => Random81::class,
+            };
+
+            class_alias($class, 'BrosSquad\LaravelCrypto\Support\Random');
+        }
+
         if ($this->app->runningInConsole()) {
             $this->commands(
                 [
@@ -60,11 +65,25 @@ class ServiceProvider extends LaravelServiceProvider
             );
         }
 
-        $this->mergeConfigFrom(__DIR__.'/../config/crypto.php', 'crypto');
+        $this->mergeConfigFrom(__DIR__ . '/../config/crypto.php', 'crypto');
 
         $this->addSignatures();
         $this->addEncrypter();
-        $this->addHashing();
+
+        $this->app->singleton(
+            EdDSA::class,
+            fn($app) => new EdDSA(
+                ...EdDSA::getPublicAndPrivateEdDSAKey($app->make('config')->get('crypto.public_key_crypto.eddsa'))
+            )
+        );
+        $this->app->singleton(SigningManager::class);
+        $this->app->singleton(HashingManager::class);
+        $this->app->singleton(Hashing::class, Blake2b::class);
+        $this->app->singleton(Signing::class, HMacBlake2b::class);
+        $this->app->singleton(PublicKeySigning::class, EdDSA::class);
+        $this->app->singleton(Hmac256::class, fn($app) => new Hmac256($this->getKey()));
+        $this->app->singleton(Hmac512::class, fn($app) => new Hmac512($this->getKey()));
+        $this->app->singleton(HMacBlake2b::class, fn($app) => new HMacBlake2b($this->getKey()));
     }
 
     protected function getEncrypter($app)
@@ -92,46 +111,6 @@ class ServiceProvider extends LaravelServiceProvider
 
     protected function addSignatures(): void
     {
-        $this->app->singleton('signing', SigningManager::class);
-
-        $this->app->singleton(Signing::class, 'hmac256');
-
-        $this->app->singleton(
-            PublicKeySigning::class,
-            fn($app) => $app->make('eddsa')
-        );
-
-        $this->app->singleton(
-            'eddsa',
-            fn($app) => new EdDSA(
-
-                ...EdDSA::getPublicAndPrivateEdDSAKey($app->make('config')->get('crypto.public_key_crypto.eddsa'))
-            )
-        );
-
-        $this->app->singleton(
-            'hmac256',
-            fn($app) => new Hmac256($this->getKey())
-        );
-
-        $this->app->singleton(
-            'hmac512',
-            fn($app) => new Hmac512($this->getKey())
-        );
-
-        $this->app->singleton(
-            'hmacblake2b',
-            fn($app) => new Hmac512($this->getKey())
-        );
     }
 
-    protected
-    function addHashing(): void
-    {
-        $this->app->singleton(HashingManager::class);
-
-        foreach ($this->hashes as $hashName => $bind) {
-            $this->app->singleton($hashName, $bind);
-        }
-    }
 }

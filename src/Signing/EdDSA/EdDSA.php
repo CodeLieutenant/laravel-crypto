@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace BrosSquad\LaravelCrypto\Signing\EdDSA;
 
 use BrosSquad\LaravelCrypto\Contracts\PublicKeySigning;
+use BrosSquad\LaravelCrypto\Exceptions\KeyPathNotFound;
 use BrosSquad\LaravelCrypto\PublicKeyCrypto\PublicKeyCrypto;
 use BrosSquad\LaravelCrypto\Support\Base64;
 use RuntimeException;
 use SodiumException;
+use SplFileObject;
 
 class EdDSA extends PublicKeyCrypto implements PublicKeySigning
 {
@@ -19,16 +21,12 @@ class EdDSA extends PublicKeyCrypto implements PublicKeySigning
             return null;
         }
 
-        return Base64::constantUrlEncodeNoPadding($signed);
+        return Base64::urlEncodeNoPadding($signed);
     }
 
     public function signRaw(string $data): ?string
     {
-        try {
-            return sodium_crypto_sign_detached($data, $this->privateKey);
-        } catch (SodiumException $e) {
-            return null;
-        }
+        return sodium_crypto_sign_detached($data, $this->privateKey);
     }
 
     public function verify(string $message, string $hmac): bool
@@ -54,39 +52,43 @@ class EdDSA extends PublicKeyCrypto implements PublicKeySigning
     }
 
     /**
-     * @param  string  $privateKeyPath
-     * @param  string  $publicKeyPath
+     * @param string $outputPath
      * @throws SodiumException
      */
-    public static function generateKeys(string $privateKeyPath, string $publicKeyPath): void
+    public static function generateKeys(string $outputPath): void
     {
         $keyPair = sodium_crypto_sign_keypair();
-        $privateKey = base64_encode(sodium_crypto_sign_secretkey($keyPair));
-        $publicKey = base64_encode(sodium_crypto_sign_publickey($keyPair));
+        $privateKey = sodium_crypto_sign_secretkey($keyPair);
+        $publicKey = sodium_crypto_sign_publickey($keyPair);
 
-        if (file_put_contents($privateKeyPath, $publicKey) === false) {
+        if (@file_put_contents($outputPath, $publicKey . $privateKey) === false) {
             throw new RuntimeException('Error while writing public key to file');
         }
-        if (file_put_contents($publicKeyPath, $privateKey) === false) {
-            throw new RuntimeException('Error while writing private key to file');
-        }
+
         sodium_memzero($privateKey);
         sodium_memzero($publicKey);
+        sodium_memzero($keyPair);
     }
 
     public static function getPublicAndPrivateEdDSAKey(array $crypto): array
     {
-        if (!$crypto['private_key']) {
-            throw new RuntimeException('EdDSA Private key path is not set');
+        if (!$crypto['key']) {
+            throw new KeyPathNotFound('EdDSA Private key path is not set');
         }
 
-        if (!$crypto['public_key']) {
-            throw new RuntimeException('EdDSA Public key path is not set');
+        $file = new SplFileObject($crypto['key'], 'r');
+        if ($file->flock(LOCK_SH) === false) {
+            throw new RuntimeException('Error while locking file (shared/reading)');
+        }
+
+        $keys = $file->fread(SODIUM_CRYPTO_SIGN_KEYPAIRBYTES);
+        if ($keys === false) {
+            throw new RuntimeException('Error while reading key');
         }
 
         return [
-            base64_decode(file_get_contents($crypto['private_key'])),
-            base64_decode(file_get_contents($crypto['public_key'])),
+            substr($keys, 0, SODIUM_CRYPTO_SIGN_PUBLICKEYBYTES),
+            substr($keys, SODIUM_CRYPTO_SIGN_PUBLICKEYBYTES, SODIUM_CRYPTO_SIGN_SECRETKEYBYTES),
         ];
     }
 }

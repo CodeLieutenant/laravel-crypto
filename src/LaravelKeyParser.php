@@ -4,19 +4,23 @@ declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto;
 
+use BrosSquad\LaravelCrypto\Support\Base64;
 use Illuminate\Support\Str;
 use RuntimeException;
 
-trait LaravelKeyParser
+class LaravelKeyParser
 {
+    public function __construct()
+    {
+    }
+
     /**
      * Parse the encryption key.
      *
-     * @param  array  $config
-     *
+     * @param string $key
      * @return string
      */
-    protected function parseKey(?string $key): string
+    public function parseKey(string $key): string
     {
         if (empty($key)) {
             throw new RuntimeException(
@@ -25,16 +29,18 @@ trait LaravelKeyParser
         }
 
         if (Str::startsWith($key, $prefix = 'base64:')) {
-            $key = base64_decode(Str::after($key, $prefix));
-        } elseif (ctype_xdigit($key)) {
+            return Base64::decode(Str::after($key, $prefix));
+        }
+
+        if (ctype_xdigit($key)) {
             $key = hex2bin($key);
         }
 
         return $key;
     }
 
-    protected function getKey(): string
+    public function getKey(): string
     {
-        return $this->parseKey(config('app.key'));
+        return self::parseKey(config('app.key'));
     }
 }

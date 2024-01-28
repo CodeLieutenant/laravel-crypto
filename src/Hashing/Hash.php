@@ -8,39 +8,28 @@ namespace BrosSquad\LaravelCrypto\Hashing;
 use SodiumException;
 use BrosSquad\LaravelCrypto\Contracts\Hashing;
 
-/**
- * Class Hash
- *
- * @package BrosSquad\LaravelCrypto\Common
- */
 abstract class Hash implements Hashing
 {
     protected string $algo;
 
     /**
-     * @param  string  $hash1
-     * @param  string  $hash2
+     * @param string $hash1
+     * @param string $hash2
      *
      * @return bool
+     * @throws SodiumException
      */
     public function equals(string $hash1, string $hash2): bool
     {
-        if (function_exists('sodium_memcmp')) {
-            try {
-                return sodium_memcmp($hash1, $hash2) === 0;
-            } catch (SodiumException $e) {
-                return false;
-            }
-        }
-
-        return hash_equals($hash1, $hash2);
+        return sodium_memcmp($hash1, $hash2) === 0;
     }
 
     /**
      *
-     * @param  string  $hash
-     * @param  string  $data
+     * @param string $hash
+     * @param string $data
      * @return bool
+     * @throws SodiumException
      */
     public function verify(string $hash, string $data): bool
     {
@@ -49,9 +38,10 @@ abstract class Hash implements Hashing
 
     /**
      *
-     * @param  string  $hash
-     * @param  string  $data
+     * @param string $hash
+     * @param string $data
      * @return bool
+     * @throws SodiumException
      */
     public function verifyRaw(string $hash, string $data): bool
     {
