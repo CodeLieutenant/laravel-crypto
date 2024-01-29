@@ -6,7 +6,7 @@ namespace BrosSquad\LaravelCrypto\Support;
 
 use Random\Randomizer;
 
-class Random82
+final class Random82
 {
     private static ?Randomizer $randomizer;
 

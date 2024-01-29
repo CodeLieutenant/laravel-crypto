@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace BrosSquad\LaravelCrypto\Exceptions;
 
 use Exception;
+use Throwable;
 
 class KeyPathNotFound extends Exception
 {

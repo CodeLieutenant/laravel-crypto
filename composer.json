@@ -6,27 +6,35 @@
   "authors": [
     {
       "name": "Dusan Malusev",
-      "email": "dusan.998@outlook.com"
+      "email": "dusan@dusanmalusev.dev",
+      "homepage": "https://www.dusanmalusev.dev",
+      "role": "Developer"
     }
   ],
+  "keywords": [
+    "laravel",
+    "security",
+    "hashing",
+    "signing",
+    "encryption",
+    "decryption",
+    "crypto",
+    "cryptography",
+    "sodium"
+  ],
   "minimum-stability": "stable",
-  "scripts": {
-    "test": "./vendor/bin/phpunit"
-  },
   "require": {
     "php": ">=8.1",
     "ext-sodium": "*",
-    "ext-json": "*",
-    "ext-mbstring": "*",
-    "illuminate/support": "9.*|10.*",
-    "illuminate/contracts": "9.*|10.*",
-    "illuminate/config": "9.*|10.*",
-    "illuminate/hashing": "9.*|10.*",
-    "illuminate/encryption": "9.*|10.*",
-    "illuminate/collections": "9.*|10.*"
+    "illuminate/support": "^9|^10",
+    "illuminate/contracts": "^9|^10",
+    "illuminate/config": "^9|^10",
+    "illuminate/hashing": "^9|^10",
+    "illuminate/encryption": "^9|^10",
+    "illuminate/collections": "^9|^10"
   },
   "require-dev": {
-    "orchestra/testbench": "^8",
+    "orchestra/testbench": "^8.0|^9.0",
     "phpbench/phpbench": "@dev"
   },
   "autoload": {
@@ -39,10 +47,18 @@
       "BrosSquad\\LaravelCrypto\\Tests\\": "tests/"
     }
   },
+  "suggest": {
+    "ext-json": "Required for Json Serializer",
+    "ext-msgpack": "Required for MessagePack Serializer",
+    "ext-igbinary": "Required for Igbinary Serializer"
+  },
+  "config": {
+    "sort-packages": true
+  },
   "extra": {
     "laravel": {
       "providers": [
-        "ServiceProvider"
+        "BrosSquad\\LaravelCrypto\\ServiceProvider"
       ],
       "aliases": {
         "Hashing": "BrosSquad\\LaravelCrypto\\Facades\\Hashing",

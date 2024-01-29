@@ -6,15 +6,16 @@ namespace BrosSquad\LaravelCrypto\Hashing;
 
 class Sha512 extends Hash
 {
-    protected string $algo = 'sha512';
+    public const ALGORITHM = 'sha512';
+    public const HASH_SIZE = 64;
 
     public function hash(string $data): string
     {
-        return hash($this->algo, $data);
+        return hash(static::ALGORITHM, $data);
     }
 
-    public function hashRaw(string $data): ?string
+    public function hashRaw(string $data): string
     {
-        return hash($this->algo, $data, true);
+        return hash(static::ALGORITHM, $data, true);
     }
 }

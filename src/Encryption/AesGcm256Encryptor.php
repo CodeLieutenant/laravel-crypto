@@ -6,6 +6,8 @@ namespace BrosSquad\LaravelCrypto\Encryption;
 
 use BrosSquad\LaravelCrypto\Support\Base64;
 use Exception;
+use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Contracts\Encryption\EncryptException;
 
 class AesGcm256Encryptor extends SodiumEncryptor
 {
@@ -13,16 +15,20 @@ class AesGcm256Encryptor extends SodiumEncryptor
 
     public function encrypt($value, $serialize = true): string
     {
+        $serialized = match ($serialize) {
+            true => $this->encoder->encode($value),
+            false => $value,
+        };
+
         try {
-            $nonce = random_bytes(self::NONCE_SIZE);
-
-            if ($serialize) {
-                $value = json_encode($value, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-            }
-
-            $encrypted = sodium_crypto_aead_aes256gcm_encrypt($value, $nonce, $nonce, $this->key);
+            $nonce = $this->generateNonce();
+            $encrypted = sodium_crypto_aead_aes256gcm_encrypt($serialized, $nonce, $nonce, $this->getKey());
             return Base64::urlEncodeNoPadding($nonce . $encrypted);
         } catch (Exception $e) {
+            $this->logger->error($e->getMessage(), [
+                'exception' => $e,
+                'stack' => $e->getTraceAsString(),
+            ]);
             throw new EncryptException('Value cannot be encrypted');
         }
     }
@@ -30,28 +36,26 @@ class AesGcm256Encryptor extends SodiumEncryptor
     public function decrypt($payload, $unserialize = true)
     {
         $decoded = Base64::urlDecode($payload);
-        $nonce = mb_substr($decoded, 0, self::NONCE_SIZE, '8bit');
-        $cipherText = mb_substr($decoded, self::NONCE_SIZE, null, '8bit');
+        $nonce = substr($decoded, 0, self::NONCE_SIZE);
+        $cipherText = substr($decoded, self::NONCE_SIZE);
 
         try {
-            $decrypted = sodium_crypto_aead_aes256gcm_decrypt($cipherText, $nonce, $nonce, $this->key);
-
-            if ($unserialize) {
-                return json_decode(
-                    $decrypted,
-                    true,
-                    512,
-                    JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_OBJECT_AS_ARRAY
-                );
-            }
-
-            return $decrypted;
+            $decrypted = sodium_crypto_aead_aes256gcm_decrypt($cipherText, $nonce, $nonce, $this->getKey());
         } catch (Exception $e) {
+            $this->logger->error($e->getMessage(), [
+                'stack' => $e->getTraceAsString(),
+                'exception' => $e,
+            ]);
             throw new DecryptException('Payload cannot be decrypted');
         }
+
+        return match ($unserialize) {
+            true => $this->encoder->decode($decrypted),
+            false => $decrypted,
+        };
     }
 
-    public static function generateKey(): string
+    public static function generateKey(string $cipher): string
     {
         return sodium_crypto_aead_aes256gcm_keygen();
     }

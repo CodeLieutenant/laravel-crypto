@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Contracts;
 
@@ -26,8 +27,8 @@ interface Signing
     /**
      * Verify the signature against the $message
      *
-     * @param  string  $message
-     * @param  string  $hmac
+     * @param string $message
+     * @param string $hmac
      *
      * @return bool
      */
