@@ -10,10 +10,12 @@ use BrosSquad\LaravelCrypto\Support\Base64;
 class Blake2b extends Hash
 {
     public const ALGORITHM = 'blake2b';
-    public const HASH_SIZE = 64;
 
-    public function __construct(protected ?string $key = null)
-    {
+    public function __construct(
+        protected ?string $key = null,
+        int $outputLength = 64,
+    ) {
+        parent::__construct($outputLength);
     }
 
     public function hash(string $data): string
@@ -23,6 +25,6 @@ class Blake2b extends Hash
 
     public function hashRaw(string $data): string
     {
-        return sodium_crypto_generichash($data, $this->key ?? '', self::HASH_SIZE);
+        return sodium_crypto_generichash($data, $this->key ?? '', $this->outputLength);
     }
 }

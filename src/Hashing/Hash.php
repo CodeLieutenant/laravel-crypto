@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Hashing;
 
-
 use SodiumException;
 use BrosSquad\LaravelCrypto\Contracts\Hashing;
 
 abstract class Hash implements Hashing
 {
     public const ALGORITHM = '';
-    public const HASH_SIZE = 0;
+
+    public function __construct(
+        protected int $outputLength,
+    ) {
+    }
 
     public function equals(string $hash1, string $hash2): bool
     {

@@ -16,12 +16,17 @@ class XChaCha20Poly5Encryptor extends SodiumEncryptor
     public function encrypt($value, $serialize = true): string
     {
         if ($serialize) {
-            $value = json_encode($value, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            $value = $this->encoder->encode($value);
         }
 
         try {
             $nonce = $this->generateNonce();
-            $encrypted = sodium_crypto_aead_xchacha20poly1305_ietf_encrypt($value, $nonce, $nonce, $this->key);
+            $encrypted = sodium_crypto_aead_xchacha20poly1305_ietf_encrypt(
+                $value,
+                $nonce,
+                $nonce,
+                $this->keyLoader->getKey()
+            );
             return Base64::urlEncodeNoPadding($nonce . $encrypted);
         } catch (Exception $e) {
             $this->logger->error($e->getMessage(), [
@@ -40,7 +45,12 @@ class XChaCha20Poly5Encryptor extends SodiumEncryptor
         $cipherText = substr($decoded, self::NONCE_SIZE, null);
 
         try {
-            $decrypted = sodium_crypto_aead_xchacha20poly1305_ietf_decrypt($cipherText, $nonce, $nonce, $this->key);
+            $decrypted = sodium_crypto_aead_xchacha20poly1305_ietf_decrypt(
+                $cipherText,
+                $nonce,
+                $nonce,
+                $this->keyLoader->getKey()
+            );
         } catch (Exception $e) {
             $this->logger->error($e->getMessage(), [
                 'exception' => $e,
@@ -51,12 +61,7 @@ class XChaCha20Poly5Encryptor extends SodiumEncryptor
         }
 
         if ($unserialize) {
-            return json_decode(
-                $decrypted,
-                true,
-                512,
-                JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_OBJECT_AS_ARRAY
-            );
+            return $this->encoder->decode($decrypted);
         }
 
         return $decrypted;

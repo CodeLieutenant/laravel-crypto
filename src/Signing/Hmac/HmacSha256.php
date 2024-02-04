@@ -14,7 +14,7 @@ class HmacSha256 extends Hmac
 
     public function sign(string $data): string
     {
-        return Base64::constantUrlEncode(sodium_crypto_auth($data, $this->loader->getKey()));
+        return Base64::urlEncode(sodium_crypto_auth($data, $this->loader->getKey()));
     }
 
     public function signRaw(string $data): string

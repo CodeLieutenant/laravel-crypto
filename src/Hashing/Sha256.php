@@ -7,7 +7,11 @@ namespace BrosSquad\LaravelCrypto\Hashing;
 class Sha256 extends Hash
 {
     public const ALGORITHM = 'sha512/256';
-    public const HASH_SIZE = 64;
+
+    public function __construct()
+    {
+        parent::__construct(32);
+    }
 
     public function hash(string $data): string
     {

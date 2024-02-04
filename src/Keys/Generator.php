@@ -6,5 +6,5 @@ namespace BrosSquad\LaravelCrypto\Keys;
 
 interface Generator
 {
-    public function generate(): void;
+    public function generate(bool $write): ?string;
 }

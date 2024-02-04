@@ -40,7 +40,7 @@ class AesGcm256Encryptor extends SodiumEncryptor
         $cipherText = substr($decoded, self::NONCE_SIZE);
 
         try {
-            $decrypted = sodium_crypto_aead_aes256gcm_decrypt($cipherText, $nonce, $nonce, $this->getKey());
+            $decrypted = sodium_crypto_aead_aes256gcm_decrypt($cipherText, $nonce, $nonce, $this->keyLoader->getKey());
         } catch (Exception $e) {
             $this->logger->error($e->getMessage(), [
                 'stack' => $e->getTraceAsString(),

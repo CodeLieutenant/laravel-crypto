@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace BrosSquad\LaravelCrypto\Signing\Hmac;
 
 use BrosSquad\LaravelCrypto\Keys\Loader;
-use SodiumException;
 use BrosSquad\LaravelCrypto\Contracts\Signing as HmacContract;
 
 abstract class Hmac implements HmacContract

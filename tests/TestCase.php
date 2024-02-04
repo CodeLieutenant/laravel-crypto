@@ -15,12 +15,10 @@ use BrosSquad\LaravelCrypto\Facades\{
 
 class TestCase extends OrchestraTestCase
 {
-    use Key;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->setKey();
     }
 
     protected function getPackageProviders($app): array

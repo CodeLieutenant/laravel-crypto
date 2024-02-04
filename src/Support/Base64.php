@@ -77,5 +77,4 @@ final class Base64
             false => intdiv(($bufferLength * 8 + 5), 6),
         };
     }
-
 }
