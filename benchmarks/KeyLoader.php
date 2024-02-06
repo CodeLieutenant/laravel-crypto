@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Benchmarks\Encryption;
+namespace BrosSquad\LaravelCrypto\Benchmarks;
 
 use BrosSquad\LaravelCrypto\Keys\Loader;
 

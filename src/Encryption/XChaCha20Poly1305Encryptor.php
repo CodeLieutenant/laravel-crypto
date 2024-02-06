@@ -9,7 +9,7 @@ use Exception;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Contracts\Encryption\EncryptException;
 
-class XChaCha20Poly5Encryptor extends SodiumEncryptor
+class XChaCha20Poly1305Encryptor extends SodiumEncryptor
 {
     public const NONCE_SIZE = SODIUM_CRYPTO_AEAD_XCHACHA20POLY1305_IETF_NPUBBYTES;
 
@@ -66,7 +66,6 @@ class XChaCha20Poly5Encryptor extends SodiumEncryptor
 
         return $decrypted;
     }
-
 
     public static function generateKey(string $cipher): string
     {

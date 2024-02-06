@@ -10,6 +10,10 @@ final class Base64
     {
         return base64_encode($binary);
     }
+    public static function encodeNoPadding(string $binary): string
+    {
+        return rtrim(base64_encode($binary),'=');
+    }
 
     public static function decode(string $base64): string
     {
@@ -35,6 +39,11 @@ final class Base64
     public static function constantEncode(string $binary): ?string
     {
         return sodium_bin2base64($binary, SODIUM_BASE64_VARIANT_ORIGINAL);
+    }
+
+    public static function constantEncodeNoPadding(string $binary): ?string
+    {
+        return sodium_bin2base64($binary, SODIUM_BASE64_VARIANT_ORIGINAL_NO_PADDING);
     }
 
     public static function constantDecode(string $binary): ?string

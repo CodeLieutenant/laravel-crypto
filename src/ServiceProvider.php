@@ -14,7 +14,7 @@ use BrosSquad\LaravelCrypto\Encoder\MessagePackEncoder;
 use BrosSquad\LaravelCrypto\Encoder\PhpEncoder;
 use BrosSquad\LaravelCrypto\Encryption\AesGcm256Encryptor;
 use BrosSquad\LaravelCrypto\Encryption\Encryption;
-use BrosSquad\LaravelCrypto\Encryption\XChaCha20Poly5Encryptor;
+use BrosSquad\LaravelCrypto\Encryption\XChaCha20Poly1305Encryptor;
 use BrosSquad\LaravelCrypto\Hashing\Blake2b;
 use BrosSquad\LaravelCrypto\Hashing\HashingManager;
 use BrosSquad\LaravelCrypto\Hashing\Sha256;
@@ -153,7 +153,7 @@ class ServiceProvider extends EncryptionServiceProvider
 
     protected function registerEncrypter(): void
     {
-        foreach ([AesGcm256Encryptor::class, XChaCha20Poly5Encryptor::class] as $encryptor) {
+        foreach ([AesGcm256Encryptor::class, XChaCha20Poly1305Encryptor::class] as $encryptor) {
             $this->app->singleton($encryptor, $encryptor);
             $this->app->when($encryptor)
                 ->needs(Loader::class)
@@ -172,7 +172,7 @@ class ServiceProvider extends EncryptionServiceProvider
 
             return match ($enc) {
                 Encryption::SodiumAES256GCM => $app->make(AesGcm256Encryptor::class),
-                Encryption::SodiumXChaCha20Poly1305 => $app->make(XChaCha20Poly5Encryptor::class),
+                Encryption::SodiumXChaCha20Poly1305 => $app->make(XChaCha20Poly1305Encryptor::class),
             };
         };
 

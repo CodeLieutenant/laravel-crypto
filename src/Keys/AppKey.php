@@ -6,7 +6,7 @@ namespace BrosSquad\LaravelCrypto\Keys;
 
 use BrosSquad\LaravelCrypto\Encryption\AesGcm256Encryptor;
 use BrosSquad\LaravelCrypto\Encryption\Encryption;
-use BrosSquad\LaravelCrypto\Encryption\XChaCha20Poly5Encryptor;
+use BrosSquad\LaravelCrypto\Encryption\XChaCha20Poly1305Encryptor;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Encryption\Encrypter;
 
@@ -44,7 +44,7 @@ class AppKey implements Loader, Generator
         $new = $this->formatKey(
             match (Encryption::tryFrom($cipher)) {
                 Encryption::SodiumAES256GCM => AesGcm256Encryptor::generateKey($cipher),
-                Encryption::SodiumXChaCha20Poly1305 => XChaCha20Poly5Encryptor::generateKey($cipher),
+                Encryption::SodiumXChaCha20Poly1305 => XChaCha20Poly1305Encryptor::generateKey($cipher),
                 default => Encrypter::generateKey($cipher),
             }
         );
