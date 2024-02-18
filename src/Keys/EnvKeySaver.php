@@ -9,9 +9,8 @@ use RuntimeException;
 
 trait EnvKeySaver
 {
-    protected function writeNewEnvironmentFileWith(array $values): void
+    protected function writeNewEnvironmentFileWith(string $file, array $values): void
     {
-        $file = app()->environmentFilePath();
         $input = @file_get_contents($file);
 
         if ($input === false) {
@@ -45,7 +44,10 @@ trait EnvKeySaver
 
     protected function keyReplacementPattern(string $env, string $value): string
     {
-        return "#^$env=$value#m";
+        $env = preg_quote($env, '/');
+        $value = preg_quote($value, '/');
+
+        return "/^$env=$value/m";
     }
 
     protected function formatKey(string $key): string

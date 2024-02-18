@@ -20,11 +20,11 @@ class GenerateCryptoKeysCommand extends Command
 
     protected $signature = 'crypto:keys
         {--force   : Force the operation to run when in production}
-        {--eddsa   : Generate EdDSA(Ed25519) public and private key}
         {--show    : Display the key instead of modifying files}
-        {--app     : Generate application key}
-        {--blake2b : Generate blake2b hashing key}
-        {--hmac    : Generate Hmac key}';
+        {--no-eddsa   : Generate EdDSA(Ed25519) public and private key}
+        {--no-app     : Generate application key}
+        {--no-blake2b : Generate blake2b hashing key}
+        {--no-hmac    : Generate Hmac key}';
 
     protected $description = 'Generate crypto keys (APP_KEY, EdDSA, BLAKE2B_HASHING_CRYPTO_KEY)';
 
@@ -34,11 +34,11 @@ class GenerateCryptoKeysCommand extends Command
         Blake2bHashingKey $blake2bKeyGenerator,
         HmacKey $hmacKeyGenerator,
     ): int {
-        $show = $this->option('show') ?? false;
-        $eddsa = $this->option('eddsa') ?? true;
-        $app = $this->option('app') ?? true;
-        $blake2b = $this->option('blake2b') ?? true;
-        $hmac = $this->option('hmac') ?? true;
+        $show = $this->option('show');
+        $eddsa = !$this->option('no-eddsa');
+        $app = !$this->option('no-app');
+        $blake2b = !$this->option('no-blake2b');
+        $hmac = !$this->option('no-hmac');
 
         $proceed = $this->confirmToProceed('This operation will overwrite existing keys', function () {
             return $this->getLaravel()->environment() === 'production';
@@ -48,9 +48,11 @@ class GenerateCryptoKeysCommand extends Command
             return self::FAILURE;
         }
 
+        $write = $show ? null : app()->environmentFilePath();
+
         try {
             if ($eddsa) {
-                $eddsaKey = $edDSAGenerator->generate(!$show);
+                $eddsaKey = $edDSAGenerator->generate($write);
 
                 if ($show) {
                     $this->info('EdDSA Key: ' . $eddsaKey);
@@ -58,7 +60,7 @@ class GenerateCryptoKeysCommand extends Command
             }
 
             if ($app) {
-                $appKey = $appKeyGenerator->generate(!$show);
+                $appKey = $appKeyGenerator->generate($write);
 
                 if ($show) {
                     $this->info('App Key: ' . $appKey);
@@ -66,7 +68,7 @@ class GenerateCryptoKeysCommand extends Command
             }
 
             if ($blake2b) {
-                $blake2bKey = $blake2bKeyGenerator->generate(!$show);
+                $blake2bKey = $blake2bKeyGenerator->generate($write);
 
                 if ($show) {
                     $this->info('Blake2b Key: ' . $blake2bKey);
@@ -74,7 +76,7 @@ class GenerateCryptoKeysCommand extends Command
             }
 
             if ($hmac) {
-                $hmacKey = $hmacKeyGenerator->generate(!$show);
+                $hmacKey = $hmacKeyGenerator->generate($write);
 
                 if ($show) {
                     $this->info('HMAC Key: ' . $hmacKey);

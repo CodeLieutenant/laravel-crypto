@@ -12,8 +12,12 @@ trait LaravelKeyParser
 {
     protected static function parseKey(?string $key, bool $allowEmpty = false): string
     {
-        if (empty($key) && !$allowEmpty) {
-            throw new MissingAppKeyException();
+        if ($key === null || $key === '') {
+            if (!$allowEmpty) {
+                throw new MissingAppKeyException();
+            }
+
+            return "";
         }
 
         if (str_starts_with($key, $prefix = 'base64:')) {

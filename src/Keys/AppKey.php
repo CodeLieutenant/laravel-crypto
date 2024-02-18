@@ -17,17 +17,21 @@ class AppKey implements Loader, Generator
 
     protected static string $key;
 
-    public const ENV = 'APP_ENV';
-    private const CONFIG_APP_KEY_PATH = 'app.key';
-    private const CONFIG_APP_CIPHER_PATH = 'app.cipher';
+    public const ENV = 'APP_KEY';
+    protected const CONFIG_KEY_PATH = 'app.key';
+    protected const CONFIG_CIPHER_PATH = 'app.cipher';
 
     public function __construct(protected readonly Repository $config)
     {
     }
 
-    public static function init(Repository $config): void
+    public static function init(Repository $config): static
     {
-        self::$key = self::parseKey($config->get(self::CONFIG_APP_KEY_PATH));
+        if (!isset(static::$key)) {
+            static::$key = self::parseKey($config->get(static::CONFIG_KEY_PATH));
+        }
+
+        return new static($config);
     }
 
 
@@ -36,10 +40,10 @@ class AppKey implements Loader, Generator
         return self::$key;
     }
 
-    public function generate(bool $write): ?string
+    public function generate(?string $write): ?string
     {
-        $old = $this->config->get(self::CONFIG_APP_KEY_PATH);
-        $cipher = $this->config->get(self::CONFIG_APP_CIPHER_PATH);
+        $old = $this->config->get(static::CONFIG_KEY_PATH);
+        $cipher = $this->config->get(static::CONFIG_CIPHER_PATH);
 
         $new = $this->formatKey(
             match (Encryption::tryFrom($cipher)) {
@@ -49,14 +53,14 @@ class AppKey implements Loader, Generator
             }
         );
 
-        if ($write) {
+        if ($write === null) {
             return $new;
         }
 
-        $this->config->set(self::CONFIG_APP_KEY_PATH, $new);
+        $this->config->set(static::CONFIG_KEY_PATH, $new);
 
-        $this->writeNewEnvironmentFileWith([
-            self::ENV => [
+        $this->writeNewEnvironmentFileWith($write, [
+            static::ENV => [
                 'old' => $old,
                 'new' => $new,
             ],

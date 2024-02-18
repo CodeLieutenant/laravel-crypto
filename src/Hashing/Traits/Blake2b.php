@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Hashing\Traits;
 
+use BrosSquad\LaravelCrypto\Hashing\Blake2b as Blake2bHashing;
+
 trait Blake2b
 {
-    protected ?\BrosSquad\LaravelCrypto\Hashing\Blake2b $blake2b = null;
+    protected ?Blake2bHashing $blake2b = null;
 
     public function blake2b(string $data): string
     {
@@ -29,7 +31,7 @@ trait Blake2b
     }
 
 
-    public function createBlake2bDriver(): \BrosSquad\LaravelCrypto\Hashing\Blake2b
+    public function createBlake2bDriver(): Blake2bHashing
     {
         if ($this->blake2b === null) {
             $this->blake2b = $this->container->make(Blake2b::class);

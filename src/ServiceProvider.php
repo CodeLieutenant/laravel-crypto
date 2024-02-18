@@ -43,11 +43,6 @@ class ServiceProvider extends EncryptionServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes([$this->getConfigPath() => config_path('crypto.php')]);
         }
-
-        AppKey::init($config);
-        Blake2bHashingKey::init($config);
-        HmacKey::init($config);
-        EdDSASignerKey::init($config, $logger);
     }
 
     public function register(): void
@@ -60,8 +55,8 @@ class ServiceProvider extends EncryptionServiceProvider
 
         $this->registerEncoder();
         $this->registerKeyLoaders();
-        $this->registerSigners();
-        $this->registerHashers();
+//        $this->registerSigners();
+//        $this->registerHashers();
         parent::register();
     }
 
@@ -89,10 +84,27 @@ class ServiceProvider extends EncryptionServiceProvider
 
     protected function registerKeyLoaders(): void
     {
-        $this->app->singleton(AppKey::class);
-        $this->app->singleton(Blake2bHashingKey::class);
-        $this->app->singleton(HmacKey::class);
-        $this->app->singleton(EdDSASignerKey::class);
+        $this->app->singleton(
+            AppKey::class,
+            fn(Application $app) => AppKey::init($app->make(Repository::class))
+        );
+        $this->app->singleton(
+            Blake2bHashingKey::class,
+            fn(Application $app) => Blake2bHashingKey::init($app->make(Repository::class))
+        );
+
+        $this->app->singleton(
+            HmacKey::class,
+            fn(Application $app) => HmacKey::init($app->make(Repository::class))
+        );
+
+        $this->app->singleton(
+            EdDSASignerKey::class,
+            fn(Application $app) => EdDSASignerKey::init(
+                $app->make(Repository::class),
+                $app->make(LoggerInterface::class)
+            )
+        );
     }
 
     protected function registerSigners(): void
@@ -116,11 +128,11 @@ class ServiceProvider extends EncryptionServiceProvider
                 ->give(HmacKey::class);
         }
 
-        $this->app->register(Signing::class, static function (Application $app) {
+        $this->app->singleton(Signing::class, static function (Application $app) {
             return $app->make($app->make(Repository::class)->get('crypto.signing.driver'));
         });
 
-        $this->app->register(PublicKeySigning::class, EdDSA::class);
+        $this->app->singleton(PublicKeySigning::class, EdDSA::class);
     }
 
     protected function registerHashers(): void
@@ -131,19 +143,20 @@ class ServiceProvider extends EncryptionServiceProvider
             Sha512::class,
         ];
 
-        $this->app->singleton(HashingManager::class);
 
         foreach ($hashers as $hasher) {
             $this->app->register($hasher, static function (Application $app) use ($hasher) {
-                $params = $app->make(Repository::class)->get('crypto.hashing.config.' . $hasher::ALGHORITH);
+                $params = $app->make(Repository::class)->get('crypto.hashing.config.' . $hasher);
 
                 return $params === null ? new $hasher() : new $hasher(...$params);
             });
         }
 
-        $this->app->register(Hashing::class, static function (Application $app) {
+        $this->app->singleton(Hashing::class, static function (Application $app) {
             return $app->make($app->make(Repository::class)->get('crypto.hashing.driver'));
         });
+
+        $this->app->singleton(HashingManager::class);
     }
 
     protected function getConfigPath(): string
@@ -154,7 +167,7 @@ class ServiceProvider extends EncryptionServiceProvider
     protected function registerEncrypter(): void
     {
         foreach ([AesGcm256Encryptor::class, XChaCha20Poly1305Encryptor::class] as $encryptor) {
-            $this->app->singleton($encryptor, $encryptor);
+            $this->app->singleton($encryptor);
             $this->app->when($encryptor)
                 ->needs(Loader::class)
                 ->give(AppKey::class);

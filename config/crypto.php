@@ -52,7 +52,7 @@ return [
     'hashing' => [
         'driver' => Blake2bHash::class,
         'config' => [
-            Blake2bHash::ALGORITHM => [
+            Blake2bHash::class => [
                 'key' => env('CRYPTO_BLAKE2B_HASHING_KEY'),
                 'outputLength' => 32,
             ],

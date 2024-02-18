@@ -12,11 +12,11 @@ use SplFileObject;
 
 class EdDSASignerKey implements Loader, Generator
 {
-    private const KEY_LENGTH = SODIUM_CRYPTO_SIGN_KEYPAIRBYTES;
-    private const PUBLIC_KEY_LENGTH = SODIUM_CRYPTO_SIGN_PUBLICKEYBYTES;
-    private const PRIVATE_KEY_LENGTH = SODIUM_CRYPTO_SIGN_SECRETKEYBYTES;
+    public const KEY_LENGTH = SODIUM_CRYPTO_SIGN_KEYPAIRBYTES;
+    public const PUBLIC_KEY_LENGTH = SODIUM_CRYPTO_SIGN_PUBLICKEYBYTES;
+    public const PRIVATE_KEY_LENGTH = SODIUM_CRYPTO_SIGN_SECRETKEYBYTES;
 
-    private const CONFIG_PATH = 'crypto.signing.keys.eddsa';
+    private const CONFIG_KEY_PATH = 'crypto.signing.keys.eddsa';
 
     private static string $privateKey;
     private static string $publicKey;
@@ -27,15 +27,19 @@ class EdDSASignerKey implements Loader, Generator
     ) {
     }
 
-    public static function init(Repository $config, LoggerInterface $logger): void
+    public static function init(Repository $config, LoggerInterface $logger): static
     {
-        $path = $config->get(self::CONFIG_PATH);
+        if (!isset(static::$publicKey, static::$privateKey)) {
+            $path = $config->get(static::CONFIG_KEY_PATH);
 
-        if ($path === null) {
-            throw new MissingAppKeyException('File for EdDSA signer is not set');
+            if ($path === null) {
+                throw new MissingAppKeyException('File for EdDSA signer is not set');
+            }
+
+            [static::$publicKey, static::$privateKey] = static::parseKeys($path, $logger);
         }
 
-        [self::$publicKey, self::$privateKey] = self::parseKeys($path, $logger);
+        return new static($config, $logger);
     }
 
     protected static function parseKeys(string $keyPath, LoggerInterface $logger): array
@@ -67,7 +71,7 @@ class EdDSASignerKey implements Loader, Generator
         return [self::$publicKey, self::$privateKey];
     }
 
-    public function generate(bool $write): ?string
+    public function generate(?string $write): ?string
     {
         $keyPair = sodium_crypto_sign_keypair();
         $privateKey = bin2hex(sodium_crypto_sign_secretkey($keyPair));
@@ -75,15 +79,24 @@ class EdDSASignerKey implements Loader, Generator
 
         $key = implode(PHP_EOL, [$publicKey, $privateKey]);
 
-        if (!$write) {
+        if ($write === null) {
             return $key;
         }
 
-
-        $path = $this->config->get(self::CONFIG_PATH);
+        $path = $this->config->get(self::CONFIG_KEY_PATH);
 
         if ($path === null) {
             throw new RuntimeException('File for EdDSA signer is not set');
+        }
+
+        if (!@file_exists($concurrentDirectory = dirname($path)) && !@mkdir(
+                $concurrentDirectory,
+                0740,
+                true
+            ) && !is_dir(
+                $concurrentDirectory
+            )) {
+            throw new RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
         }
 
         $file = new SplFileObject($path, 'wb');

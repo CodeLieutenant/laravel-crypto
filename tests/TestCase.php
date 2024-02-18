@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Tests;
 
-use BrosSquad\LaravelCrypto\Support\Base64;
-use BrosSquad\LaravelCrypto\Support\Random;
 use BrosSquad\LaravelCrypto\ServiceProvider;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use BrosSquad\LaravelCrypto\Facades\{
@@ -30,15 +28,8 @@ class TestCase extends OrchestraTestCase
     {
         return [
             "Hashing" => Hashing::class,
-            "Base64" => Base64::class,
             "Signing" => Signing::class,
-            "Random" => Random::class,
         ];
-    }
-
-    public static function assertIsBinary(string $text, string $message = ''): void
-    {
-        static::assertThat(ctype_print($text), static::isFalse(), $message);
     }
 
     public static function assertIsBase64(string $text, string $message = ''): void

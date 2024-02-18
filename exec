@@ -1,8 +1,0 @@
-#!/bin/sh
-
-docker run -ti \
-  --user "$(id -u):$(id -g)" \
-  --rm \
-  -v "$(pwd)":/var/www/html \
-  -w /var/www/html \
-  php:8.1 "$@"
