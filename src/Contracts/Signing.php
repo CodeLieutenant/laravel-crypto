@@ -1,32 +1,34 @@
 <?php
 
+declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Contracts;
 
-/**
- * Interface Signing
- *
- * @package BrosSquad\LaravelCrypto\Contracts
- */
 interface Signing
 {
     /**
-     * @param  string  $data
+     * Sign the data and return the signature as a base64 url encoded string
      *
-     * @return string|null
+     * @param string $data
+     *
+     * @return string
      */
-    public function sign(string $data): ?string;
+    public function sign(string $data): string;
 
     /**
-     * @param  string  $data
+     * Sign the data and return the signature as a raw string (binary)
      *
-     * @return string|null
+     * @param string $data
+     *
+     * @return string
      */
-    public function signRaw(string $data): ?string;
+    public function signRaw(string $data): string;
 
     /**
-     * @param  string  $message
-     * @param  string  $hmac
+     * Verify the signature against the $message
+     *
+     * @param string $message
+     * @param string $hmac
      *
      * @return bool
      */

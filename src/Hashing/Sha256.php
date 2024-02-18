@@ -4,27 +4,22 @@ declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Hashing;
 
-/**
- * Class Sha256
- *
- * @package BrosSquad\LaravelCrypto\Common
- */
 class Sha256 extends Hash
 {
-    protected string $algo = 'sha512/256';
+    public const ALGORITHM = 'sha512/256';
 
-    /**
-     * @param  string  $data
-     *
-     * @return string
-     */
-    public function hash(string $data): string
+    public function __construct()
     {
-        return hash($this->algo, $data);
+        parent::__construct(32);
     }
 
-    public function hashRaw(string $data): ?string
+    public function hash(string $data): string
     {
-        return hash($this->algo, $data, true);
+        return hash(static::ALGORITHM, $data);
+    }
+
+    public function hashRaw(string $data): string
+    {
+        return hash(static::ALGORITHM, $data, true);
     }
 }

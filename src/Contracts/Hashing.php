@@ -4,44 +4,50 @@ declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Contracts;
 
-/**
- * Interface Hashing
- *
- * @package BrosSquad\LaravelCrypto\Contracts
- */
 interface Hashing
 {
     /**
-     * @param  string  $data
+     * Hashes the data and returns it as a base64 url encoded string
      *
-     * @return string|null
+     * @param string $data
+     *
+     * @return string
      */
-    public function hash(string $data): ?string;
+    public function hash(string $data): string;
 
     /**
-     * @param  string  $data
+     * Hashes the data and returns it as a raw string (binary)
+     * * @param string $data
      *
-     * @return string|null
+     * @return string
      */
-    public function hashRaw(string $data): ?string;
+    public function hashRaw(string $data): string;
 
     /**
-     * @param  string  $hash
-     * @param  string  $data
+     * Verify $hash against $data
+     * $hash is a base64 url encoded string
+     *
+     * @param string $hash
+     * @param string $data
      * @return bool
      */
     public function verify(string $hash, string $data): bool;
 
     /**
-     * @param  string  $hash
-     * @param  string  $data
+     * Verify $hash against $data
+     * $hash is a raw string (binary)
+     *
+     * @param string $hash
+     * @param string $data
      * @return bool
      */
     public function verifyRaw(string $hash, string $data): bool;
 
     /**
-     * @param  string  $hash1
-     * @param  string  $hash2
+     * Check if two strings are equal using constant time comparison
+     *
+     * @param string $hash1
+     * @param string $hash2
      *
      * @return bool
      */

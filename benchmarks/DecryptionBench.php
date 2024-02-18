@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Benchmarks\Encryption;
+namespace BrosSquad\LaravelCrypto\Benchmarks;
 
 use BrosSquad\LaravelCrypto\Encryption\AesGcm256Encryptor;
-use BrosSquad\LaravelCrypto\Encryption\XChaCha20Poly5Encryptor;
+use BrosSquad\LaravelCrypto\Encryption\XChaCha20Poly1305Encryptor;
 use Illuminate\Encryption\Encrypter;
 
 class DecryptionBench
 {
     private Encrypter $laravelEncrypter;
-    private XChaCha20Poly5Encryptor $xchacha;
+    private XChaCha20Poly1305Encryptor $xchacha;
     private AesGcm256Encryptor $aes256gcm;
     private string $xChaChaData;
     private string $aes256GcmData;
@@ -21,7 +21,7 @@ class DecryptionBench
     {
         $key = base64_decode(file_get_contents(__DIR__.'/key'));
         $this->laravelEncrypter = new Encrypter($key, 'AES-256-CBC');
-        $this->xchacha = new XChaCha20Poly5Encryptor($key);
+        $this->xchacha = new XChaCha20Poly1305Encryptor($key);
         $this->aes256gcm = new AesGcm256Encryptor($key);
         $this->xChaChaData = file_get_contents(__DIR__.'/encrypted-xchacha');
         $this->laravelData = file_get_contents(__DIR__.'/encrypted-laravel');

@@ -4,55 +4,44 @@ declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Encryption;
 
-use Exception;
-use BrosSquad\LaravelCrypto\Support\Base64;
+use BrosSquad\LaravelCrypto\Encoder\Encoder;
+use BrosSquad\LaravelCrypto\Keys\Loader;
+use BrosSquad\LaravelCrypto\Support\Random;
 use Illuminate\Contracts\Encryption\Encrypter;
 use BrosSquad\LaravelCrypto\Contracts\KeyGeneration;
-use Illuminate\Contracts\Encryption\EncryptException;
-use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Contracts\Encryption\StringEncrypter;
 use Illuminate\Encryption\Encrypter as LaravelEncrypter;
-use Illuminate\Support\Str;
-use SodiumException;
+use Psr\Log\LoggerInterface;
 
 abstract class SodiumEncryptor implements Encrypter, KeyGeneration, StringEncrypter
 {
-    protected string $key;
+    public const NONCE_SIZE = 0;
 
-    public const AES128CBC = 'AES-128-CBC';
-    public const AES256CBC = 'AES-256-CBC';
-    public const AES256GCM = 'AES-256-GCM';
-    public const XChaCha20Poly1305 = 'XChaCha20Poly1305';
-
-    public function __construct(string $key)
-    {
-        $this->key = $key;
+    public function __construct(
+        protected readonly Loader $keyLoader,
+        protected readonly LoggerInterface $logger,
+        protected readonly Encoder $encoder,
+    ) {
     }
 
     public function getKey(): string
     {
-        return $this->key;
+        return $this->keyLoader->getKey();
     }
 
     public static function supported(string $key, string $cipher): bool
     {
-        if (Str::startsWith($key, 'base64:')) {
-            $key = Str::after($key, 'base64:');
-            $key = base64_decode($key);
+        $encType = Encryption::tryFrom($cipher);
+
+        if ($encType === null) {
+            return LaravelEncrypter::supported($key, $cipher);
         }
 
-        if ($cipher === self::AES256GCM) {
-            return mb_strlen(
-                    $key,
-                    '8bit'
-                ) === SODIUM_CRYPTO_AEAD_AES256GCM_KEYBYTES && sodium_crypto_aead_aes256gcm_is_available();
+        if ($encType === Encryption::SodiumAES256GCM && !sodium_crypto_aead_aes256gcm_is_available()) {
+            return false;
         }
 
-        if ($cipher === self::XChaCha20Poly1305) {
-            return mb_strlen($key, '8bit') === SODIUM_CRYPTO_AEAD_XCHACHA20POLY1305_IETF_KEYBYTES;
-        }
-
-        return LaravelEncrypter::supported($key, $cipher);
+        return strlen($key) === $encType->keySize();
     }
 
     public function encryptString($value): string
@@ -65,54 +54,15 @@ abstract class SodiumEncryptor implements Encrypter, KeyGeneration, StringEncryp
         return $this->decrypt($payload, false);
     }
 
-    protected function encryptRaw($message, bool $serialize, int $nonceLength, callable $encryptionFunction): string
+    protected function generateNonce(?string $previous = null): string
     {
-        try {
-            // Generate random nonce of 24bytes in length
-            $nonce = random_bytes($nonceLength);
-
-            // We use json encoding instead of php serialization. it avoids the problem
-            // with many languages. (If we used php serialization, only php could deserialize it
-            // or implementation of php deserialization must be made in other program)
-            if ($serialize) {
-                $message = json_encode($message, JSON_THROW_ON_ERROR);
-            }
-
-            $encrypted = $encryptionFunction($message, $nonce, $nonce, $this->key);
-            return Base64::urlEncodeNoPadding($nonce.$encrypted);
-        } catch (Exception $e) {
-            throw new EncryptException('Value cannot be encrypted');
+        if ($previous !== null) {
+            $copy = $previous;
+            sodium_increment($copy);
+            return $copy;
         }
+
+        return Random::bytes(static::NONCE_SIZE);
     }
 
-    protected function decryptRaw(
-        string $payload,
-        bool $unserialize,
-        int $nonceLength,
-        callable $encryptionFunction
-    ) {
-        $decoded = Base64::urlDecode($payload);
-        $nonce = mb_substr($decoded, 0, $nonceLength, '8bit');
-        $cipherText = mb_substr($decoded, $nonceLength, null, '8bit');
-        try {
-            $decrypted = $encryptionFunction($cipherText, $nonce, $nonce, $this->key);
-
-            if ($unserialize) {
-                return json_decode($decrypted, true, 512, JSON_THROW_ON_ERROR);
-            }
-
-            return $decrypted;
-        } catch (Exception $e) {
-            throw new DecryptException('Payload cannot be decrypted');
-        }
-    }
-
-
-    public function __destruct()
-    {
-        try {
-            sodium_memzero($this->key);
-        } catch (SodiumException $e) {
-        }
-    }
 }

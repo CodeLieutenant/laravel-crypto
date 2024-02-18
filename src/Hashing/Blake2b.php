@@ -7,31 +7,24 @@ namespace BrosSquad\LaravelCrypto\Hashing;
 use SodiumException;
 use BrosSquad\LaravelCrypto\Support\Base64;
 
-/**
- * Class Blake2b
- *
- * @package BrosSquad\LaravelCrypto\Common
- */
 class Blake2b extends Hash
 {
-    protected string $algo = 'blake2b';
+    public const ALGORITHM = 'blake2b';
 
-    /**
-     * @param  string  $data
-     *
-     * @return string|null
-     */
-    public function hash(string $data): ?string
-    {
-        return Base64::constantUrlEncodeNoPadding($this->hashRaw($data));
+    public function __construct(
+        protected ?string $key = null,
+        int $outputLength = 64,
+    ) {
+        parent::__construct($outputLength);
     }
 
-    public function hashRaw(string $data): ?string
+    public function hash(string $data): string
     {
-        try {
-            return sodium_crypto_generichash($data, '', 64);
-        } catch (SodiumException $e) {
-            return null;
-        }
+        return Base64::urlEncodeNoPadding($this->hashRaw($data));
+    }
+
+    public function hashRaw(string $data): string
+    {
+        return sodium_crypto_generichash($data, $this->key ?? '', $this->outputLength);
     }
 }

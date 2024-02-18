@@ -1,30 +1,25 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Hashing;
 
-/**
- * Class Sha512
- *
- * @package BrosSquad\LaravelCrypto\Common
- */
 class Sha512 extends Hash
 {
-    protected string $algo = 'sha3-512';
+    public const ALGORITHM = 'sha512';
 
-    /**
-     * @param  string  $data
-     *
-     * @return string
-     */
-    public function hash(string $data): string
+    public function __construct()
     {
-        return hash($this->algo, $data);
+        parent::__construct(64);
     }
 
-    public function hashRaw(string $data): ?string
+    public function hash(string $data): string
     {
-        return hash($this->algo, $data, true);
+        return hash(static::ALGORITHM, $data);
+    }
+
+    public function hashRaw(string $data): string
+    {
+        return hash(static::ALGORITHM, $data, true);
     }
 }

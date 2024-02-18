@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Support;
 
-use SodiumException;
-
-class Base64
+final class Base64
 {
     public static function encode(string $binary): string
     {
         return base64_encode($binary);
+    }
+    public static function encodeNoPadding(string $binary): string
+    {
+        return rtrim(base64_encode($binary),'=');
     }
 
     public static function decode(string $base64): string
@@ -36,80 +38,52 @@ class Base64
 
     public static function constantEncode(string $binary): ?string
     {
-        try {
-            return sodium_bin2base64($binary, SODIUM_BASE64_VARIANT_ORIGINAL);
-        } catch (SodiumException $e) {
-            return null;
-        }
+        return sodium_bin2base64($binary, SODIUM_BASE64_VARIANT_ORIGINAL);
+    }
+
+    public static function constantEncodeNoPadding(string $binary): ?string
+    {
+        return sodium_bin2base64($binary, SODIUM_BASE64_VARIANT_ORIGINAL_NO_PADDING);
     }
 
     public static function constantDecode(string $binary): ?string
     {
-        try {
-            return sodium_base642bin($binary, SODIUM_BASE64_VARIANT_ORIGINAL);
-        } catch (SodiumException $e) {
-            return null;
-        }
+        return sodium_base642bin($binary, SODIUM_BASE64_VARIANT_ORIGINAL);
     }
 
     public static function constantUrlEncode(string $binary): ?string
     {
-        try {
-            return sodium_bin2base64($binary, SODIUM_BASE64_VARIANT_URLSAFE);
-        } catch (SodiumException $e) {
-            return null;
-        }
+        return sodium_bin2base64($binary, SODIUM_BASE64_VARIANT_URLSAFE);
     }
 
     public static function constantUrlEncodeNoPadding(string $binary): ?string
     {
-        try {
-            return sodium_bin2base64($binary, SODIUM_BASE64_VARIANT_URLSAFE_NO_PADDING);
-        } catch (SodiumException $e) {
-            return null;
-        }
+        return sodium_bin2base64($binary, SODIUM_BASE64_VARIANT_URLSAFE_NO_PADDING);
     }
 
     public static function constantUrlDecode(string $binary): ?string
     {
-        try {
-            return sodium_base642bin($binary, SODIUM_BASE64_VARIANT_URLSAFE);
-        } catch (SodiumException $e) {
-            return null;
-        }
+        return sodium_base642bin($binary, SODIUM_BASE64_VARIANT_URLSAFE);
     }
 
     public static function constantUrlDecodeNoPadding(string $binary): ?string
     {
-        try {
-            return sodium_base642bin($binary, SODIUM_BASE64_VARIANT_URLSAFE_NO_PADDING);
-        } catch (SodiumException $e) {
-            return null;
-        }
+        return sodium_base642bin($binary, SODIUM_BASE64_VARIANT_URLSAFE_NO_PADDING);
     }
 
-    public static function maxEncodedLengthToBytes(int $length): int
+    public static function decodedLength(int $bufferLength, bool $hasPadding = true): int
     {
-        return ((3 * $length) >> 2);
-    }
-
-
-    public static function encodedLengthToBytes(string $base64): ?int
-    {
-        $count = 0;
-        if ($base64[-1] === '=') {
-            $count++;
-        }
-
-        if ($base64[-2] === '=') {
-            $count++;
-        }
-
-        return ((3 * strlen($base64)) >> 2) - $count;
+        return match ($hasPadding) {
+            true => intdiv($bufferLength, 4) * 3,
+            false => intdiv($bufferLength * 6, 8),
+        };
     }
 
     public static function encodedLength(int $bufferLength, bool $hasPadding = true): int
     {
-        return $hasPadding ? (intdiv(($bufferLength + 2), 3)) << 2 : intdiv((($bufferLength << 2) | 2), 3);
+        return match ($hasPadding) {
+            true => intdiv($bufferLength + 2, 3) * 3,
+            false => intdiv(($bufferLength * 8 + 5), 6),
+        };
     }
 }
