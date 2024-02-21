@@ -20,22 +20,22 @@ class HashingManager extends Manager implements Hashing
 
     public function hash(string $data): string
     {
-        return $this->driver($this->getDefaultDriver())->hash($data);
+        return $this->driver()->hash($data);
     }
 
     public function hashRaw(string $data): string
     {
-        return $this->driver($this->getDefaultDriver())->hashRaw($data);
+        return $this->driver()->hashRaw($data);
     }
 
     public function verify(string $hash, string $data): bool
     {
-        return $this->driver($this->getDefaultDriver())->verify($hash, $data);
+        return $this->driver()->verify($hash, $data);
     }
 
     public function verifyRaw(string $hash, string $data): bool
     {
-        return $this->createBlake2bDriver()->verifyRaw($hash, $data);
+        return $this->driver()->verifyRaw($hash, $data);
     }
 
     public function getDefaultDriver()

@@ -20,17 +20,17 @@ class SigningManager extends Manager implements Signing
 
     public function sign(string $data): string
     {
-        return $this->driver($this->getDefaultDriver())->sign($data);
+        return $this->driver()->sign($data);
     }
 
     public function signRaw(string $data): string
     {
-        return $this->driver($this->getDefaultDriver())->signRaw($data);
+        return $this->driver()->signRaw($data);
     }
 
     public function verify(string $message, string $hmac): bool
     {
-        return $this->driver($this->getDefaultDriver())->verify($message, $hmac);
+        return $this->driver()->verify($message, $hmac);
     }
 
     public function getDefaultDriver()
