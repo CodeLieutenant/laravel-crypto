@@ -7,7 +7,7 @@ namespace BrosSquad\LaravelCrypto\Signing;
 use BrosSquad\LaravelCrypto\Signing\EdDSA\EdDSA;
 use Illuminate\Support\Manager;
 use BrosSquad\LaravelCrypto\Contracts\Signing;
-use BrosSquad\LaravelCrypto\Signing\Hmac\Blake2b;
+use BrosSquad\LaravelCrypto\Signing\Hmac\HmacBlake2b;
 use BrosSquad\LaravelCrypto\Signing\Hmac\HmacSha256;
 use BrosSquad\LaravelCrypto\Signing\Hmac\HmacSha512;
 

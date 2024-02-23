@@ -6,7 +6,7 @@ namespace BrosSquad\LaravelCrypto\Signing\Traits;
 
 trait Blake2b
 {
-    protected ?\BrosSquad\LaravelCrypto\Signing\Hmac\Blake2b $blake2b = null;
+    protected ?\BrosSquad\LaravelCrypto\Signing\Hmac\HmacBlake2b $blake2b = null;
 
     public function blake2bSign(string $data): string
     {
@@ -23,7 +23,7 @@ trait Blake2b
         return $this->createBlake2bDriver()->verify($message, $hmac);
     }
 
-    public function createBlake2bDriver(): \BrosSquad\LaravelCrypto\Signing\Hmac\Blake2b
+    public function createBlake2bDriver(): \BrosSquad\LaravelCrypto\Signing\Hmac\HmacBlake2b
     {
         if ($this->blake2b === null) {
             $this->blake2b = $this->container->get(Blake2b::class);

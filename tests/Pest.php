@@ -4,4 +4,4 @@ declare(strict_types=1);
 
 use BrosSquad\LaravelCrypto\Tests\TestCase;
 
-uses(TestCase::class);
+uses(TestCase::class)->in(__DIR__);

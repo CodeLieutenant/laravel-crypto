@@ -8,9 +8,6 @@ use BrosSquad\LaravelCrypto\Signing\SigningManager;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * Class Signing
- *
- * @package BrosSquad\LaravelCrypto\Facades
  * @method static string sign(string $data)
  * @method static string signRaw(string $data)
  * @method static string blake2bSign(string $data)
@@ -27,7 +24,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static string eddsaSignRaw(string $data)
  * @method static bool eddsaVerify(string $message, string $hmac)
  */
-class Signing extends Facade
+class Sign extends Facade
 {
     protected static function getFacadeAccessor(): string
     {

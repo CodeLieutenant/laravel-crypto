@@ -25,6 +25,7 @@ use BrosSquad\LaravelCrypto\Keys\EdDSASignerKey;
 use BrosSquad\LaravelCrypto\Keys\HmacKey;
 use BrosSquad\LaravelCrypto\Keys\Loader;
 use BrosSquad\LaravelCrypto\Signing\EdDSA\EdDSA;
+use BrosSquad\LaravelCrypto\Signing\Hmac\HmacBlake2b;
 use BrosSquad\LaravelCrypto\Signing\Hmac\HmacSha256;
 use BrosSquad\LaravelCrypto\Signing\Hmac\HmacSha512;
 use BrosSquad\LaravelCrypto\Signing\SigningManager;
@@ -38,7 +39,7 @@ use Psr\Log\LoggerInterface;
 class ServiceProvider extends EncryptionServiceProvider
 {
 
-    public function boot(Repository $config, LoggerInterface $logger): void
+    public function boot(): void
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([$this->getConfigPath() => config_path('crypto.php')]);
@@ -55,8 +56,8 @@ class ServiceProvider extends EncryptionServiceProvider
 
         $this->registerEncoder();
         $this->registerKeyLoaders();
-//        $this->registerSigners();
-//        $this->registerHashers();
+        $this->registerSigners();
+        $this->registerHashers();
         parent::register();
     }
 
@@ -116,7 +117,7 @@ class ServiceProvider extends EncryptionServiceProvider
             ->give(EdDSASignerKey::class);
 
         $hmacSigners = [
-            \BrosSquad\LaravelCrypto\Signing\Hmac\Blake2b::class,
+            HmacBlake2b::class,
             HmacSha256::class,
             HmacSha512::class,
         ];
@@ -143,9 +144,8 @@ class ServiceProvider extends EncryptionServiceProvider
             Sha512::class,
         ];
 
-
         foreach ($hashers as $hasher) {
-            $this->app->register($hasher, static function (Application $app) use ($hasher) {
+            $this->app->singleton($hasher, static function (Application $app) use ($hasher) {
                 $params = $app->make(Repository::class)->get('crypto.hashing.config.' . $hasher);
 
                 return $params === null ? new $hasher() : new $hasher(...$params);
@@ -175,12 +175,11 @@ class ServiceProvider extends EncryptionServiceProvider
 
         $func = static function (Application $app) {
             $cipher = $app->make('config')->get('app.cipher');
-            $keyLoader = $app->make(AppKey::class);
 
             $enc = Encryption::tryFrom($cipher);
 
             if ($enc === null) {
-                return new LaravelConcreteEncrypter($keyLoader->getKey(), $cipher);
+                return new LaravelConcreteEncrypter($app->make(AppKey::class)->getKey(), $cipher);
             }
 
             return match ($enc) {

@@ -35,7 +35,7 @@
     },
     "require-dev": {
         "nunomaduro/collision": "^7.10",
-        "orchestra/testbench": "^8.0|^9.0",
+        "orchestra/testbench": "^8.21",
         "pestphp/pest": "^2.34",
         "pestphp/pest-plugin-laravel": "^2.3",
         "phpbench/phpbench": "@dev"
@@ -72,7 +72,7 @@
             ],
             "aliases": {
                 "Hashing": "BrosSquad\\LaravelCrypto\\Facades\\Hashing",
-                "Signing": "BrosSquad\\LaravelCrypto\\Facades\\Signing"
+                "Signing": "BrosSquad\\LaravelCrypto\\Facades\\Sign"
             }
         }
     },

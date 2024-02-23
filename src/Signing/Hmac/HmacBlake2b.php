@@ -6,7 +6,7 @@ namespace BrosSquad\LaravelCrypto\Signing\Hmac;
 
 use BrosSquad\LaravelCrypto\Support\Base64;
 
-class Blake2b extends Hmac
+class HmacBlake2b extends Hmac
 {
     public const HASH_SIZE = 64;
     public const ALGORITHM = 'blake2b';
