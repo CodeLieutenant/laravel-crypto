@@ -5,7 +5,7 @@ declare(strict_types=1);
 use BrosSquad\LaravelCrypto\Encoder\JsonEncoder;
 use BrosSquad\LaravelCrypto\Encoder\PhpEncoder;
 use BrosSquad\LaravelCrypto\Hashing\Blake2b as Blake2bHash;
-use BrosSquad\LaravelCrypto\Signing\Hmac\HmacBlake2b as Blake2bHMAC;
+use BrosSquad\LaravelCrypto\Signing\Hmac\Blake2b as Blake2bHMAC;
 
 return [
     /*
@@ -78,6 +78,11 @@ return [
         'keys' => [
             'eddsa' => env('CRYPTO_EDDSA_PUBLIC_CRYPTO_KEY', storage_path('keys/eddsa.key')),
             'hmac' => env('CRYPTO_HMAC_KEY'),
+        ],
+        'config' => [
+            Blake2bHMAC::class => [
+                'outputLength' => 32,
+            ],
         ],
     ],
 ];

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Hashing;
 
+use BrosSquad\LaravelCrypto\Traits\ConstantTimeCompare;
 use Illuminate\Support\Manager;
 use BrosSquad\LaravelCrypto\Contracts\Hashing;
 
@@ -12,11 +13,7 @@ class HashingManager extends Manager implements Hashing
     use Traits\Blake2b;
     use Traits\Sha256;
     use Traits\Sha512;
-
-    public function equals(string $hash1, string $hash2): bool
-    {
-        return sodium_memcmp($hash1, $hash2) === 0;
-    }
+    use ConstantTimeCompare;
 
     public function hash(string $data): string
     {

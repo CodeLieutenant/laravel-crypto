@@ -29,8 +29,8 @@ interface Signing
      *
      * @param string $message
      * @param string $hmac
-     *
+     * @param bool $decodeSignature
      * @return bool
      */
-    public function verify(string $message, string $hmac): bool;
+    public function verify(string $message, string $hmac, bool $decodeSignature = true): bool;
 }

@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Signing\EdDSA;
+namespace BrosSquad\LaravelCrypto\Signing\Hmac;
 
-use BrosSquad\LaravelCrypto\Contracts\PublicKeySigning;
+use BrosSquad\LaravelCrypto\Contracts\Signing as SigningContract;
 use BrosSquad\LaravelCrypto\Keys\Loader;
 use BrosSquad\LaravelCrypto\Signing\Traits\Signing;
 use BrosSquad\LaravelCrypto\Support\Base64;
-final class EdDSA implements PublicKeySigning
+
+final class Sha256 implements SigningContract
 {
     use Signing;
 
@@ -19,17 +20,15 @@ final class EdDSA implements PublicKeySigning
 
     public function signRaw(string $data): string
     {
-        [, $private] = $this->loader->getKey();
-        return sodium_crypto_sign_detached($data, $private);
+        return sodium_crypto_auth($data, $this->loader->getKey());
     }
 
     public function verify(string $message, string $hmac, bool $decodeSignature = true): bool
     {
-        [$public] = $this->loader->getKey();
-        return sodium_crypto_sign_verify_detached(
-            !$decodeSignature ? $hmac : Base64::urlDecode($hmac),
+        return sodium_crypto_auth_verify(
+            !$decodeSignature ? $hmac : Base64::constantUrlDecodeNoPadding($hmac),
             $message,
-            $public
+            $this->loader->getKey()
         );
     }
 }

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Signing\Traits;
 
-use BrosSquad\LaravelCrypto\Signing\Hmac\HmacSha256;
+use BrosSquad\LaravelCrypto\Signing\Hmac\Sha256;
 
 trait Hmac256
 {
-    protected ?HmacSha256 $hmac256 = null;
+    protected ?Sha256 $hmac256 = null;
 
     public function hmac256Sign(string $data): string
     {
@@ -25,10 +25,10 @@ trait Hmac256
         return $this->createHmac256Driver()->verify($message, $hmac);
     }
 
-    public function createHmac256Driver(): HmacSha256
+    public function createHmac256Driver(): Sha256
     {
         if ($this->hmac256 === null) {
-            $this->hmac256 = $this->container->get(HmacSha256::class);
+            $this->hmac256 = $this->container->get(Sha256::class);
         }
 
         return $this->hmac256;

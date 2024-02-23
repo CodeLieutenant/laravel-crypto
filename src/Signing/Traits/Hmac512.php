@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Signing\Traits;
 
-use BrosSquad\LaravelCrypto\Signing\Hmac\HmacSha512;
+use BrosSquad\LaravelCrypto\Signing\Hmac\Sha512;
 
 trait Hmac512
 {
-    protected ?HmacSha512 $hmac512 = null;
+    protected ?Sha512 $hmac512 = null;
 
     public function hmac512Sign(string $data): string
     {
@@ -26,10 +26,10 @@ trait Hmac512
         return $this->createHmac512Driver()->verify($message, $hmac);
     }
 
-    public function createHmac512Driver(): HmacSha512
+    public function createHmac512Driver(): Sha512
     {
         if ($this->hmac512 === null) {
-            $this->hmac512 = $this->container->get(HmacSha512::class);
+            $this->hmac512 = $this->container->get(Sha512::class);
         }
 
         return $this->hmac512;

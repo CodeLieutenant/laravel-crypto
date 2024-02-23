@@ -25,9 +25,9 @@ use BrosSquad\LaravelCrypto\Keys\EdDSASignerKey;
 use BrosSquad\LaravelCrypto\Keys\HmacKey;
 use BrosSquad\LaravelCrypto\Keys\Loader;
 use BrosSquad\LaravelCrypto\Signing\EdDSA\EdDSA;
-use BrosSquad\LaravelCrypto\Signing\Hmac\HmacBlake2b;
-use BrosSquad\LaravelCrypto\Signing\Hmac\HmacSha256;
-use BrosSquad\LaravelCrypto\Signing\Hmac\HmacSha512;
+use BrosSquad\LaravelCrypto\Signing\Hmac\Blake2b as HmacBlake2b;
+use BrosSquad\LaravelCrypto\Signing\Hmac\Sha256 as HmacSha256;
+use BrosSquad\LaravelCrypto\Signing\Hmac\Sha512 as HmacSha512;
 use BrosSquad\LaravelCrypto\Signing\SigningManager;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Encryption\Encrypter;
@@ -123,10 +123,12 @@ class ServiceProvider extends EncryptionServiceProvider
         ];
 
         foreach ($hmacSigners as $signer) {
-            $this->app->singleton($signer);
-            $this->app->when($signer)
-                ->needs(Loader::class)
-                ->give(HmacKey::class);
+            $this->app->singleton($signer, function (Application $app) use ($signer) {
+                $config = $app->make(Repository::class)->get('crypto.signing.config.' . $signer);
+                $keyLoader = $app->make(HmacKey::class);
+
+                return $config !== null ? new $signer($keyLoader, $config) : new $signer($keyLoader);
+            });
         }
 
         $this->app->singleton(Signing::class, static function (Application $app) {
