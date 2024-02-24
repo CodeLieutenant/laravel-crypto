@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Encryption;
 
-use BrosSquad\LaravelCrypto\Support\Base64;
 use Exception;
 use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Contracts\Encryption\EncryptException;
+use Illuminate\Contracts\Encryption\StringEncrypter;
+use BrosSquad\LaravelCrypto\Contracts\KeyGeneration;
+use BrosSquad\LaravelCrypto\Support\Base64;
 
-class AesGcm256Encryptor extends SodiumEncryptor
+final class AesGcm256Encryptor implements Encrypter, KeyGeneration, StringEncrypter
 {
-    public const NONCE_SIZE = SODIUM_CRYPTO_AEAD_AES256GCM_NPUBBYTES;
+    use Crypto;
 
     public function encrypt($value, $serialize = true): string
     {
@@ -36,8 +39,8 @@ class AesGcm256Encryptor extends SodiumEncryptor
     public function decrypt($payload, $unserialize = true)
     {
         $decoded = Base64::urlDecode($payload);
-        $nonce = substr($decoded, 0, self::NONCE_SIZE);
-        $cipherText = substr($decoded, self::NONCE_SIZE);
+        $nonce = substr($decoded, 0, self::nonceSize());
+        $cipherText = substr($decoded, self::nonceSize());
 
         try {
             $decrypted = sodium_crypto_aead_aes256gcm_decrypt($cipherText, $nonce, $nonce, $this->keyLoader->getKey());
@@ -58,5 +61,10 @@ class AesGcm256Encryptor extends SodiumEncryptor
     public static function generateKey(string $cipher): string
     {
         return sodium_crypto_aead_aes256gcm_keygen();
+    }
+
+    public static function nonceSize(): int
+    {
+        return SODIUM_CRYPTO_AEAD_AES256GCM_NPUBBYTES;
     }
 }

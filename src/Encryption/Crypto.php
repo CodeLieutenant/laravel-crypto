@@ -13,16 +13,16 @@ use Illuminate\Contracts\Encryption\StringEncrypter;
 use Illuminate\Encryption\Encrypter as LaravelEncrypter;
 use Psr\Log\LoggerInterface;
 
-abstract class SodiumEncryptor implements Encrypter, KeyGeneration, StringEncrypter
+trait Crypto
 {
-    public const NONCE_SIZE = 0;
-
     public function __construct(
         protected readonly Loader $keyLoader,
         protected readonly LoggerInterface $logger,
         protected readonly Encoder $encoder,
     ) {
     }
+
+    abstract public static function nonceSize(): int;
 
     public function getKey(): string
     {
@@ -62,7 +62,7 @@ abstract class SodiumEncryptor implements Encrypter, KeyGeneration, StringEncryp
             return $copy;
         }
 
-        return Random::bytes(static::NONCE_SIZE);
+        return Random::bytes(static::nonceSize());
     }
 
 }

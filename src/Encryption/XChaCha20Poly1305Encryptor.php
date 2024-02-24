@@ -9,9 +9,9 @@ use Exception;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Contracts\Encryption\EncryptException;
 
-class XChaCha20Poly1305Encryptor extends SodiumEncryptor
+final class XChaCha20Poly1305Encryptor
 {
-    public const NONCE_SIZE = SODIUM_CRYPTO_AEAD_XCHACHA20POLY1305_IETF_NPUBBYTES;
+    use Crypto;
 
     public function encrypt($value, $serialize = true): string
     {
@@ -41,8 +41,8 @@ class XChaCha20Poly1305Encryptor extends SodiumEncryptor
     public function decrypt($payload, $unserialize = true)
     {
         $decoded = Base64::urlDecode($payload);
-        $nonce = substr($decoded, 0, self::NONCE_SIZE);
-        $cipherText = substr($decoded, self::NONCE_SIZE, null);
+        $nonce = substr($decoded, 0, self::nonceSize());
+        $cipherText = substr($decoded, self::nonceSize(), null);
 
         try {
             $decrypted = sodium_crypto_aead_xchacha20poly1305_ietf_decrypt(
@@ -70,5 +70,10 @@ class XChaCha20Poly1305Encryptor extends SodiumEncryptor
     public static function generateKey(string $cipher): string
     {
         return sodium_crypto_aead_xchacha20poly1305_ietf_keygen();
+    }
+
+    public static function nonceSize(): int
+    {
+        return SODIUM_CRYPTO_AEAD_XCHACHA20POLY1305_IETF_NPUBBYTES;
     }
 }
