@@ -15,13 +15,6 @@ use Psr\Log\LoggerInterface;
 
 trait Crypto
 {
-    public function __construct(
-        protected readonly Loader $keyLoader,
-        protected readonly LoggerInterface $logger,
-        protected readonly Encoder $encoder,
-    ) {
-    }
-
     abstract public static function nonceSize(): int;
 
     public function getKey(): string
@@ -54,7 +47,7 @@ trait Crypto
         return $this->decrypt($payload, false);
     }
 
-    protected function generateNonce(?string $previous = null): string
+    public function generateNonce(?string $previous = null): string
     {
         if ($previous !== null) {
             $copy = $previous;

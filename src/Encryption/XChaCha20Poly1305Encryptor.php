@@ -4,14 +4,24 @@ declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Encryption;
 
+use BrosSquad\LaravelCrypto\Encoder\Encoder;
+use BrosSquad\LaravelCrypto\Keys\Loader;
 use BrosSquad\LaravelCrypto\Support\Base64;
 use Exception;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Contracts\Encryption\EncryptException;
+use Psr\Log\LoggerInterface;
 
 final class XChaCha20Poly1305Encryptor
 {
     use Crypto;
+
+    public function __construct(
+        private readonly Loader $keyLoader,
+        private readonly LoggerInterface $logger,
+        private readonly Encoder $encoder,
+    ) {
+    }
 
     public function encrypt($value, $serialize = true): string
     {
@@ -27,7 +37,7 @@ final class XChaCha20Poly1305Encryptor
                 $nonce,
                 $this->keyLoader->getKey()
             );
-            return Base64::urlEncodeNoPadding($nonce . $encrypted);
+            return Base64::constantUrlEncodeNoPadding($nonce . $encrypted);
         } catch (Exception $e) {
             $this->logger->error($e->getMessage(), [
                 'exception' => $e,
@@ -40,7 +50,7 @@ final class XChaCha20Poly1305Encryptor
 
     public function decrypt($payload, $unserialize = true)
     {
-        $decoded = Base64::urlDecode($payload);
+        $decoded = Base64::constantUrlDecodeNoPadding($payload);
         $nonce = substr($decoded, 0, self::nonceSize());
         $cipherText = substr($decoded, self::nonceSize(), null);
 
