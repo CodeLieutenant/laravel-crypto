@@ -4,14 +4,28 @@ declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Encryption;
 
-use BrosSquad\LaravelCrypto\Support\Base64;
+use BrosSquad\LaravelCrypto\Encoder\Encoder;
+use BrosSquad\LaravelCrypto\Encoder\JsonEncoder;
+use BrosSquad\LaravelCrypto\Keys\Loader;
 use Exception;
 use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Contracts\Encryption\EncryptException;
+use Illuminate\Contracts\Encryption\StringEncrypter;
+use BrosSquad\LaravelCrypto\Contracts\KeyGeneration;
+use BrosSquad\LaravelCrypto\Support\Base64;
+use Psr\Log\LoggerInterface;
 
-class AesGcm256Encryptor extends SodiumEncryptor
+final class AesGcm256Encryptor implements Encrypter, KeyGeneration, StringEncrypter
 {
-    public const NONCE_SIZE = SODIUM_CRYPTO_AEAD_AES256GCM_NPUBBYTES;
+    use Crypto;
+
+    public function __construct(
+        private readonly Loader $keyLoader,
+        private readonly Encoder $encoder = new JsonEncoder(),
+        private readonly ?LoggerInterface $logger = null,
+    ) {
+    }
 
     public function encrypt($value, $serialize = true): string
     {
@@ -23,9 +37,9 @@ class AesGcm256Encryptor extends SodiumEncryptor
         try {
             $nonce = $this->generateNonce();
             $encrypted = sodium_crypto_aead_aes256gcm_encrypt($serialized, $nonce, $nonce, $this->getKey());
-            return Base64::urlEncodeNoPadding($nonce . $encrypted);
+            return Base64::constantUrlEncodeNoPadding($nonce . $encrypted);
         } catch (Exception $e) {
-            $this->logger->error($e->getMessage(), [
+            $this->logger?->error($e->getMessage(), [
                 'exception' => $e,
                 'stack' => $e->getTraceAsString(),
             ]);
@@ -35,14 +49,14 @@ class AesGcm256Encryptor extends SodiumEncryptor
 
     public function decrypt($payload, $unserialize = true)
     {
-        $decoded = Base64::urlDecode($payload);
-        $nonce = substr($decoded, 0, self::NONCE_SIZE);
-        $cipherText = substr($decoded, self::NONCE_SIZE);
+        $decoded = Base64::constantUrlDecodeNopadding($payload);
+        $nonce = substr($decoded, 0, self::nonceSize());
+        $cipherText = substr($decoded, self::nonceSize());
 
         try {
             $decrypted = sodium_crypto_aead_aes256gcm_decrypt($cipherText, $nonce, $nonce, $this->keyLoader->getKey());
         } catch (Exception $e) {
-            $this->logger->error($e->getMessage(), [
+            $this->logger?->error($e->getMessage(), [
                 'stack' => $e->getTraceAsString(),
                 'exception' => $e,
             ]);
@@ -58,5 +72,10 @@ class AesGcm256Encryptor extends SodiumEncryptor
     public static function generateKey(string $cipher): string
     {
         return sodium_crypto_aead_aes256gcm_keygen();
+    }
+
+    public static function nonceSize(): int
+    {
+        return SODIUM_CRYPTO_AEAD_AES256GCM_NPUBBYTES;
     }
 }

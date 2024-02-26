@@ -6,7 +6,7 @@ namespace BrosSquad\LaravelCrypto\Encoder;
 
 class JsonEncoder implements Encoder
 {
-    public function __construct(private readonly bool $asArray = false)
+    public function __construct(private readonly bool $asArray = true)
     {
     }
 
@@ -17,6 +17,11 @@ class JsonEncoder implements Encoder
 
     public function decode(string $value): mixed
     {
-        return json_decode($value, $this->asArray, 512, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        return json_decode(
+            $value,
+            $this->asArray,
+            512,
+            JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+        );
     }
 }

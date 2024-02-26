@@ -79,5 +79,10 @@ return [
             'eddsa' => env('CRYPTO_EDDSA_PUBLIC_CRYPTO_KEY', storage_path('keys/eddsa.key')),
             'hmac' => env('CRYPTO_HMAC_KEY'),
         ],
+        'config' => [
+            Blake2bHMAC::class => [
+                'outputLength' => 32,
+            ],
+        ],
     ],
 ];

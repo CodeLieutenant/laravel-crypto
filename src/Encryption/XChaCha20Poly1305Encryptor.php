@@ -4,14 +4,25 @@ declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Encryption;
 
+use BrosSquad\LaravelCrypto\Encoder\Encoder;
+use BrosSquad\LaravelCrypto\Encoder\JsonEncoder;
+use BrosSquad\LaravelCrypto\Keys\Loader;
 use BrosSquad\LaravelCrypto\Support\Base64;
 use Exception;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Contracts\Encryption\EncryptException;
+use Psr\Log\LoggerInterface;
 
-class XChaCha20Poly1305Encryptor extends SodiumEncryptor
+final class XChaCha20Poly1305Encryptor
 {
-    public const NONCE_SIZE = SODIUM_CRYPTO_AEAD_XCHACHA20POLY1305_IETF_NPUBBYTES;
+    use Crypto;
+
+    public function __construct(
+        private readonly Loader $keyLoader,
+        private readonly Encoder $encoder = new JsonEncoder(),
+        private readonly ?LoggerInterface $logger = null,
+    ) {
+    }
 
     public function encrypt($value, $serialize = true): string
     {
@@ -27,22 +38,22 @@ class XChaCha20Poly1305Encryptor extends SodiumEncryptor
                 $nonce,
                 $this->keyLoader->getKey()
             );
-            return Base64::urlEncodeNoPadding($nonce . $encrypted);
+            return Base64::constantUrlEncodeNoPadding($nonce . $encrypted);
         } catch (Exception $e) {
-            $this->logger->error($e->getMessage(), [
+            $this->logger?->error($e->getMessage(), [
                 'exception' => $e,
                 'value' => $value,
                 'serialize' => $serialize,
             ]);
-            throw new EncryptException('Value cannot be encrypted');
+            throw new EncryptException('Value cannot be encrypted ' . $e->getMessage());
         }
     }
 
     public function decrypt($payload, $unserialize = true)
     {
-        $decoded = Base64::urlDecode($payload);
-        $nonce = substr($decoded, 0, self::NONCE_SIZE);
-        $cipherText = substr($decoded, self::NONCE_SIZE, null);
+        $decoded = Base64::constantUrlDecodeNoPadding($payload);
+        $nonce = substr($decoded, 0, self::nonceSize());
+        $cipherText = substr($decoded, self::nonceSize(), null);
 
         try {
             $decrypted = sodium_crypto_aead_xchacha20poly1305_ietf_decrypt(
@@ -52,10 +63,9 @@ class XChaCha20Poly1305Encryptor extends SodiumEncryptor
                 $this->keyLoader->getKey()
             );
         } catch (Exception $e) {
-            $this->logger->error($e->getMessage(), [
+            $this->logger?->error($e->getMessage(), [
                 'exception' => $e,
-                'value' => $value,
-                'serialize' => $serialize,
+                'serialize' => $unserialize,
             ]);
             throw new DecryptException('Payload cannot be decrypted');
         }
@@ -67,8 +77,13 @@ class XChaCha20Poly1305Encryptor extends SodiumEncryptor
         return $decrypted;
     }
 
-    public static function generateKey(string $cipher): string
+    public static function generateKey(string $_): string
     {
         return sodium_crypto_aead_xchacha20poly1305_ietf_keygen();
+    }
+
+    public static function nonceSize(): int
+    {
+        return SODIUM_CRYPTO_AEAD_XCHACHA20POLY1305_IETF_NPUBBYTES;
     }
 }

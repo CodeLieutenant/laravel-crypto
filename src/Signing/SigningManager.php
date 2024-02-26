@@ -4,12 +4,8 @@ declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Signing;
 
-use BrosSquad\LaravelCrypto\Signing\EdDSA\EdDSA;
 use Illuminate\Support\Manager;
 use BrosSquad\LaravelCrypto\Contracts\Signing;
-use BrosSquad\LaravelCrypto\Signing\Hmac\Blake2b;
-use BrosSquad\LaravelCrypto\Signing\Hmac\HmacSha256;
-use BrosSquad\LaravelCrypto\Signing\Hmac\HmacSha512;
 
 class SigningManager extends Manager implements Signing
 {
@@ -20,17 +16,17 @@ class SigningManager extends Manager implements Signing
 
     public function sign(string $data): string
     {
-        return $this->driver($this->getDefaultDriver())->sign($data);
+        return $this->driver()->sign($data);
     }
 
     public function signRaw(string $data): string
     {
-        return $this->driver($this->getDefaultDriver())->signRaw($data);
+        return $this->driver()->signRaw($data);
     }
 
-    public function verify(string $message, string $hmac): bool
+    public function verify(string $message, string $hmac, bool $decodeSignature = true): bool
     {
-        return $this->driver($this->getDefaultDriver())->verify($message, $hmac);
+        return $this->driver()->verify($message, $hmac, $decodeSignature);
     }
 
     public function getDefaultDriver()

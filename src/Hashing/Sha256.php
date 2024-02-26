@@ -4,22 +4,24 @@ declare(strict_types=1);
 
 namespace BrosSquad\LaravelCrypto\Hashing;
 
-class Sha256 extends Hash
-{
-    public const ALGORITHM = 'sha512/256';
+use BrosSquad\LaravelCrypto\Contracts\Hashing;
+use BrosSquad\LaravelCrypto\Hashing\Traits\Hash;
+use BrosSquad\LaravelCrypto\Traits\ConstantTimeCompare;
 
-    public function __construct()
-    {
-        parent::__construct(32);
-    }
+final class Sha256 implements Hashing
+{
+    use Hash;
+    use ConstantTimeCompare;
+
+    public const ALGORITHM = 'sha512/256';
 
     public function hash(string $data): string
     {
-        return hash(static::ALGORITHM, $data);
+        return hash(self::ALGORITHM, $data);
     }
 
     public function hashRaw(string $data): string
     {
-        return hash(static::ALGORITHM, $data, true);
+        return hash(self::ALGORITHM, $data, true);
     }
 }
