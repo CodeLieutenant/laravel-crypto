@@ -34,11 +34,11 @@
         "illuminate/support": "^8|^9|^10"
     },
     "require-dev": {
-        "nunomaduro/collision": "^7.10",
+        "brianium/paratest": "^7.3",
         "orchestra/testbench": "^8.21",
         "pestphp/pest": "^2.34",
         "pestphp/pest-plugin-laravel": "^2.3",
-        "phpbench/phpbench": "@dev"
+        "phpbench/phpbench": "^1.2"
     },
     "autoload": {
         "psr-4": {

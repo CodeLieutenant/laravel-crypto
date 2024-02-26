@@ -1,3 +1,6 @@
 vendor/
 .idea/
 .phpbench/
+coverage.xml
+teamcity.txt
+junit.xml
