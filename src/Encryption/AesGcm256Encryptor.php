@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace BrosSquad\LaravelCrypto\Encryption;
 
 use BrosSquad\LaravelCrypto\Encoder\Encoder;
+use BrosSquad\LaravelCrypto\Encoder\JsonEncoder;
 use BrosSquad\LaravelCrypto\Keys\Loader;
 use Exception;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -21,8 +22,8 @@ final class AesGcm256Encryptor implements Encrypter, KeyGeneration, StringEncryp
 
     public function __construct(
         private readonly Loader $keyLoader,
-        private readonly LoggerInterface $logger,
-        private readonly Encoder $encoder,
+        private readonly Encoder $encoder = new JsonEncoder(),
+        private readonly ?LoggerInterface $logger = null,
     ) {
     }
 
@@ -38,7 +39,7 @@ final class AesGcm256Encryptor implements Encrypter, KeyGeneration, StringEncryp
             $encrypted = sodium_crypto_aead_aes256gcm_encrypt($serialized, $nonce, $nonce, $this->getKey());
             return Base64::constantUrlEncodeNoPadding($nonce . $encrypted);
         } catch (Exception $e) {
-            $this->logger->error($e->getMessage(), [
+            $this->logger?->error($e->getMessage(), [
                 'exception' => $e,
                 'stack' => $e->getTraceAsString(),
             ]);
@@ -55,7 +56,7 @@ final class AesGcm256Encryptor implements Encrypter, KeyGeneration, StringEncryp
         try {
             $decrypted = sodium_crypto_aead_aes256gcm_decrypt($cipherText, $nonce, $nonce, $this->keyLoader->getKey());
         } catch (Exception $e) {
-            $this->logger->error($e->getMessage(), [
+            $this->logger?->error($e->getMessage(), [
                 'stack' => $e->getTraceAsString(),
                 'exception' => $e,
             ]);

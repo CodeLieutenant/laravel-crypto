@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace BrosSquad\LaravelCrypto\Encryption;
 
 use BrosSquad\LaravelCrypto\Encoder\Encoder;
+use BrosSquad\LaravelCrypto\Encoder\JsonEncoder;
 use BrosSquad\LaravelCrypto\Keys\Loader;
 use BrosSquad\LaravelCrypto\Support\Base64;
 use Exception;
@@ -18,8 +19,8 @@ final class XChaCha20Poly1305Encryptor
 
     public function __construct(
         private readonly Loader $keyLoader,
-        private readonly LoggerInterface $logger,
-        private readonly Encoder $encoder,
+        private readonly Encoder $encoder = new JsonEncoder(),
+        private readonly ?LoggerInterface $logger = null,
     ) {
     }
 
@@ -39,12 +40,12 @@ final class XChaCha20Poly1305Encryptor
             );
             return Base64::constantUrlEncodeNoPadding($nonce . $encrypted);
         } catch (Exception $e) {
-            $this->logger->error($e->getMessage(), [
+            $this->logger?->error($e->getMessage(), [
                 'exception' => $e,
                 'value' => $value,
                 'serialize' => $serialize,
             ]);
-            throw new EncryptException('Value cannot be encrypted');
+            throw new EncryptException('Value cannot be encrypted ' . $e->getMessage());
         }
     }
 
@@ -62,10 +63,9 @@ final class XChaCha20Poly1305Encryptor
                 $this->keyLoader->getKey()
             );
         } catch (Exception $e) {
-            $this->logger->error($e->getMessage(), [
+            $this->logger?->error($e->getMessage(), [
                 'exception' => $e,
-                'value' => $value,
-                'serialize' => $serialize,
+                'serialize' => $unserialize,
             ]);
             throw new DecryptException('Payload cannot be decrypted');
         }
@@ -77,7 +77,7 @@ final class XChaCha20Poly1305Encryptor
         return $decrypted;
     }
 
-    public static function generateKey(string $cipher): string
+    public static function generateKey(string $_): string
     {
         return sodium_crypto_aead_xchacha20poly1305_ietf_keygen();
     }
