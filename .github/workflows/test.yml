@@ -1,0 +1,76 @@
+name: "Run Tests"
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+env:
+  XDEBUG_MODE: "coverage"
+  GITHUB_WORKSPACE: /var/www/html
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        operating-system: ['ubuntu-latest']
+        php-versions: ['8.1', '8.2', '8.3']
+        phpts: [true, false]
+    env:
+      extensions: mbstring, intl, sodium, xsl, zip, pdo, pdo_sqlite, xdebug, curl
+      key: extensions-cache
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Cache Vendor
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-vendor-${{ hashFiles('**/composer.lock') }}
+
+      - name: Setup cache environment
+        id: extcache
+        uses: shivammathur/cache-extensions@v1
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: ${{ env.extensions }}
+          key: ${{ env.key }}
+
+      - name: Cache extensions
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.extcache.outputs.dir }}
+          key: ${{ steps.extcache.outputs.key }}-${{ env.phpts }}
+          restore-keys: ${{ steps.extcache.outputs.key }}-${{ env.phpts }}
+
+      - name: Setup PHP
+        id: setup-php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          phpts: ${{ matrix.phpts }}
+          extensions: ${{ env.extensions }}
+          tools: php-cs-fixer, phpcs, composer
+          update: true
+          coverage: xdebug
+
+      - name: Composer install
+        run: composer install -q --no-ansi --prefer-dist --no-interaction --no-progress
+
+      - name: Run Tests
+        run: vendor/bin/pest --coverage-clover=coverage.xml --coverage --colors always --fail-on-risky --fail-on-warning --fail-on-deprecation --strict-coverage
+
+      - uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage.xml
+          flags: tests
+          name: laravel-crypto
+          fail_ci_if_error: true
+          verbose: false
