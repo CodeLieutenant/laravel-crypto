@@ -4,6 +4,23 @@
          bootstrap="vendor/autoload.php"
          colors="true"
 >
+    <source>
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+    </source>
+    <coverage
+            ignoreDeprecatedCodeUnits="true"
+            disableCodeCoverageIgnore="true">
+        <report>
+            <clover outputFile="coverage.xml"/>
+        </report>
+    </coverage>
+    <logging>
+        <junit outputFile="junit.xml"/>
+        <teamcity outputFile="teamcity.txt"/>
+    </logging>
+
     <testsuites>
         <testsuite name="Unit">
             <directory suffix="Test.php">./tests/Unit</directory>
