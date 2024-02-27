@@ -4,9 +4,15 @@ on:
   push:
     branches:
       - master
+    path:
+      - 'src/**'
+      - 'tests/**'
   pull_request:
     branches:
       - master
+    paths:
+      - 'src/**'
+      - 'tests/**'
 
 env:
   XDEBUG_MODE: "coverage"
