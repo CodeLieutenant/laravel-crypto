@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Facades;
+namespace CodeLieutenant\LaravelCrypto\Facades;
 
-use BrosSquad\LaravelCrypto\Signing\SigningManager;
+use CodeLieutenant\LaravelCrypto\Signing\SigningManager;
 use Illuminate\Support\Facades\Facade;
 
 /**

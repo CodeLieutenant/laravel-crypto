@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Exceptions;
+namespace CodeLieutenant\LaravelCrypto\Exceptions;
 
 use Exception;
 use Throwable;

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Keys;
+namespace CodeLieutenant\LaravelCrypto\Keys;
 
-use BrosSquad\LaravelCrypto\Support\Base64;
+use CodeLieutenant\LaravelCrypto\Support\Base64;
 use RuntimeException;
 
 trait EnvKeySaver

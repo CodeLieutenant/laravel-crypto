@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use BrosSquad\LaravelCrypto\Encoder\JsonEncoder;
+use CodeLieutenant\LaravelCrypto\Encoder\JsonEncoder;
 
 test('encode', function () {
     $encoder = new JsonEncoder();

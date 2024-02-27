@@ -1,6 +1,6 @@
 <?php
 
-use BrosSquad\LaravelCrypto\Encryption\Encryption;
+use CodeLieutenant\LaravelCrypto\Encryption\Encryption;
 use Illuminate\Encryption\EncryptionServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
@@ -160,7 +160,7 @@ return [
 
     'providers' => ServiceProvider::defaultProviders()
         ->replace([
-            EncryptionServiceProvider::class => BrosSquad\LaravelCrypto\ServiceProvider::class,
+            EncryptionServiceProvider::class => CodeLieutenant\LaravelCrypto\ServiceProvider::class,
         ])
         ->merge([
             WorkbenchServiceProvider::class,

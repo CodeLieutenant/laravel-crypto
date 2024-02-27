@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use BrosSquad\LaravelCrypto\Encryption\XChaCha20Poly1305Encryptor;
+use CodeLieutenant\LaravelCrypto\Encryption\XChaCha20Poly1305Encryptor;
 
 it('should encrypt/decrypt data', function (bool $serialize) {
     $encryptor = new XChaCha20Poly1305Encryptor(inMemoryKeyLoader());

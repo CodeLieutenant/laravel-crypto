@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Console;
+namespace CodeLieutenant\LaravelCrypto\Console;
 
-use BrosSquad\LaravelCrypto\Keys\AppKey;
-use BrosSquad\LaravelCrypto\Keys\Blake2bHashingKey;
-use BrosSquad\LaravelCrypto\Keys\EdDSASignerKey;
-use BrosSquad\LaravelCrypto\Keys\HmacKey;
+use CodeLieutenant\LaravelCrypto\Keys\AppKey;
+use CodeLieutenant\LaravelCrypto\Keys\Blake2bHashingKey;
+use CodeLieutenant\LaravelCrypto\Keys\EdDSASignerKey;
+use CodeLieutenant\LaravelCrypto\Keys\HmacKey;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;

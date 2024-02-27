@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Keys;
+namespace CodeLieutenant\LaravelCrypto\Keys;
 
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Encryption\MissingAppKeyException;

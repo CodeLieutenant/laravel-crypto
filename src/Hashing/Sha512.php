@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Hashing;
+namespace CodeLieutenant\LaravelCrypto\Hashing;
 
-use BrosSquad\LaravelCrypto\Contracts\Hashing;
-use BrosSquad\LaravelCrypto\Hashing\Traits\Hash;
-use BrosSquad\LaravelCrypto\Traits\ConstantTimeCompare;
+use CodeLieutenant\LaravelCrypto\Contracts\Hashing;
+use CodeLieutenant\LaravelCrypto\Hashing\Traits\Hash;
+use CodeLieutenant\LaravelCrypto\Traits\ConstantTimeCompare;
 
 final class Sha512 implements Hashing
 {

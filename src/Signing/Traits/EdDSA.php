@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Signing\Traits;
+namespace CodeLieutenant\LaravelCrypto\Signing\Traits;
 
 trait EdDSA
 {
-    protected ?\BrosSquad\LaravelCrypto\Signing\EdDSA\EdDSA $eddsa = null;
+    protected ?\CodeLieutenant\LaravelCrypto\Signing\EdDSA\EdDSA $eddsa = null;
 
     public function eddsaSign(string $data): string
     {
@@ -23,7 +23,7 @@ trait EdDSA
         return $this->createEdDSADriver()->verify($message, $hmac);
     }
 
-    public function createEdDSADriver(): \BrosSquad\LaravelCrypto\Signing\EdDSA\EdDSA
+    public function createEdDSADriver(): \CodeLieutenant\LaravelCrypto\Signing\EdDSA\EdDSA
     {
         if ($this->eddsa === null) {
             $this->eddsa = $this->container->get(EdDSA::class);

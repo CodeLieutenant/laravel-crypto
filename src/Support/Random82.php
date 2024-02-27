@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Support;
+namespace CodeLieutenant\LaravelCrypto\Support;
 
 use Random\Randomizer;
 

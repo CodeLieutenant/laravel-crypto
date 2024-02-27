@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use BrosSquad\LaravelCrypto\Support\Base64;
+use CodeLieutenant\LaravelCrypto\Support\Base64;
 
 it('encodes binary data', function () {
     $data = random_bytes(32);

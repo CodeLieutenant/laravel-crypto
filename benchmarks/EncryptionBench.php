@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Benchmarks;
+namespace CodeLieutenant\LaravelCrypto\Benchmarks;
 
-use BrosSquad\LaravelCrypto\Encoder\IgbinaryEncoder;
-use BrosSquad\LaravelCrypto\Encoder\JsonEncoder;
-use BrosSquad\LaravelCrypto\Encoder\PhpEncoder;
-use BrosSquad\LaravelCrypto\Encryption\AesGcm256Encryptor;
-use BrosSquad\LaravelCrypto\Encryption\XChaCha20Poly1305Encryptor;
-use BrosSquad\LaravelCrypto\Support\Random;
+use CodeLieutenant\LaravelCrypto\Encoder\IgbinaryEncoder;
+use CodeLieutenant\LaravelCrypto\Encoder\JsonEncoder;
+use CodeLieutenant\LaravelCrypto\Encoder\PhpEncoder;
+use CodeLieutenant\LaravelCrypto\Encryption\AesGcm256Encryptor;
+use CodeLieutenant\LaravelCrypto\Encryption\XChaCha20Poly1305Encryptor;
+use CodeLieutenant\LaravelCrypto\Support\Random;
 use Generator;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Support\Js;

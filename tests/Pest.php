@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use BrosSquad\LaravelCrypto\Tests\InMemoryAppKeyLoader;
-use BrosSquad\LaravelCrypto\Tests\TestCase;
-use BrosSquad\LaravelCrypto\Keys\Loader;
+use CodeLieutenant\LaravelCrypto\Tests\InMemoryAppKeyLoader;
+use CodeLieutenant\LaravelCrypto\Tests\TestCase;
+use CodeLieutenant\LaravelCrypto\Keys\Loader;
 
 uses(TestCase::class)->in(__DIR__);
 

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Hashing\Traits;
+namespace CodeLieutenant\LaravelCrypto\Hashing\Traits;
 
 trait Sha512
 {
-    private ?\BrosSquad\LaravelCrypto\Hashing\Sha512 $sha512 = null;
+    private ?\CodeLieutenant\LaravelCrypto\Hashing\Sha512 $sha512 = null;
 
     public function sha512(string $data): string
     {
@@ -28,7 +28,7 @@ trait Sha512
         return $this->createSha512Driver()->verifyRaw($hash, $data);
     }
 
-    public function createSha512Driver(): \BrosSquad\LaravelCrypto\Hashing\Sha512
+    public function createSha512Driver(): \CodeLieutenant\LaravelCrypto\Hashing\Sha512
     {
         if ($this->sha512 === null) {
             $this->sha512 = $this->container->make(Sha512::class);

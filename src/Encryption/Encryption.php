@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Encryption;
+namespace CodeLieutenant\LaravelCrypto\Encryption;
 
 enum Encryption: string
 {

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use BrosSquad\LaravelCrypto\Encryption\AesGcm256Encryptor;
-use BrosSquad\LaravelCrypto\Encryption\XChaCha20Poly1305Encryptor;
+use CodeLieutenant\LaravelCrypto\Encryption\AesGcm256Encryptor;
+use CodeLieutenant\LaravelCrypto\Encryption\XChaCha20Poly1305Encryptor;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Support\Facades\Config;
-use BrosSquad\LaravelCrypto\Encryption\Encryption;
+use CodeLieutenant\LaravelCrypto\Encryption\Encryption;
 
 test('encrypter resolver', function (string $cipher, string $instance) {
     Config::set('app.cipher', $cipher);

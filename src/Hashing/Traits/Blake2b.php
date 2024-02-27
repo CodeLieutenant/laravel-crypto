@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Hashing\Traits;
+namespace CodeLieutenant\LaravelCrypto\Hashing\Traits;
 
-use BrosSquad\LaravelCrypto\Hashing\Blake2b as Blake2bHashing;
+use CodeLieutenant\LaravelCrypto\Hashing\Blake2b as Blake2bHashing;
 
 trait Blake2b
 {

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Hashing\Traits;
+namespace CodeLieutenant\LaravelCrypto\Hashing\Traits;
 
 trait Sha256
 {
-    private ?\BrosSquad\LaravelCrypto\Hashing\Sha256 $sha256 = null;
+    private ?\CodeLieutenant\LaravelCrypto\Hashing\Sha256 $sha256 = null;
 
     public function sha256(string $data): string
     {
@@ -28,7 +28,7 @@ trait Sha256
         return $this->createSha256Driver()->verifyRaw($hash, $data);
     }
 
-    public function createSha256Driver(): \BrosSquad\LaravelCrypto\Hashing\Sha256
+    public function createSha256Driver(): \CodeLieutenant\LaravelCrypto\Hashing\Sha256
     {
         if ($this->sha256 === null) {
             $this->sha256 = $this->container->make(Sha256::class);

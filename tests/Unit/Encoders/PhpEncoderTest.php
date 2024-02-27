@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use BrosSquad\LaravelCrypto\Encoder\PhpEncoder;
+use CodeLieutenant\LaravelCrypto\Encoder\PhpEncoder;
 
 test('encode', function () {
     $encoder = new PhpEncoder();

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Keys;
+namespace CodeLieutenant\LaravelCrypto\Keys;
 
-use BrosSquad\LaravelCrypto\Encryption\AesGcm256Encryptor;
-use BrosSquad\LaravelCrypto\Encryption\Encryption;
-use BrosSquad\LaravelCrypto\Encryption\XChaCha20Poly1305Encryptor;
+use CodeLieutenant\LaravelCrypto\Encryption\AesGcm256Encryptor;
+use CodeLieutenant\LaravelCrypto\Encryption\Encryption;
+use CodeLieutenant\LaravelCrypto\Encryption\XChaCha20Poly1305Encryptor;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Encryption\Encrypter;
 

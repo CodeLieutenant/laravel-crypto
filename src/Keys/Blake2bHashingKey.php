@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Keys;
+namespace CodeLieutenant\LaravelCrypto\Keys;
 
-use BrosSquad\LaravelCrypto\Support\Random;
+use CodeLieutenant\LaravelCrypto\Support\Random;
 use Illuminate\Contracts\Config\Repository;
 
 class Blake2bHashingKey extends AppKey

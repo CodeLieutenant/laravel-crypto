@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use BrosSquad\LaravelCrypto\Hashing\Blake2b;
+use CodeLieutenant\LaravelCrypto\Hashing\Blake2b;
 
 function bcryptHash(string $value, string $key, int $outputLength = 32): string
 {
