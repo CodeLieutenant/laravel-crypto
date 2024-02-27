@@ -33,5 +33,4 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           author: true
-          unreleasedOnly: true
           releaseUrl: ${{ steps.release.outputs.url }}
