@@ -1,5 +1,6 @@
 # Laravel Crypto
 
+[![Run Tests](https://github.com/dmalusev/laravel-crypto/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/dmalusev/laravel-crypto/actions/workflows/test.yml)
 [![GitHub issues](https://img.shields.io/github/issues/malusev998/LaravelCrypto?label=Github%20Issues)](https://github.com/malusev998/LaravelCrypto/issues)
 [![GitHub stars](https://img.shields.io/github/stars/malusev998/LaravelCrypto?label=Github%20Stars)](https://github.com/malusev998/LaravelCrypto/stargazers)
 [![GitHub license](https://img.shields.io/github/license/malusev998/LaravelCrypto?label=Licence)](https://github.com/malusev998/LaravelCrypto)
