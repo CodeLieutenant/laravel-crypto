@@ -22,8 +22,8 @@ jobs:
         uses: softprops/action-gh-release@v1
         id: release
         with:
-          name: "v${{ steps.version_tag.outputs.url }}"
-          tag_name: "v${{ steps.version_tag.outputs.url }}"
+          name: "v${{ steps.version_tag.outputs.tag }}"
+          tag_name: "v${{ steps.version_tag.outputs.tag }}"
           generate_release_notes: true
           append_body: true
           prerelease: false
