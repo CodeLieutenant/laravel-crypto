@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Encryption;
+namespace CodeLieutenant\LaravelCrypto\Encryption;
 
-use BrosSquad\LaravelCrypto\Encoder\Encoder;
-use BrosSquad\LaravelCrypto\Encoder\JsonEncoder;
-use BrosSquad\LaravelCrypto\Keys\Loader;
+use CodeLieutenant\LaravelCrypto\Encoder\Encoder;
+use CodeLieutenant\LaravelCrypto\Encoder\JsonEncoder;
+use CodeLieutenant\LaravelCrypto\Keys\Loader;
 use Exception;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Contracts\Encryption\EncryptException;
 use Illuminate\Contracts\Encryption\StringEncrypter;
-use BrosSquad\LaravelCrypto\Contracts\KeyGeneration;
-use BrosSquad\LaravelCrypto\Support\Base64;
+use CodeLieutenant\LaravelCrypto\Contracts\KeyGeneration;
+use CodeLieutenant\LaravelCrypto\Support\Base64;
 use Psr\Log\LoggerInterface;
 
 final class AesGcm256Encryptor implements Encrypter, KeyGeneration, StringEncrypter

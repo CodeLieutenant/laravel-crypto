@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Signing\EdDSA;
+namespace CodeLieutenant\LaravelCrypto\Signing\EdDSA;
 
-use BrosSquad\LaravelCrypto\Contracts\PublicKeySigning;
-use BrosSquad\LaravelCrypto\Keys\Loader;
-use BrosSquad\LaravelCrypto\Signing\Traits\Signing;
-use BrosSquad\LaravelCrypto\Support\Base64;
+use CodeLieutenant\LaravelCrypto\Contracts\PublicKeySigning;
+use CodeLieutenant\LaravelCrypto\Keys\Loader;
+use CodeLieutenant\LaravelCrypto\Signing\Traits\Signing;
+use CodeLieutenant\LaravelCrypto\Support\Base64;
 final class EdDSA implements PublicKeySigning
 {
     use Signing;

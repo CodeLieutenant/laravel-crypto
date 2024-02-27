@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Signing\Traits;
+namespace CodeLieutenant\LaravelCrypto\Signing\Traits;
 
-use BrosSquad\LaravelCrypto\Signing\Hmac\Sha256;
+use CodeLieutenant\LaravelCrypto\Signing\Hmac\Sha256;
 
 trait Hmac256
 {

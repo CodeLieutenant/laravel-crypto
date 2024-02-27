@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use BrosSquad\LaravelCrypto\Encoder\IgbinaryEncoder;
+use CodeLieutenant\LaravelCrypto\Encoder\IgbinaryEncoder;
 
 test('encode', function () {
     $encoder = new IgbinaryEncoder();

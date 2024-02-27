@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Benchmarks;
+namespace CodeLieutenant\LaravelCrypto\Benchmarks;
 
-use BrosSquad\LaravelCrypto\Encryption\AesGcm256Encryptor;
-use BrosSquad\LaravelCrypto\Encryption\XChaCha20Poly1305Encryptor;
+use CodeLieutenant\LaravelCrypto\Encryption\AesGcm256Encryptor;
+use CodeLieutenant\LaravelCrypto\Encryption\XChaCha20Poly1305Encryptor;
 use Illuminate\Encryption\Encrypter;
 
 class DecryptionBench

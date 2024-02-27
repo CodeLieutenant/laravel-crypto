@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Benchmarks;
+namespace CodeLieutenant\LaravelCrypto\Benchmarks;
 
-use BrosSquad\LaravelCrypto\Support\Base64;
+use CodeLieutenant\LaravelCrypto\Support\Base64;
 use Generator;
 use PhpBench\Attributes\Groups;
 use PhpBench\Attributes\ParamProviders;

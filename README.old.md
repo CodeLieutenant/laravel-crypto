@@ -60,7 +60,7 @@ $ composer require brossquad/laravel-crypto
 ### Publishing config file
 
 ```shell script
-php artisan vendor:publish --provider="BrosSquad\LaravelCrypto\HashingServiceProvider"
+php artisan vendor:publish --provider="CodeLieutenant\LaravelCrypto\HashingServiceProvider"
 ```
 
 ### Generating EdDSA private and public key
@@ -78,7 +78,7 @@ $ php artisan crypto:keys
 #### Base64 Encoding
 
 ```php
-use BrosSquad\LaravelCrypto\Support\Base64;
+use CodeLieutenant\LaravelCrypto\Support\Base64;
 
 $binaryData = random_bytes(32);
 
@@ -134,7 +134,7 @@ $base64Length = Base64::encodedLength($bufferLength, $hasPadding);
 ### Generating random data
 
 ```php
-use BrosSquad\LaravelCrypto\Support\Random;
+use CodeLieutenant\LaravelCrypto\Support\Random;
 
 // Generate random string
 $randomString = Random::string(60); // Generates random string base64 url encoded with no padding 
@@ -155,7 +155,7 @@ Laravel crypto library uses the latest and best hashing algorithms. (Blake2b)
 ```php
 namespace App\Services;
 
-use BrosSquad\LaravelCrypto\Facades\Hashing;
+use CodeLieutenant\LaravelCrypto\Facades\Hashing;
 
 class Service 
 {
@@ -199,7 +199,7 @@ class Service
 ```php
 namespace App\Services;
 
-use \BrosSquad\LaravelCrypto\Contracts\Hashing;
+use \CodeLieutenant\LaravelCrypto\Contracts\Hashing;
 
 class Service 
 {
@@ -263,7 +263,7 @@ Read more on [HMAC](https://en.wikipedia.org/wiki/HMAC)
 
 namespace App\Service;
 
-use BrosSquad\LaravelCrypto\Facades\Sign;
+use CodeLieutenant\LaravelCrypto\Facades\Sign;
 
 class Service 
 {
@@ -297,7 +297,7 @@ class Service
 ```php
 namespace App\Service;
 
-use BrosSquad\LaravelCrypto\Contracts\Signing;
+use CodeLieutenant\LaravelCrypto\Contracts\Signing;
 
 class Service 
 {
@@ -346,7 +346,7 @@ Public key signing uses state of the art in public key cryptography -> EdDSA or 
 
 namespace App\Service;
 
-use BrosSquad\LaravelCrypto\Facades\EdDSA;
+use CodeLieutenant\LaravelCrypto\Facades\EdDSA;
 
 class Service 
 {
@@ -381,7 +381,7 @@ class Service
 ```php
 namespace App\Service;
 
-use BrosSquad\LaravelCrypto\Contracts\PublicKeySigning;
+use CodeLieutenant\LaravelCrypto\Contracts\PublicKeySigning;
 
 class Service 
 {

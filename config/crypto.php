@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use BrosSquad\LaravelCrypto\Encoder\JsonEncoder;
-use BrosSquad\LaravelCrypto\Encoder\PhpEncoder;
-use BrosSquad\LaravelCrypto\Hashing\Blake2b as Blake2bHash;
-use BrosSquad\LaravelCrypto\Signing\Hmac\Blake2b as Blake2bHMAC;
+use CodeLieutenant\LaravelCrypto\Encoder\JsonEncoder;
+use CodeLieutenant\LaravelCrypto\Encoder\PhpEncoder;
+use CodeLieutenant\LaravelCrypto\Hashing\Blake2b as Blake2bHash;
+use CodeLieutenant\LaravelCrypto\Signing\Hmac\Blake2b as Blake2bHMAC;
 
 return [
     /*

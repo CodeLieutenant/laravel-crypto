@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use BrosSquad\LaravelCrypto\Hashing\Sha256;
+use CodeLieutenant\LaravelCrypto\Hashing\Sha256;
 
 function hash256(string $value): string
 {

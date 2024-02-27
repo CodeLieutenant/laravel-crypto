@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Signing\Hmac;
+namespace CodeLieutenant\LaravelCrypto\Signing\Hmac;
 
-use BrosSquad\LaravelCrypto\Contracts\Signing as SigningContract;
-use BrosSquad\LaravelCrypto\Keys\Loader;
-use BrosSquad\LaravelCrypto\Signing\Traits\Signing;
+use CodeLieutenant\LaravelCrypto\Contracts\Signing as SigningContract;
+use CodeLieutenant\LaravelCrypto\Keys\Loader;
+use CodeLieutenant\LaravelCrypto\Signing\Traits\Signing;
 
 final class Blake2b implements SigningContract
 {

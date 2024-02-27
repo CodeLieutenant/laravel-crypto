@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Encryption;
+namespace CodeLieutenant\LaravelCrypto\Encryption;
 
-use BrosSquad\LaravelCrypto\Encoder\Encoder;
-use BrosSquad\LaravelCrypto\Keys\Loader;
-use BrosSquad\LaravelCrypto\Support\Random;
+use CodeLieutenant\LaravelCrypto\Encoder\Encoder;
+use CodeLieutenant\LaravelCrypto\Keys\Loader;
+use CodeLieutenant\LaravelCrypto\Support\Random;
 use Illuminate\Contracts\Encryption\Encrypter;
-use BrosSquad\LaravelCrypto\Contracts\KeyGeneration;
+use CodeLieutenant\LaravelCrypto\Contracts\KeyGeneration;
 use Illuminate\Contracts\Encryption\StringEncrypter;
 use Illuminate\Encryption\Encrypter as LaravelEncrypter;
 use Psr\Log\LoggerInterface;

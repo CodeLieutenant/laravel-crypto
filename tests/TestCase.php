@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Tests;
+namespace CodeLieutenant\LaravelCrypto\Tests;
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
@@ -20,7 +20,7 @@ abstract class TestCase extends BaseTestCase
     protected function getPackageProviders($app)
     {
         return [
-            \BrosSquad\LaravelCrypto\ServiceProvider::class,
+            \CodeLieutenant\LaravelCrypto\ServiceProvider::class,
         ];
     }
 }

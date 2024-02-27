@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Tests;
+namespace CodeLieutenant\LaravelCrypto\Tests;
 
-use BrosSquad\LaravelCrypto\Keys\Loader;
+use CodeLieutenant\LaravelCrypto\Keys\Loader;
 use Illuminate\Support\Str;
 
 class InMemoryAppKeyLoader implements Loader

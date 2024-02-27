@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use BrosSquad\LaravelCrypto\Encryption\AesGcm256Encryptor;
+use CodeLieutenant\LaravelCrypto\Encryption\AesGcm256Encryptor;
 
 it('should encrypt/decrypt data', function (bool $serialize) {
     $encryptor = new AesGcm256Encryptor(inMemoryKeyLoader());

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Signing\Traits;
+namespace CodeLieutenant\LaravelCrypto\Signing\Traits;
 
-use BrosSquad\LaravelCrypto\Support\Base64;
-use BrosSquad\LaravelCrypto\Traits\ConstantTimeCompare;
+use CodeLieutenant\LaravelCrypto\Support\Base64;
+use CodeLieutenant\LaravelCrypto\Traits\ConstantTimeCompare;
 
 trait Signing
 {

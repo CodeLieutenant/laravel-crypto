@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Facades;
+namespace CodeLieutenant\LaravelCrypto\Facades;
 
-use BrosSquad\LaravelCrypto\Hashing\HashingManager;
+use CodeLieutenant\LaravelCrypto\Hashing\HashingManager;
 use Illuminate\Support\Facades\Facade;
 
 /**
  * Class Hashing
  *
- * @package BrosSquad\LaravelCrypto\Facades
+ * @package CodeLieutenant\LaravelCrypto\Facades
  *
  * @method static string hash(string $data)
  * @method static string hashRaw(string $data)

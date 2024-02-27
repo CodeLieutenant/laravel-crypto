@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Hashing;
+namespace CodeLieutenant\LaravelCrypto\Hashing;
 
-use BrosSquad\LaravelCrypto\Traits\ConstantTimeCompare;
+use CodeLieutenant\LaravelCrypto\Traits\ConstantTimeCompare;
 use Illuminate\Support\Manager;
-use BrosSquad\LaravelCrypto\Contracts\Hashing;
+use CodeLieutenant\LaravelCrypto\Contracts\Hashing;
 
 class HashingManager extends Manager implements Hashing
 {

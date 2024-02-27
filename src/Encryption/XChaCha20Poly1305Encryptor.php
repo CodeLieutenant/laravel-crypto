@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Encryption;
+namespace CodeLieutenant\LaravelCrypto\Encryption;
 
-use BrosSquad\LaravelCrypto\Encoder\Encoder;
-use BrosSquad\LaravelCrypto\Encoder\JsonEncoder;
-use BrosSquad\LaravelCrypto\Keys\Loader;
-use BrosSquad\LaravelCrypto\Support\Base64;
+use CodeLieutenant\LaravelCrypto\Encoder\Encoder;
+use CodeLieutenant\LaravelCrypto\Encoder\JsonEncoder;
+use CodeLieutenant\LaravelCrypto\Keys\Loader;
+use CodeLieutenant\LaravelCrypto\Support\Base64;
 use Exception;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Contracts\Encryption\EncryptException;

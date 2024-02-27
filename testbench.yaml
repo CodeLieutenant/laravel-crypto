@@ -1,5 +1,5 @@
 providers:
-  - BrosSquad\LaravelCrypto\ServiceProvider
+  - CodeLieutenant\LaravelCrypto\ServiceProvider
   - Workbench\App\Providers\WorkbenchServiceProvider
 
 workbench:

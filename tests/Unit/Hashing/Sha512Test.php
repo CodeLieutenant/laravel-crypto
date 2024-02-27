@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use BrosSquad\LaravelCrypto\Hashing\Sha512;
+use CodeLieutenant\LaravelCrypto\Hashing\Sha512;
 
 function hash512(string $value): string
 {

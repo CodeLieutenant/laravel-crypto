@@ -20,13 +20,13 @@ As long as you use default laravel encryption, you don't need to change anything
 ### Installing
 
 ```shell script
-composer require brossquad/laravel-crypto
+composer require codelieutenant/laravel-crypto
 ```
 
 ### Publishing config file
 
 ```shell script
-php artisan vendor:publish --provider="BrosSquad\LaravelCrypto\ServiceProvider"
+php artisan vendor:publish --provider="CodeLieutenant\LaravelCrypto\ServiceProvider"
 ```
 
 ### Replacing Laravel's EncryptionServiceProvider with LaravelCrypto's ServiceProvider
@@ -35,13 +35,13 @@ In order to activate this package, you need to replace Laravel's `EncryptionServ
 with `LaravelCryptoServiceProvider`.
 
 In `config/app.php` replace `Illuminate\Encryption\EncryptionServiceProvider::class`
-with `BrosSquad\LaravelCrypto\ServiceProvider::class`
+with `CodeLieutenant\LaravelCrypto\ServiceProvider::class`
 Depending on the laravel version you are using, you can do it in two ways.
 
 Laravel 9.0 and above:
 
 ```php
-use BrosSquad\LaravelCrypto\ServiceProvider as LaravelCryptoServiceProvider;
+use CodeLieutenant\LaravelCrypto\ServiceProvider as LaravelCryptoServiceProvider;
 use Illuminate\Encryption\EncryptionServiceProvider as LaravelEncryptionServiceProvider;
 
 // ...
@@ -60,7 +60,7 @@ use Illuminate\Encryption\EncryptionServiceProvider as LaravelEncryptionServiceP
 Laravel 8.0:
 
 ```php
-use BrosSquad\LaravelCrypto\ServiceProvider as LaravelCryptoServiceProvider;
+use CodeLieutenant\LaravelCrypto\ServiceProvider as LaravelCryptoServiceProvider;
 
 'providers' => [
     // ...

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Benchmarks;
+namespace CodeLieutenant\LaravelCrypto\Benchmarks;
 
-use BrosSquad\LaravelCrypto\Keys\Loader;
+use CodeLieutenant\LaravelCrypto\Keys\Loader;
 
 class KeyLoader implements Loader
 {

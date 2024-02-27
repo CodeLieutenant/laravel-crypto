@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Hashing\Traits;
+namespace CodeLieutenant\LaravelCrypto\Hashing\Traits;
 
 
 trait Hash

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Signing;
+namespace CodeLieutenant\LaravelCrypto\Signing;
 
 use Illuminate\Support\Manager;
-use BrosSquad\LaravelCrypto\Contracts\Signing;
+use CodeLieutenant\LaravelCrypto\Contracts\Signing;
 
 class SigningManager extends Manager implements Signing
 {

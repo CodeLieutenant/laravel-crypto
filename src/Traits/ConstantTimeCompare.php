@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Traits;
+namespace CodeLieutenant\LaravelCrypto\Traits;
 
 trait ConstantTimeCompare
 {

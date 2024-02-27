@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BrosSquad\LaravelCrypto\Encoder;
+namespace CodeLieutenant\LaravelCrypto\Encoder;
 
 class PhpEncoder implements Encoder
 {
