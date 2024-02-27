@@ -1,0 +1,37 @@
+name: 'Create Release'
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  create_release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Get Tag
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: olegtarasov/get-tag@v2.1.2
+        id: version_tag
+        with:
+          tagRegex: "v(.*)"
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v1
+        id: release
+        with:
+          name: "v${{ steps.version_tag.outputs.url }}"
+          tag_name: "v${{ steps.version_tag.outputs.url }}"
+          generate_release_notes: true
+          append_body: true
+          prerelease: false
+          fail_on_unmatched_files: true
+      - name: "Generate release changelog"
+        uses: heinrichreimer/action-github-changelog-generator@v2.3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          author: true
+          unreleasedOnly: true
+          releaseUrl: ${{ steps.release.outputs.url }}
