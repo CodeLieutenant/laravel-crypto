@@ -34,3 +34,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           author: true
           releaseUrl: ${{ steps.release.outputs.url }}
+          issues: true
