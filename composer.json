@@ -67,12 +67,9 @@
     },
     "extra": {
         "laravel": {
-            "providers": [
-                "BrosSquad\\LaravelCrypto\\ServiceProvider"
-            ],
             "aliases": {
-                "Hashing": "BrosSquad\\LaravelCrypto\\Facades\\Hashing",
-                "Signing": "BrosSquad\\LaravelCrypto\\Facades\\Sign"
+                "Hashing": "CodeLieutenant\\LaravelCrypto\\Facades\\Hashing",
+                "Signing": "CodeLieutenant\\LaravelCrypto\\Facades\\Sign"
             }
         }
     },
