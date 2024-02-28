@@ -22,6 +22,10 @@ use CodeLieutenant\LaravelCrypto\Hashing\Sha512;
 use CodeLieutenant\LaravelCrypto\Keys\AppKey;
 use CodeLieutenant\LaravelCrypto\Keys\Blake2bHashingKey;
 use CodeLieutenant\LaravelCrypto\Keys\EdDSASignerKey;
+use CodeLieutenant\LaravelCrypto\Keys\Generators\AppKeyGenerator;
+use CodeLieutenant\LaravelCrypto\Keys\Generators\Blake2bHashingKeyGenerator;
+use CodeLieutenant\LaravelCrypto\Keys\Generators\EdDSASignerKeyGenerator;
+use CodeLieutenant\LaravelCrypto\Keys\Generators\HmacKeyGenerator;
 use CodeLieutenant\LaravelCrypto\Keys\HmacKey;
 use CodeLieutenant\LaravelCrypto\Keys\Loader;
 use CodeLieutenant\LaravelCrypto\Signing\EdDSA\EdDSA;
@@ -49,6 +53,7 @@ class ServiceProvider extends EncryptionServiceProvider
     public function register(): void
     {
         if ($this->app->runningInConsole()) {
+            $this->registerGenerators();
             $this->commands([GenerateCryptoKeysCommand::class]);
         }
 
@@ -87,21 +92,21 @@ class ServiceProvider extends EncryptionServiceProvider
     {
         $this->app->singleton(
             AppKey::class,
-            fn(Application $app) => AppKey::init($app->make(Repository::class))
+            fn(Application $app) => AppKey::make($app->make(Repository::class))
         );
         $this->app->singleton(
             Blake2bHashingKey::class,
-            fn(Application $app) => Blake2bHashingKey::init($app->make(Repository::class))
+            fn(Application $app) => Blake2bHashingKey::make($app->make(Repository::class))
         );
 
         $this->app->singleton(
             HmacKey::class,
-            fn(Application $app) => HmacKey::init($app->make(Repository::class))
+            fn(Application $app) => HmacKey::make($app->make(Repository::class))
         );
 
         $this->app->singleton(
             EdDSASignerKey::class,
-            fn(Application $app) => EdDSASignerKey::init(
+            fn(Application $app) => EdDSASignerKey::make(
                 $app->make(Repository::class),
                 $app->make(LoggerInterface::class)
             )
@@ -192,5 +197,13 @@ class ServiceProvider extends EncryptionServiceProvider
 
         $this->app->singleton(Encrypter::class, $func);
         $this->app->singleton('encrypter', $func);
+    }
+
+    protected function registerGenerators(): void
+    {
+        $this->app->singleton(AppKeyGenerator::class);
+        $this->app->singleton(Blake2bHashingKeyGenerator::class);
+        $this->app->singleton(HmacKeyGenerator::class);
+        $this->app->singleton(EdDSASignerKeyGenerator::class);
     }
 }

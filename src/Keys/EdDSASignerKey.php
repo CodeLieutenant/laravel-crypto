@@ -10,7 +10,7 @@ use Psr\Log\LoggerInterface;
 use RuntimeException;
 use SplFileObject;
 
-class EdDSASignerKey implements Loader, Generator
+class EdDSASignerKey implements Loader
 {
     public const KEY_LENGTH = SODIUM_CRYPTO_SIGN_KEYPAIRBYTES;
     public const PUBLIC_KEY_LENGTH = SODIUM_CRYPTO_SIGN_PUBLICKEYBYTES;
@@ -21,13 +21,8 @@ class EdDSASignerKey implements Loader, Generator
     private static string $privateKey;
     private static string $publicKey;
 
-    public function __construct(
-        private readonly Repository $config,
-        private readonly LoggerInterface $logger,
-    ) {
-    }
 
-    public static function init(Repository $config, LoggerInterface $logger): static
+    public static function make(Repository $config, LoggerInterface $logger): static
     {
         if (!isset(static::$publicKey, static::$privateKey)) {
             $path = $config->get(static::CONFIG_KEY_PATH);
@@ -39,7 +34,7 @@ class EdDSASignerKey implements Loader, Generator
             [static::$publicKey, static::$privateKey] = static::parseKeys($path, $logger);
         }
 
-        return new static($config, $logger);
+        return new static();
     }
 
     protected static function parseKeys(string $keyPath, LoggerInterface $logger): array
@@ -71,55 +66,5 @@ class EdDSASignerKey implements Loader, Generator
         return [self::$publicKey, self::$privateKey];
     }
 
-    public function generate(?string $write): ?string
-    {
-        $keyPair = sodium_crypto_sign_keypair();
-        $privateKey = bin2hex(sodium_crypto_sign_secretkey($keyPair));
-        $publicKey = bin2hex(sodium_crypto_sign_publickey($keyPair));
 
-        $key = implode(PHP_EOL, [$publicKey, $privateKey]);
-
-        if ($write === null) {
-            return $key;
-        }
-
-        $path = $this->config->get(self::CONFIG_KEY_PATH);
-
-        if ($path === null) {
-            throw new RuntimeException('File for EdDSA signer is not set');
-        }
-
-        if (!@file_exists($concurrentDirectory = dirname($path)) && !@mkdir(
-                $concurrentDirectory,
-                0740,
-                true
-            ) && !is_dir(
-                $concurrentDirectory
-            )) {
-            throw new RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
-        }
-
-        $file = new SplFileObject($path, 'wb');
-
-        if ($file->flock(LOCK_EX) === false) {
-            throw new RuntimeException('Error while locking file (exclusive/writing)');
-        }
-
-        try {
-            if ($file->fwrite($key) === false) {
-                throw new RuntimeException('Error while writing public key to file');
-            }
-        } finally {
-            if ($file->flock(LOCK_UN) === false) {
-                $this->logger->warning('Error while unlocking file');
-            }
-
-            sodium_memzero($privateKey);
-            sodium_memzero($publicKey);
-            sodium_memzero($keyPair);
-            sodium_memzero($key);
-        }
-
-        return null;
-    }
 }

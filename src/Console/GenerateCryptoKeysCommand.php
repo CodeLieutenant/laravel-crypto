@@ -7,6 +7,10 @@ namespace CodeLieutenant\LaravelCrypto\Console;
 use CodeLieutenant\LaravelCrypto\Keys\AppKey;
 use CodeLieutenant\LaravelCrypto\Keys\Blake2bHashingKey;
 use CodeLieutenant\LaravelCrypto\Keys\EdDSASignerKey;
+use CodeLieutenant\LaravelCrypto\Keys\Generators\AppKeyGenerator;
+use CodeLieutenant\LaravelCrypto\Keys\Generators\Blake2bHashingKeyGenerator;
+use CodeLieutenant\LaravelCrypto\Keys\Generators\EdDSASignerKeyGenerator;
+use CodeLieutenant\LaravelCrypto\Keys\Generators\HmacKeyGenerator;
 use CodeLieutenant\LaravelCrypto\Keys\HmacKey;
 use Exception;
 use Illuminate\Console\Command;
@@ -29,10 +33,10 @@ class GenerateCryptoKeysCommand extends Command
     protected $description = 'Generate crypto keys (APP_KEY, EdDSA, BLAKE2B_HASHING_CRYPTO_KEY)';
 
     public function handle(
-        EdDSASignerKey $edDSAGenerator,
-        AppKey $appKeyGenerator,
-        Blake2bHashingKey $blake2bKeyGenerator,
-        HmacKey $hmacKeyGenerator,
+        EdDSASignerKeyGenerator $edDSAGenerator,
+        AppKeyGenerator $appKeyGenerator,
+        Blake2bHashingKeyGenerator $blake2bKeyGenerator,
+        HmacKeyGenerator $hmacKeyGenerator,
     ): int {
         $show = $this->option('show');
         $eddsa = !$this->option('no-eddsa');

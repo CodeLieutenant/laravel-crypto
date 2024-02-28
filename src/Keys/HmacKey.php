@@ -4,12 +4,7 @@ declare(strict_types=1);
 
 namespace CodeLieutenant\LaravelCrypto\Keys;
 
-
-class HmacKey extends Blake2bHashingKey
+class HmacKey extends AppKey
 {
-    use LaravelKeyParser;
-    use EnvKeySaver;
-
-    public const ENV = 'CRYPTO_HMAC_KEY';
-    protected const CONFIG_KEY_PATH = 'crypto.signing.keys.hmac';
+    public const CONFIG_KEY_PATH = 'crypto.signing.keys.hmac';
 }
