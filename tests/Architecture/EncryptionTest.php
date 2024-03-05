@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use CodeLieutenant\LaravelCrypto\Contracts\KeyGeneration;
-use CodeLieutenant\LaravelCrypto\Encryption\AesGcm256Encryptor;
-use CodeLieutenant\LaravelCrypto\Encryption\XChaCha20Poly1305Encryptor;
+use CodeLieutenant\LaravelCrypto\Encryption\AesGcm256Encrypter;
+use CodeLieutenant\LaravelCrypto\Encryption\XChaCha20Poly1305Encrypter;
 use CodeLieutenant\LaravelCrypto\Enums\Encryption;
 use CodeLieutenant\LaravelCrypto\Traits\Crypto;
 use Illuminate\Contracts\Encryption\Encrypter;
@@ -14,5 +14,5 @@ arch('encryption')
     ->expect('CodeLieutenant\LaravelCrypto\Encryption')
     ->toImplement([Encrypter::class, StringEncrypter::class])
     ->toBeClasses()
-    ->toHaveSuffix('Encryptor')
+    ->toHaveSuffix('Encrypter')
     ->toBeFinal();

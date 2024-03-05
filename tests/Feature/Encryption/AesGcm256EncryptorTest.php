@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use CodeLieutenant\LaravelCrypto\Encryption\AesGcm256Encryptor;
+use CodeLieutenant\LaravelCrypto\Encryption\AesGcm256Encrypter;
 
 it('should encrypt/decrypt data', function (bool $serialize) {
-    $encryptor = new AesGcm256Encryptor(inMemoryKeyLoader());
+    $encryptor = new AesGcm256Encrypter(inMemoryKeyLoader());
     $data = $serialize ? ['data'] : 'hello world';
     $encrypted = $encryptor->encrypt($data, $serialize);
 
@@ -16,7 +16,7 @@ it('should encrypt/decrypt data', function (bool $serialize) {
 })->with([true, false]);
 
 it('should encrypt/decrypt string', function () {
-    $encryptor = new AesGcm256Encryptor(inMemoryKeyLoader());
+    $encryptor = new AesGcm256Encrypter(inMemoryKeyLoader());
     $data = 'hello world';
     $encrypted = $encryptor->encryptString($data);
 

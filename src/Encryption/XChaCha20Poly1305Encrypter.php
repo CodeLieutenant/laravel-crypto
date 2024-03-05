@@ -17,7 +17,7 @@ use Illuminate\Contracts\Encryption\EncryptException;
 use Illuminate\Contracts\Encryption\StringEncrypter;
 use Psr\Log\LoggerInterface;
 
-final class AesGcm256Encryptor implements Encrypter, KeyGeneration, StringEncrypter
+final class XChaCha20Poly1305Encrypter implements Encrypter, KeyGeneration, StringEncrypter
 {
     use Crypto;
 
@@ -30,53 +30,64 @@ final class AesGcm256Encryptor implements Encrypter, KeyGeneration, StringEncryp
 
     public function encrypt($value, $serialize = true): string
     {
-        $serialized = match ($serialize) {
-            true => $this->encoder->encode($value),
-            false => $value,
-        };
+        if ($serialize) {
+            $value = $this->encoder->encode($value);
+        }
 
         try {
             $nonce = $this->generateNonce();
-            $encrypted = sodium_crypto_aead_aes256gcm_encrypt($serialized, $nonce, $nonce, $this->getKey());
+            $encrypted = sodium_crypto_aead_xchacha20poly1305_ietf_encrypt(
+                $value,
+                $nonce,
+                $nonce,
+                $this->keyLoader->getKey()
+            );
             return Base64::constantUrlEncodeNoPadding($nonce . $encrypted);
         } catch (Exception $e) {
             $this->logger?->error($e->getMessage(), [
                 'exception' => $e,
-                'stack' => $e->getTraceAsString(),
+                'value' => $value,
+                'serialize' => $serialize,
             ]);
-            throw new EncryptException('Value cannot be encrypted');
+            throw new EncryptException('Value cannot be encrypted ' . $e->getMessage());
         }
     }
 
     public function decrypt($payload, $unserialize = true)
     {
-        $decoded = Base64::constantUrlDecodeNopadding($payload);
+        $decoded = Base64::constantUrlDecodeNoPadding($payload);
         $nonce = substr($decoded, 0, self::nonceSize());
-        $cipherText = substr($decoded, self::nonceSize());
+        $cipherText = substr($decoded, self::nonceSize(), null);
 
         try {
-            $decrypted = sodium_crypto_aead_aes256gcm_decrypt($cipherText, $nonce, $nonce, $this->keyLoader->getKey());
+            $decrypted = sodium_crypto_aead_xchacha20poly1305_ietf_decrypt(
+                $cipherText,
+                $nonce,
+                $nonce,
+                $this->keyLoader->getKey()
+            );
         } catch (Exception $e) {
             $this->logger?->error($e->getMessage(), [
-                'stack' => $e->getTraceAsString(),
                 'exception' => $e,
+                'serialize' => $unserialize,
             ]);
             throw new DecryptException('Payload cannot be decrypted');
         }
 
-        return match ($unserialize) {
-            true => $this->encoder->decode($decrypted),
-            false => $decrypted,
-        };
+        if ($unserialize) {
+            return $this->encoder->decode($decrypted);
+        }
+
+        return $decrypted;
     }
 
-    public static function generateKey(string $cipher): string
+    public static function generateKey(string $_): string
     {
-        return sodium_crypto_aead_aes256gcm_keygen();
+        return sodium_crypto_aead_xchacha20poly1305_ietf_keygen();
     }
 
     public static function nonceSize(): int
     {
-        return SODIUM_CRYPTO_AEAD_AES256GCM_NPUBBYTES;
+        return SODIUM_CRYPTO_AEAD_XCHACHA20POLY1305_IETF_NPUBBYTES;
     }
 }

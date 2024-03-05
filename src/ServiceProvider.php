@@ -12,8 +12,8 @@ use CodeLieutenant\LaravelCrypto\Encoder\IgbinaryEncoder;
 use CodeLieutenant\LaravelCrypto\Encoder\JsonEncoder;
 use CodeLieutenant\LaravelCrypto\Encoder\MessagePackEncoder;
 use CodeLieutenant\LaravelCrypto\Encoder\PhpEncoder;
-use CodeLieutenant\LaravelCrypto\Encryption\AesGcm256Encryptor;
-use CodeLieutenant\LaravelCrypto\Encryption\XChaCha20Poly1305Encryptor;
+use CodeLieutenant\LaravelCrypto\Encryption\AesGcm256Encrypter;
+use CodeLieutenant\LaravelCrypto\Encryption\XChaCha20Poly1305Encrypter;
 use CodeLieutenant\LaravelCrypto\Enums\Encryption;
 use CodeLieutenant\LaravelCrypto\Hashing\Blake2b;
 use CodeLieutenant\LaravelCrypto\Hashing\HashingManager;
@@ -173,7 +173,7 @@ class ServiceProvider extends EncryptionServiceProvider
 
     protected function registerEncrypter(): void
     {
-        foreach ([AesGcm256Encryptor::class, XChaCha20Poly1305Encryptor::class] as $encryptor) {
+        foreach ([AesGcm256Encrypter::class, XChaCha20Poly1305Encrypter::class] as $encryptor) {
             $this->app->singleton($encryptor);
             $this->app->when($encryptor)
                 ->needs(Loader::class)
@@ -190,8 +190,8 @@ class ServiceProvider extends EncryptionServiceProvider
             }
 
             return match ($enc) {
-                Encryption::SodiumAES256GCM => $app->make(AesGcm256Encryptor::class),
-                Encryption::SodiumXChaCha20Poly1305 => $app->make(XChaCha20Poly1305Encryptor::class),
+                Encryption::SodiumAES256GCM => $app->make(AesGcm256Encrypter::class),
+                Encryption::SodiumXChaCha20Poly1305 => $app->make(XChaCha20Poly1305Encrypter::class),
             };
         };
 
