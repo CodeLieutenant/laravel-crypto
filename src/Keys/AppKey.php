@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CodeLieutenant\LaravelCrypto\Keys;
 
 use CodeLieutenant\LaravelCrypto\Contracts\KeyLoader;
+use CodeLieutenant\LaravelCrypto\Traits\LaravelKeyParser;
 use Illuminate\Contracts\Config\Repository;
 
 class AppKey implements KeyLoader
