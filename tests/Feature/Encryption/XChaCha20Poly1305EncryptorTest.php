@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use CodeLieutenant\LaravelCrypto\Encryption\XChaCha20Poly1305Encryptor;
+use CodeLieutenant\LaravelCrypto\Encryption\XChaCha20Poly1305Encrypter;
 
 it('should encrypt/decrypt data', function (bool $serialize) {
-    $encryptor = new XChaCha20Poly1305Encryptor(inMemoryKeyLoader());
+    $encryptor = new XChaCha20Poly1305Encrypter(inMemoryKeyLoader());
     $data = $serialize ? ['data'] : 'hello world';
     $encrypted = $encryptor->encrypt($data, $serialize);
 
@@ -16,7 +16,7 @@ it('should encrypt/decrypt data', function (bool $serialize) {
 })->with([true, false]);
 
 it('should encrypt/decrypt string', function () {
-    $encryptor = new XChaCha20Poly1305Encryptor(inMemoryKeyLoader());
+    $encryptor = new XChaCha20Poly1305Encrypter(inMemoryKeyLoader());
     $data = 'hello world';
     $encrypted = $encryptor->encryptString($data);
 

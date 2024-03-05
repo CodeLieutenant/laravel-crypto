@@ -6,8 +6,8 @@ namespace CodeLieutenant\LaravelCrypto\Benchmarks;
 use CodeLieutenant\LaravelCrypto\Encoder\IgbinaryEncoder;
 use CodeLieutenant\LaravelCrypto\Encoder\JsonEncoder;
 use CodeLieutenant\LaravelCrypto\Encoder\PhpEncoder;
-use CodeLieutenant\LaravelCrypto\Encryption\AesGcm256Encryptor;
-use CodeLieutenant\LaravelCrypto\Encryption\XChaCha20Poly1305Encryptor;
+use CodeLieutenant\LaravelCrypto\Encryption\AesGcm256Encrypter;
+use CodeLieutenant\LaravelCrypto\Encryption\XChaCha20Poly1305Encrypter;
 use CodeLieutenant\LaravelCrypto\Support\Random;
 use Generator;
 use Illuminate\Encryption\Encrypter;
@@ -62,7 +62,7 @@ class EncryptionBench
             foreach ($encoders as $encoderName => $encoder) {
                 yield 'ChaCha20-' . $encoderName . '-' . $dataName => [
                     'data' => $dataValue,
-                    'encrypter' => new XChaCha20Poly1305Encryptor(new KeyLoader(Random::bytes(32)), $logger, $encoder),
+                    'encrypter' => new XChaCha20Poly1305Encrypter(new KeyLoader(Random::bytes(32)), $logger, $encoder),
                 ];
             }
         }
@@ -91,7 +91,7 @@ class EncryptionBench
             foreach ($encoders as $encoderName => $encoder) {
                 yield 'ChaCha20-' . $encoderName . '-' . $dataName => [
                     'data' => $dataValue,
-                    'encrypter' => new AesGcm256Encryptor(new KeyLoader(Random::bytes(32)), $logger, $encoder),
+                    'encrypter' => new AesGcm256Encrypter(new KeyLoader(Random::bytes(32)), $logger, $encoder),
                 ];
             }
         }
