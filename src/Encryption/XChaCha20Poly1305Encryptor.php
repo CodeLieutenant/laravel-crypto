@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace CodeLieutenant\LaravelCrypto\Encryption;
 
+use CodeLieutenant\LaravelCrypto\Contracts\KeyGeneration;
 use CodeLieutenant\LaravelCrypto\Encoder\Encoder;
 use CodeLieutenant\LaravelCrypto\Encoder\JsonEncoder;
 use CodeLieutenant\LaravelCrypto\Keys\Loader;
 use CodeLieutenant\LaravelCrypto\Support\Base64;
 use Exception;
 use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Contracts\Encryption\EncryptException;
+use Illuminate\Contracts\Encryption\StringEncrypter;
 use Psr\Log\LoggerInterface;
 
-final class XChaCha20Poly1305Encryptor
+final class XChaCha20Poly1305Encryptor implements Encrypter, KeyGeneration, StringEncrypter
 {
     use Crypto;
 
