@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use CodeLieutenant\LaravelCrypto\Encryption\Crypto;
-use CodeLieutenant\LaravelCrypto\Encryption\Encryption;
+use CodeLieutenant\LaravelCrypto\Enums\Encryption;
+use CodeLieutenant\LaravelCrypto\Traits\Crypto;
 
 class TestTraitImpl
 {

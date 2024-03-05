@@ -9,6 +9,7 @@ use CodeLieutenant\LaravelCrypto\Encoder\Encoder;
 use CodeLieutenant\LaravelCrypto\Encoder\JsonEncoder;
 use CodeLieutenant\LaravelCrypto\Keys\Loader;
 use CodeLieutenant\LaravelCrypto\Support\Base64;
+use CodeLieutenant\LaravelCrypto\Traits\Crypto;
 use Exception;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Contracts\Encryption\Encrypter;
