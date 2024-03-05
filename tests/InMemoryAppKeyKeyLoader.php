@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace CodeLieutenant\LaravelCrypto\Tests;
 
-use CodeLieutenant\LaravelCrypto\Keys\Loader;
+use CodeLieutenant\LaravelCrypto\Contracts\KeyLoader;
 use Illuminate\Support\Str;
 
-class InMemoryAppKeyLoader implements Loader
+class InMemoryAppKeyKeyLoader implements KeyLoader
 {
     public function __construct(private readonly string $key)
     {

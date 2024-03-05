@@ -6,6 +6,7 @@ namespace CodeLieutenant\LaravelCrypto;
 
 use CodeLieutenant\LaravelCrypto\Console\GenerateCryptoKeysCommand;
 use CodeLieutenant\LaravelCrypto\Contracts\Hashing;
+use CodeLieutenant\LaravelCrypto\Contracts\KeyLoader;
 use CodeLieutenant\LaravelCrypto\Contracts\PublicKeySigning;
 use CodeLieutenant\LaravelCrypto\Contracts\Signing;
 use CodeLieutenant\LaravelCrypto\Encoder\IgbinaryEncoder;
@@ -19,15 +20,14 @@ use CodeLieutenant\LaravelCrypto\Hashing\Blake2b;
 use CodeLieutenant\LaravelCrypto\Hashing\HashingManager;
 use CodeLieutenant\LaravelCrypto\Hashing\Sha256;
 use CodeLieutenant\LaravelCrypto\Hashing\Sha512;
-use CodeLieutenant\LaravelCrypto\Keys\AppKey;
-use CodeLieutenant\LaravelCrypto\Keys\Blake2bHashingKey;
-use CodeLieutenant\LaravelCrypto\Keys\EdDSASignerKey;
 use CodeLieutenant\LaravelCrypto\Keys\Generators\AppKeyGenerator;
-use CodeLieutenant\LaravelCrypto\Keys\Generators\Blake2bHashingKeyGenerator;
+use CodeLieutenant\LaravelCrypto\Keys\Generators\Blake2BHashingKeyGenerator;
 use CodeLieutenant\LaravelCrypto\Keys\Generators\EdDSASignerKeyGenerator;
 use CodeLieutenant\LaravelCrypto\Keys\Generators\HmacKeyGenerator;
-use CodeLieutenant\LaravelCrypto\Keys\HmacKey;
-use CodeLieutenant\LaravelCrypto\Keys\Loader;
+use CodeLieutenant\LaravelCrypto\Keys\Loaders\AppKeyLoader;
+use CodeLieutenant\LaravelCrypto\Keys\Loaders\Blake2BHashingKeyLoader;
+use CodeLieutenant\LaravelCrypto\Keys\Loaders\EdDSASignerKeyLoader;
+use CodeLieutenant\LaravelCrypto\Keys\Loaders\HmacKeyLoader;
 use CodeLieutenant\LaravelCrypto\Signing\EdDSA\EdDSA;
 use CodeLieutenant\LaravelCrypto\Signing\Hmac\Blake2b as HmacBlake2b;
 use CodeLieutenant\LaravelCrypto\Signing\Hmac\Sha256 as HmacSha256;
@@ -91,22 +91,22 @@ class ServiceProvider extends EncryptionServiceProvider
     protected function registerKeyLoaders(): void
     {
         $this->app->singleton(
-            AppKey::class,
-            fn(Application $app) => AppKey::make($app->make(Repository::class))
+            AppKeyLoader::class,
+            fn(Application $app) => AppKeyLoader::make($app->make(Repository::class))
         );
         $this->app->singleton(
-            Blake2bHashingKey::class,
-            fn(Application $app) => Blake2bHashingKey::make($app->make(Repository::class))
-        );
-
-        $this->app->singleton(
-            HmacKey::class,
-            fn(Application $app) => HmacKey::make($app->make(Repository::class))
+            Blake2BHashingKeyLoader::class,
+            fn(Application $app) => Blake2BHashingKeyLoader::make($app->make(Repository::class))
         );
 
         $this->app->singleton(
-            EdDSASignerKey::class,
-            fn(Application $app) => EdDSASignerKey::make(
+            HmacKeyLoader::class,
+            fn(Application $app) => HmacKeyLoader::make($app->make(Repository::class))
+        );
+
+        $this->app->singleton(
+            EdDSASignerKeyLoader::class,
+            fn(Application $app) => EdDSASignerKeyLoader::make(
                 $app->make(Repository::class),
                 $app->make(LoggerInterface::class)
             )
@@ -118,8 +118,8 @@ class ServiceProvider extends EncryptionServiceProvider
         $this->app->singleton(SigningManager::class);
 
         $this->app->when(EdDSA::class)
-            ->needs(Loader::class)
-            ->give(EdDSASignerKey::class);
+            ->needs(KeyLoader::class)
+            ->give(EdDSASignerKeyLoader::class);
 
         $hmacSigners = [
             HmacBlake2b::class,
@@ -130,7 +130,7 @@ class ServiceProvider extends EncryptionServiceProvider
         foreach ($hmacSigners as $signer) {
             $this->app->singleton($signer, function (Application $app) use ($signer) {
                 $config = $app->make(Repository::class)->get('crypto.signing.config.' . $signer);
-                $keyLoader = $app->make(HmacKey::class);
+                $keyLoader = $app->make(HmacKeyLoader::class);
 
                 return $config !== null ? new $signer($keyLoader, $config) : new $signer($keyLoader);
             });
@@ -176,8 +176,8 @@ class ServiceProvider extends EncryptionServiceProvider
         foreach ([AesGcm256Encrypter::class, XChaCha20Poly1305Encrypter::class] as $encryptor) {
             $this->app->singleton($encryptor);
             $this->app->when($encryptor)
-                ->needs(Loader::class)
-                ->give(AppKey::class);
+                ->needs(KeyLoader::class)
+                ->give(AppKeyLoader::class);
         }
 
         $func = static function (Application $app) {
@@ -186,7 +186,7 @@ class ServiceProvider extends EncryptionServiceProvider
             $enc = Encryption::tryFrom($cipher);
 
             if ($enc === null) {
-                return new LaravelConcreteEncrypter($app->make(AppKey::class)->getKey(), $cipher);
+                return new LaravelConcreteEncrypter($app->make(AppKeyLoader::class)->getKey(), $cipher);
             }
 
             return match ($enc) {
@@ -202,7 +202,7 @@ class ServiceProvider extends EncryptionServiceProvider
     protected function registerGenerators(): void
     {
         $this->app->singleton(AppKeyGenerator::class);
-        $this->app->singleton(Blake2bHashingKeyGenerator::class);
+        $this->app->singleton(Blake2BHashingKeyGenerator::class);
         $this->app->singleton(HmacKeyGenerator::class);
         $this->app->singleton(EdDSASignerKeyGenerator::class);
     }

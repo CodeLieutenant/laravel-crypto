@@ -62,7 +62,7 @@ class EncryptionBench
             foreach ($encoders as $encoderName => $encoder) {
                 yield 'ChaCha20-' . $encoderName . '-' . $dataName => [
                     'data' => $dataValue,
-                    'encrypter' => new XChaCha20Poly1305Encrypter(new KeyLoader(Random::bytes(32)), $logger, $encoder),
+                    'encrypter' => new XChaCha20Poly1305Encrypter(new KeyKeyLoader(Random::bytes(32)), $logger, $encoder),
                 ];
             }
         }
@@ -91,7 +91,7 @@ class EncryptionBench
             foreach ($encoders as $encoderName => $encoder) {
                 yield 'ChaCha20-' . $encoderName . '-' . $dataName => [
                     'data' => $dataValue,
-                    'encrypter' => new AesGcm256Encrypter(new KeyLoader(Random::bytes(32)), $logger, $encoder),
+                    'encrypter' => new AesGcm256Encrypter(new KeyKeyLoader(Random::bytes(32)), $logger, $encoder),
                 ];
             }
         }

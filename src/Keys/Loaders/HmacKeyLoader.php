@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace CodeLieutenant\LaravelCrypto\Keys;
+namespace CodeLieutenant\LaravelCrypto\Keys\Loaders;
 
-class HmacKey extends AppKey
+class HmacKeyLoader extends AppKeyLoader
 {
     public const CONFIG_KEY_PATH = 'crypto.signing.keys.hmac';
 }

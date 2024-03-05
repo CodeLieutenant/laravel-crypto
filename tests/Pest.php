@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-use CodeLieutenant\LaravelCrypto\Tests\InMemoryAppKeyLoader;
+use CodeLieutenant\LaravelCrypto\Contracts\KeyLoader;
+use CodeLieutenant\LaravelCrypto\Tests\InMemoryAppKeyKeyLoader;
 use CodeLieutenant\LaravelCrypto\Tests\TestCase;
-use CodeLieutenant\LaravelCrypto\Keys\Loader;
 
 uses(TestCase::class)->in(__DIR__);
 
-function inMemoryKeyLoader(): Loader
+function inMemoryKeyLoader(): KeyLoader
 {
-    return new InMemoryAppKeyLoader(config('app.key'));
+    return new InMemoryAppKeyKeyLoader(config('app.key'));
 }
 
 expect()->extend('toBeBase64', function () {

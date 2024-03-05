@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-namespace CodeLieutenant\LaravelCrypto\Keys;
+namespace CodeLieutenant\LaravelCrypto\Keys\Loaders;
 
+use CodeLieutenant\LaravelCrypto\Contracts\KeyLoader;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Encryption\MissingAppKeyException;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use SplFileObject;
 
-class EdDSASignerKey implements Loader
+class EdDSASignerKeyLoader implements KeyLoader
 {
     public const KEY_LENGTH = SODIUM_CRYPTO_SIGN_KEYPAIRBYTES;
     public const PUBLIC_KEY_LENGTH = SODIUM_CRYPTO_SIGN_PUBLICKEYBYTES;
