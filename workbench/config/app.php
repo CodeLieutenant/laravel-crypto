@@ -1,6 +1,6 @@
 <?php
 
-use CodeLieutenant\LaravelCrypto\Encryption\Encryption;
+use CodeLieutenant\LaravelCrypto\Enums\Encryption;
 use Illuminate\Encryption\EncryptionServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;

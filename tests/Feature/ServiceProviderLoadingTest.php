@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 use CodeLieutenant\LaravelCrypto\Encryption\AesGcm256Encryptor;
 use CodeLieutenant\LaravelCrypto\Encryption\XChaCha20Poly1305Encryptor;
+use CodeLieutenant\LaravelCrypto\Enums\Encryption;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Support\Facades\Config;
-use CodeLieutenant\LaravelCrypto\Encryption\Encryption;
 
 test('encrypter resolver', function (string $cipher, string $instance) {
     Config::set('app.cipher', $cipher);
