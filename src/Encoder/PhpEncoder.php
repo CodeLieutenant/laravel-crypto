@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace CodeLieutenant\LaravelCrypto\Encoder;
 
+use CodeLieutenant\LaravelCrypto\Contracts\Encoder;
+
 class PhpEncoder implements Encoder
 {
     private readonly array $options;

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace CodeLieutenant\LaravelCrypto\Encryption;
 
+use CodeLieutenant\LaravelCrypto\Contracts\Encoder;
 use CodeLieutenant\LaravelCrypto\Contracts\KeyGeneration;
-use CodeLieutenant\LaravelCrypto\Encoder\Encoder;
 use CodeLieutenant\LaravelCrypto\Encoder\JsonEncoder;
 use CodeLieutenant\LaravelCrypto\Keys\Loader;
 use CodeLieutenant\LaravelCrypto\Support\Base64;
