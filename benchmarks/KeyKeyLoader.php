@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace CodeLieutenant\LaravelCrypto\Benchmarks;
 
-use CodeLieutenant\LaravelCrypto\Keys\KeyLoader;
+use CodeLieutenant\LaravelCrypto\Contracts\KeyLoader;
 
 class KeyKeyLoader implements KeyLoader
 {

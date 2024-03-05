@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CodeLieutenant\LaravelCrypto\Keys;
 
+use CodeLieutenant\LaravelCrypto\Contracts\KeyLoader;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Encryption\MissingAppKeyException;
 use Psr\Log\LoggerInterface;

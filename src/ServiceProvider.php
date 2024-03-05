@@ -6,6 +6,7 @@ namespace CodeLieutenant\LaravelCrypto;
 
 use CodeLieutenant\LaravelCrypto\Console\GenerateCryptoKeysCommand;
 use CodeLieutenant\LaravelCrypto\Contracts\Hashing;
+use CodeLieutenant\LaravelCrypto\Contracts\KeyLoader;
 use CodeLieutenant\LaravelCrypto\Contracts\PublicKeySigning;
 use CodeLieutenant\LaravelCrypto\Contracts\Signing;
 use CodeLieutenant\LaravelCrypto\Encoder\IgbinaryEncoder;
@@ -27,7 +28,6 @@ use CodeLieutenant\LaravelCrypto\Keys\Generators\Blake2bHashingKeyGenerator;
 use CodeLieutenant\LaravelCrypto\Keys\Generators\EdDSASignerKeyGenerator;
 use CodeLieutenant\LaravelCrypto\Keys\Generators\HmacKeyGenerator;
 use CodeLieutenant\LaravelCrypto\Keys\HmacKey;
-use CodeLieutenant\LaravelCrypto\Keys\KeyLoader;
 use CodeLieutenant\LaravelCrypto\Signing\EdDSA\EdDSA;
 use CodeLieutenant\LaravelCrypto\Signing\Hmac\Blake2b as HmacBlake2b;
 use CodeLieutenant\LaravelCrypto\Signing\Hmac\Sha256 as HmacSha256;

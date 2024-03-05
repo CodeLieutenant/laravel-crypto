@@ -6,8 +6,8 @@ namespace CodeLieutenant\LaravelCrypto\Encryption;
 
 use CodeLieutenant\LaravelCrypto\Contracts\Encoder;
 use CodeLieutenant\LaravelCrypto\Contracts\KeyGeneration;
+use CodeLieutenant\LaravelCrypto\Contracts\KeyLoader;
 use CodeLieutenant\LaravelCrypto\Encoder\JsonEncoder;
-use CodeLieutenant\LaravelCrypto\Keys\KeyLoader;
 use CodeLieutenant\LaravelCrypto\Support\Base64;
 use CodeLieutenant\LaravelCrypto\Traits\Crypto;
 use Exception;

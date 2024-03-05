@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace CodeLieutenant\LaravelCrypto\Tests;
 
-use CodeLieutenant\LaravelCrypto\Keys\KeyLoader;
+use CodeLieutenant\LaravelCrypto\Contracts\KeyLoader;
 use Illuminate\Support\Str;
 
 class InMemoryAppKeyKeyLoader implements KeyLoader

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace CodeLieutenant\LaravelCrypto\Signing\Hmac;
 
+use CodeLieutenant\LaravelCrypto\Contracts\KeyLoader;
 use CodeLieutenant\LaravelCrypto\Contracts\Signing as SigningContract;
-use CodeLieutenant\LaravelCrypto\Keys\KeyLoader;
 use CodeLieutenant\LaravelCrypto\Signing\Traits\Signing;
 use CodeLieutenant\LaravelCrypto\Support\Base64;
 
