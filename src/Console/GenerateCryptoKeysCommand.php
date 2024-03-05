@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace CodeLieutenant\LaravelCrypto\Console;
 
-use CodeLieutenant\LaravelCrypto\Keys\AppKey;
-use CodeLieutenant\LaravelCrypto\Keys\Blake2bHashingKey;
-use CodeLieutenant\LaravelCrypto\Keys\EdDSASignerKey;
 use CodeLieutenant\LaravelCrypto\Keys\Generators\AppKeyGenerator;
 use CodeLieutenant\LaravelCrypto\Keys\Generators\Blake2bHashingKeyGenerator;
 use CodeLieutenant\LaravelCrypto\Keys\Generators\EdDSASignerKeyGenerator;
 use CodeLieutenant\LaravelCrypto\Keys\Generators\HmacKeyGenerator;
-use CodeLieutenant\LaravelCrypto\Keys\HmacKey;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
