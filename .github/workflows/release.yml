@@ -35,3 +35,12 @@ jobs:
           author: true
           releaseUrl: ${{ steps.release.outputs.url }}
           issues: true
+          pullRequests: true
+          dueTag: ${{ steps.version_tag.outputs.tag }}
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update CHANGELOG.md"
+          branch: master
+          commit_options: '--no-verify --signoff'
+          file_pattern: CHANGELOG.md
+          file_pattern: .github/CHANGELOG.md
