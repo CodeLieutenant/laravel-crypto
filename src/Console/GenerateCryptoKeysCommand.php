@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace CodeLieutenant\LaravelCrypto\Console;
 
 use CodeLieutenant\LaravelCrypto\Keys\Generators\AppKeyGenerator;
-use CodeLieutenant\LaravelCrypto\Keys\Generators\Blake2bHashingKeyGenerator;
+use CodeLieutenant\LaravelCrypto\Keys\Generators\Blake2BHashingKeyGenerator;
 use CodeLieutenant\LaravelCrypto\Keys\Generators\EdDSASignerKeyGenerator;
 use CodeLieutenant\LaravelCrypto\Keys\Generators\HmacKeyGenerator;
 use Exception;
@@ -31,7 +31,7 @@ class GenerateCryptoKeysCommand extends Command
     public function handle(
         EdDSASignerKeyGenerator $edDSAGenerator,
         AppKeyGenerator $appKeyGenerator,
-        Blake2bHashingKeyGenerator $blake2bKeyGenerator,
+        Blake2BHashingKeyGenerator $blake2bKeyGenerator,
         HmacKeyGenerator $hmacKeyGenerator,
     ): int {
         $show = $this->option('show');

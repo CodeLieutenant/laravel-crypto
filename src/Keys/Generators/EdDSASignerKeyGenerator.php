@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace CodeLieutenant\LaravelCrypto\Keys\Generators;
 
+use CodeLieutenant\LaravelCrypto\Contracts\KeyGenerator;
 use Illuminate\Contracts\Config\Repository;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use SplFileObject;
 
-class EdDSASignerKeyGenerator implements Generator
+class EdDSASignerKeyGenerator implements KeyGenerator
 {
     private const CONFIG_KEY_PATH = 'crypto.signing.keys.eddsa';
 

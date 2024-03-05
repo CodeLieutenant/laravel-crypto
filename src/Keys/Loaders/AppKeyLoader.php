@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace CodeLieutenant\LaravelCrypto\Keys;
+namespace CodeLieutenant\LaravelCrypto\Keys\Loaders;
 
 use CodeLieutenant\LaravelCrypto\Contracts\KeyLoader;
 use CodeLieutenant\LaravelCrypto\Traits\LaravelKeyParser;
 use Illuminate\Contracts\Config\Repository;
 
-class AppKey implements KeyLoader
+class AppKeyLoader implements KeyLoader
 {
     use LaravelKeyParser;
 

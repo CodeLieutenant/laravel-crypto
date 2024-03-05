@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace CodeLieutenant\LaravelCrypto\Encryption;
 
 use CodeLieutenant\LaravelCrypto\Contracts\Encoder;
-use CodeLieutenant\LaravelCrypto\Contracts\KeyGeneration;
 use CodeLieutenant\LaravelCrypto\Contracts\KeyLoader;
 use CodeLieutenant\LaravelCrypto\Encoder\JsonEncoder;
 use CodeLieutenant\LaravelCrypto\Support\Base64;
@@ -17,7 +16,7 @@ use Illuminate\Contracts\Encryption\EncryptException;
 use Illuminate\Contracts\Encryption\StringEncrypter;
 use Psr\Log\LoggerInterface;
 
-final class XChaCha20Poly1305Encrypter implements Encrypter, KeyGeneration, StringEncrypter
+final class XChaCha20Poly1305Encrypter implements Encrypter, StringEncrypter
 {
     use Crypto;
 
@@ -79,11 +78,6 @@ final class XChaCha20Poly1305Encrypter implements Encrypter, KeyGeneration, Stri
         }
 
         return $decrypted;
-    }
-
-    public static function generateKey(string $_): string
-    {
-        return sodium_crypto_aead_xchacha20poly1305_ietf_keygen();
     }
 
     public static function nonceSize(): int

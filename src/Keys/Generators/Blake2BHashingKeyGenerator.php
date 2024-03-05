@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace CodeLieutenant\LaravelCrypto\Keys\Generators;
 
+use CodeLieutenant\LaravelCrypto\Contracts\KeyGenerator;
 use CodeLieutenant\LaravelCrypto\Support\Random;
 use CodeLieutenant\LaravelCrypto\Traits\EnvKeySaver;
 use Illuminate\Contracts\Config\Repository;
 
-class Blake2bHashingKeyGenerator implements Generator
+class Blake2BHashingKeyGenerator implements KeyGenerator
 {
     use EnvKeySaver;
 

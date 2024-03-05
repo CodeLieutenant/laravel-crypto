@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CodeLieutenant\LaravelCrypto\Keys\Generators;
 
+use CodeLieutenant\LaravelCrypto\Contracts\KeyGenerator;
 use CodeLieutenant\LaravelCrypto\Encryption\AesGcm256Encrypter;
 use CodeLieutenant\LaravelCrypto\Encryption\XChaCha20Poly1305Encrypter;
 use CodeLieutenant\LaravelCrypto\Enums\Encryption;
@@ -11,7 +12,7 @@ use CodeLieutenant\LaravelCrypto\Traits\EnvKeySaver;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Encryption\Encrypter;
 
-class AppKeyGenerator implements Generator
+class AppKeyGenerator implements KeyGenerator
 {
     use EnvKeySaver;
 
@@ -31,8 +32,8 @@ class AppKeyGenerator implements Generator
 
         $new = $this->formatKey(
             match (Encryption::tryFrom($cipher)) {
-                Encryption::SodiumAES256GCM => AesGcm256Encrypter::generateKey($cipher),
-                Encryption::SodiumXChaCha20Poly1305 => XChaCha20Poly1305Encrypter::generateKey($cipher),
+                Encryption::SodiumAES256GCM => sodium_crypto_aead_aes256gcm_keygen(),
+                Encryption::SodiumXChaCha20Poly1305 => sodium_crypto_aead_xchacha20poly1305_ietf_keygen(),
                 default => Encrypter::generateKey($cipher),
             }
         );

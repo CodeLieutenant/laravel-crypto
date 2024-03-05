@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace CodeLieutenant\LaravelCrypto\Encryption;
 
 use CodeLieutenant\LaravelCrypto\Contracts\Encoder;
-use CodeLieutenant\LaravelCrypto\Contracts\KeyGeneration;
 use CodeLieutenant\LaravelCrypto\Contracts\KeyLoader;
 use CodeLieutenant\LaravelCrypto\Encoder\JsonEncoder;
 use CodeLieutenant\LaravelCrypto\Support\Base64;
@@ -17,7 +16,7 @@ use Illuminate\Contracts\Encryption\EncryptException;
 use Illuminate\Contracts\Encryption\StringEncrypter;
 use Psr\Log\LoggerInterface;
 
-final class AesGcm256Encrypter implements Encrypter, KeyGeneration, StringEncrypter
+final class AesGcm256Encrypter implements Encrypter, StringEncrypter
 {
     use Crypto;
 
@@ -68,11 +67,6 @@ final class AesGcm256Encrypter implements Encrypter, KeyGeneration, StringEncryp
             true => $this->encoder->decode($decrypted),
             false => $decrypted,
         };
-    }
-
-    public static function generateKey(string $cipher): string
-    {
-        return sodium_crypto_aead_aes256gcm_keygen();
     }
 
     public static function nonceSize(): int
