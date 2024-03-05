@@ -7,7 +7,7 @@ namespace CodeLieutenant\LaravelCrypto\Keys\Generators;
 use CodeLieutenant\LaravelCrypto\Encryption\AesGcm256Encrypter;
 use CodeLieutenant\LaravelCrypto\Encryption\XChaCha20Poly1305Encrypter;
 use CodeLieutenant\LaravelCrypto\Enums\Encryption;
-use CodeLieutenant\LaravelCrypto\Keys\EnvKeySaver;
+use CodeLieutenant\LaravelCrypto\Traits\EnvKeySaver;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Encryption\Encrypter;
 

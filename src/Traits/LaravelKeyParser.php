@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CodeLieutenant\LaravelCrypto\Keys;
+namespace CodeLieutenant\LaravelCrypto\Traits;
 
 use CodeLieutenant\LaravelCrypto\Support\Base64;
 use Illuminate\Encryption\MissingAppKeyException;
