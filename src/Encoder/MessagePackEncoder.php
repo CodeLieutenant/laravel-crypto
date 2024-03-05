@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CodeLieutenant\LaravelCrypto\Encoder;
 
+use CodeLieutenant\LaravelCrypto\Contracts\Encoder;
 use RuntimeException;
 
 class MessagePackEncoder implements Encoder

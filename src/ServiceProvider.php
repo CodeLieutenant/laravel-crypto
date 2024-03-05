@@ -83,7 +83,7 @@ class ServiceProvider extends EncryptionServiceProvider
         }
 
         $this->app->singleton(
-            Encoder\Encoder::class,
+            Contracts\Encoder::class,
             $this->app->make(Repository::class)->get('crypto.encoder.driver')
         );
     }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CodeLieutenant\LaravelCrypto\Encoder;
+namespace CodeLieutenant\LaravelCrypto\Contracts;
 
 interface Encoder
 {
