@@ -8,7 +8,7 @@ use Exception;
 use CodeLieutenant\LaravelCrypto\Contracts\Encoder;
 use CodeLieutenant\LaravelCrypto\Contracts\KeyGeneration;
 use CodeLieutenant\LaravelCrypto\Encoder\JsonEncoder;
-use CodeLieutenant\LaravelCrypto\Keys\Loader;
+use CodeLieutenant\LaravelCrypto\Keys\KeyLoader;
 use CodeLieutenant\LaravelCrypto\Support\Base64;
 use CodeLieutenant\LaravelCrypto\Traits\Crypto;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -22,7 +22,7 @@ final class AesGcm256Encrypter implements Encrypter, KeyGeneration, StringEncryp
     use Crypto;
 
     public function __construct(
-        private readonly Loader $keyLoader,
+        private readonly KeyLoader $keyLoader,
         private readonly Encoder $encoder = new JsonEncoder(),
         private readonly ?LoggerInterface $logger = null,
     ) {

@@ -6,7 +6,7 @@ namespace CodeLieutenant\LaravelCrypto\Keys;
 
 use Illuminate\Contracts\Config\Repository;
 
-class AppKey implements Loader
+class AppKey implements KeyLoader
 {
     use LaravelKeyParser;
 

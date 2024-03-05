@@ -10,7 +10,7 @@ use Psr\Log\LoggerInterface;
 use RuntimeException;
 use SplFileObject;
 
-class EdDSASignerKey implements Loader
+class EdDSASignerKey implements KeyLoader
 {
     public const KEY_LENGTH = SODIUM_CRYPTO_SIGN_KEYPAIRBYTES;
     public const PUBLIC_KEY_LENGTH = SODIUM_CRYPTO_SIGN_PUBLICKEYBYTES;

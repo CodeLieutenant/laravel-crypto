@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace CodeLieutenant\LaravelCrypto\Signing\EdDSA;
 
 use CodeLieutenant\LaravelCrypto\Contracts\PublicKeySigning;
-use CodeLieutenant\LaravelCrypto\Keys\Loader;
+use CodeLieutenant\LaravelCrypto\Keys\KeyLoader;
 use CodeLieutenant\LaravelCrypto\Signing\Traits\Signing;
 use CodeLieutenant\LaravelCrypto\Support\Base64;
 final class EdDSA implements PublicKeySigning
@@ -13,7 +13,7 @@ final class EdDSA implements PublicKeySigning
     use Signing;
 
     public function __construct(
-        private readonly Loader $loader,
+        private readonly KeyLoader $loader,
     ) {
     }
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace CodeLieutenant\LaravelCrypto\Keys;
 
-interface Loader
+interface KeyLoader
 {
     public function getKey(): string|array;
 }

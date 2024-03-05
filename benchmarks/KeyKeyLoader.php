@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace CodeLieutenant\LaravelCrypto\Benchmarks;
 
-use CodeLieutenant\LaravelCrypto\Keys\Loader;
+use CodeLieutenant\LaravelCrypto\Keys\KeyLoader;
 
-class KeyLoader implements Loader
+class KeyKeyLoader implements KeyLoader
 {
     public function __construct(
         private readonly string $key

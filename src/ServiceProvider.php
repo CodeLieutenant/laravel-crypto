@@ -27,7 +27,7 @@ use CodeLieutenant\LaravelCrypto\Keys\Generators\Blake2bHashingKeyGenerator;
 use CodeLieutenant\LaravelCrypto\Keys\Generators\EdDSASignerKeyGenerator;
 use CodeLieutenant\LaravelCrypto\Keys\Generators\HmacKeyGenerator;
 use CodeLieutenant\LaravelCrypto\Keys\HmacKey;
-use CodeLieutenant\LaravelCrypto\Keys\Loader;
+use CodeLieutenant\LaravelCrypto\Keys\KeyLoader;
 use CodeLieutenant\LaravelCrypto\Signing\EdDSA\EdDSA;
 use CodeLieutenant\LaravelCrypto\Signing\Hmac\Blake2b as HmacBlake2b;
 use CodeLieutenant\LaravelCrypto\Signing\Hmac\Sha256 as HmacSha256;
@@ -118,7 +118,7 @@ class ServiceProvider extends EncryptionServiceProvider
         $this->app->singleton(SigningManager::class);
 
         $this->app->when(EdDSA::class)
-            ->needs(Loader::class)
+            ->needs(KeyLoader::class)
             ->give(EdDSASignerKey::class);
 
         $hmacSigners = [
@@ -176,7 +176,7 @@ class ServiceProvider extends EncryptionServiceProvider
         foreach ([AesGcm256Encrypter::class, XChaCha20Poly1305Encrypter::class] as $encryptor) {
             $this->app->singleton($encryptor);
             $this->app->when($encryptor)
-                ->needs(Loader::class)
+                ->needs(KeyLoader::class)
                 ->give(AppKey::class);
         }
 
