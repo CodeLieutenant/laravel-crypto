@@ -26,12 +26,12 @@
     "require": {
         "php": ">=8.1",
         "ext-sodium": "*",
-        "illuminate/collections": "^8|^9|^10",
-        "illuminate/config": "^8|^9|^10",
-        "illuminate/contracts": "^8|^9|^10",
-        "illuminate/encryption": "^8|^9|^10",
-        "illuminate/hashing": "^8|^9|^10",
-        "illuminate/support": "^8|^9|^10"
+        "illuminate/collections": "^8|^9|^10|^11",
+        "illuminate/config": "^8|^9|^10|^11",
+        "illuminate/contracts": "^8|^9|^10|^11",
+        "illuminate/encryption": "^8|^9|^10|^11",
+        "illuminate/hashing": "^8|^9|^10|^11",
+        "illuminate/support": "^8|^9|^10|^11"
     },
     "require-dev": {
         "orchestra/testbench": "^8.21",
