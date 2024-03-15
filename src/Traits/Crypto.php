@@ -17,6 +17,16 @@ trait Crypto
         return $this->keyLoader->getKey();
     }
 
+    public function getAllKeys()
+    {
+        return [$this->getKey()];
+    }
+
+    public function getPreviousKeys()
+    {
+        return [];
+    }
+
     public static function supported(string $key, string $cipher): bool
     {
         $encType = Encryption::tryFrom($cipher);
