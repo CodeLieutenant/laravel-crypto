@@ -1,0 +1,18 @@
+// https://aka.ms/devcontainer.json
+{
+  "name": "LaravelCrypto",
+  "dockerFile": "./Dockerfile",
+  "customizations": {
+    "vscode": {
+      "extensions": [],
+      "settings": {}
+    },
+    "jetbrains": {
+      "backend": "PhpStorm",
+      "settings": {
+        "DockerSettings.useComposeV2": true
+      }
+    }
+  },
+  "postStartCommand": "composer install --prefer-dist --no-interaction"
+}
