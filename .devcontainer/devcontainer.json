@@ -173,6 +173,6 @@
       }
     }
   },
-  "postCreateCommand": "sudo mkdir -p /var/log/xdebug",
+  "postCreateCommand": "sudo mkdir -p /var/log/xdebug && sudo chmod -R 777 /var/log/xdebug",
   "postStartCommand": "composer install --prefer-dist --no-interaction"
 }
